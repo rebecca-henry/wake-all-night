@@ -212,12 +212,12 @@ nav.tabbar button[aria-current="page"]{color:var(--gold);border-top-color:var(--
   transform:translateY(calc(var(--p) * -90px)) scale(calc(1 - var(--p) * .1));opacity:calc(1 - var(--p) * 1.6);will-change:transform,opacity}
 .banner h1{font-size:clamp(54px,16vw,96px);font-weight:600;line-height:.92}
 /* Header titles: stretched wide, worn and rough like old letterpress, slightly see-through so the photo shows in the ink. */
-.banner .fit{width:100%;font-weight:600;line-height:.9;letter-spacing:.01em;padding-block:.04em .06em;color:#efe6e2;opacity:.9;filter:url(#grit)}
-.banner .fit .ln{display:block;white-space:nowrap;width:max-content;margin-inline:auto;transform:scaleY(.8);transform-origin:50% 55%}
+.banner .fit{width:100%;font-weight:600;line-height:1.02;letter-spacing:.01em;padding-block:.12em .14em;color:#efe6e2;opacity:.9;filter:url(#grit)}
+.banner .fit .ln{display:block;white-space:nowrap;width:max-content;margin-inline:auto;transform:scaleY(1.32);transform-origin:50% 62%}
 .banner h2{font-size:clamp(52px,15vw,84px);font-weight:600;line-height:.95}
 .banner .sub{font-size:18px;color:var(--ink);opacity:.85}
 .banner .row{display:flex;flex-direction:column;align-items:center;gap:10px;width:100%}
-.banner.home .over{justify-content:center;padding-top:calc(124px + env(safe-area-inset-top,0px))}
+.banner.home .over{justify-content:center}
 .banner.home .over > .eyebrow{position:absolute;top:calc(84px + env(safe-area-inset-top,0px));left:0;right:0}
 @media (prefers-reduced-motion:reduce){.banner > img,.banner .over{transform:none!important;opacity:1!important}}
 
@@ -268,6 +268,25 @@ button.pin.mood-act:hover .pimg img{filter:saturate(.8) brightness(.95)}
 .stagger .pin.mood-only img.rot-in{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 1.2s ease}
 .stagger .pin.mood-only img.rot-in.on{opacity:1}
 
+.picker{position:fixed;left:0;top:0;width:1px;height:1px;opacity:0;pointer-events:none}
+.top-r{display:flex;align-items:center;gap:14px}
+.me-btn{display:inline-flex;align-items:center;gap:6px;background:none;border:0;border-bottom:1px solid var(--gold);padding:2px 0;color:var(--ink);font-family:var(--body);font-size:17px;font-weight:600;cursor:pointer;max-width:42vw;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.me-btn svg{width:15px;height:15px;flex:none;stroke:var(--gold);fill:none;stroke-width:1.8;stroke-linejoin:round}
+.host-link{background:none;border:0;padding:2px 0;color:var(--gold);font-family:var(--body);font-size:14px;font-weight:600;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+.sheet{position:fixed;inset:0;z-index:55;background:rgba(8,5,10,.7);display:flex;align-items:flex-end;justify-content:center}
+.sheet-in{width:100%;max-width:600px;max-height:88vh;max-height:88svh;background:var(--bg);border-top:1px solid var(--line);border-radius:10px 10px 0 0;padding:18px 20px calc(18px + env(safe-area-inset-bottom,0px));display:grid;grid-template-rows:auto auto auto minmax(0,1fr);gap:12px}
+.sheet-in h3{font-size:26px}
+.slist{overflow-y:auto;-webkit-overflow-scrolling:touch;border-top:1px solid var(--line)}
+.srow{display:flex;justify-content:space-between;align-items:center;gap:12px;width:100%;background:none;border:0;border-bottom:1px solid var(--line);padding:13px 2px;color:var(--ink);text-align:left;cursor:pointer;font-size:17px}
+.srow .nm{display:grid;gap:2px;min-width:0}
+.srow .tick{flex:none;width:30px;height:30px;display:grid;place-items:center;border:1px solid var(--line);border-radius:50%;font-size:17px;color:var(--muted)}
+.srow.in .nm{color:var(--gold);font-weight:600}
+.srow.in .tick{background:var(--gold);border-color:var(--gold);color:var(--gold-ink)}
+.srow.taken{opacity:.5;cursor:default}
+.srow.taken .tick{border:0}
+.pair-btns{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.pair-btns .btn{white-space:normal;line-height:1.25;text-align:center;min-height:52px}
+
 #print-sheet{display:none}
 @media print{
   body{background:#fff;color:#000}
@@ -294,6 +313,7 @@ button.pin.mood-act:hover .pimg img{filter:saturate(.8) brightness(.95)}
 <body>
 <div id="app"></div>
 <div id="print-sheet"></div>
+<input type="file" id="picker" accept="image/*" class="picker" aria-hidden="true" tabindex="-1">
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
   <filter id="grit" x="-4%" y="-8%" width="108%" height="116%" color-interpolation-filters="sRGB">
     <feTurbulence type="fractalNoise" baseFrequency="0.7" numOctaves="2" seed="4" result="fine"/>
@@ -391,6 +411,8 @@ var ERR = {
   bad_ballot: 'Pick one to three different entries.',
   already_paired: 'They’re already paired with someone else.',
   bad_partner: 'Pick someone from the list.',
+  already_grouped: 'They\u2019re already in another costume group.',
+  other_team: 'They\u2019re already on another team.',
   bad_team: 'That team no longer exists.',
   no_team: 'Join a team first.',
   bad_image: 'That photo couldn’t be used. Try a different one.',
@@ -399,7 +421,7 @@ var ERR = {
   too_many: 'Too many photos at once. Try again.',
   network: 'Can’t reach the party server. Check your connection and try again.'
 };
-function AppError(code){ this.code = code; this.message = ERR[code] || 'Something went wrong. Try again.'; }
+function AppError(code, raw){ this.code = code; this.message = ERR[code] || ('Something went wrong' + (raw ? ' (' + String(raw).slice(0, 90) + ')' : '') + '. Try again.'); }
 
 /* ---------- server ---------- */
 var sb = null;
@@ -414,7 +436,7 @@ function rpc(fn, args){
       if (!code && /fetch|network|Failed|timeout/i.test(msg)) code = 'network';
       if (code === 'bad_passcode') { forgetPass(); }
       if (code === 'not_joined') { forgetMe(); render(true); }
-      throw new AppError(code || 'unknown');
+      throw new AppError(code || 'unknown', msg);
     }
     return res.data;
   }, function(){ throw new AppError('network'); });
@@ -520,7 +542,7 @@ function saveBlob(blob, name){
 
 /* ---------- mood photos (Unsplash, free to use) ---------- */
 var MOOD = {
-  hero: '1508802417248-856259d2c0f9',      /* the last sunset */
+  hero: '1740825719364-6a2110b0be21',      /* bare autumn trees against the last sunset */
   costumes: '1646657402425-ecd35e893746',  /* dark flowers */
   drinks: '1500217052183-bc01eee1a74e',    /* dark cocktail */
   hunt: '1477516561410-f0b5dd8319e4',      /* jack-o-lanterns at night */
@@ -575,22 +597,23 @@ function guestsById(){ var m = {}; (S.state ? S.state.guests : []).forEach(funct
 function teamsById(){ var m = {}; (S.state ? S.state.teams : []).forEach(function(t){ m[t.id] = t; }); return m; }
 function shortName(g){ return g ? (g.nickname || g.name) : 'Someone'; }
 function fullName(g){ return g ? (g.nickname ? g.name + ' “' + g.nickname + '”' : g.name) : 'Someone'; }
+function joinNames(list){ return list.length < 2 ? (list[0] || '') : list.slice(0, -1).join(', ') + ' & ' + list[list.length - 1]; }
+function groupOf(g){ return g && g.group_id ? S.state.guests.filter(function(x){ return x.group_id === g.group_id; }) : (g ? [g] : []); }
 function entries(){
-  var gm = guestsById(), out = [], seen = {};
+  var out = [], seen = {};
   (S.state ? S.state.guests : []).forEach(function(g){
     if (seen[g.id]) return;
-    var p = g.partner_id && gm[g.partner_id] && gm[g.partner_id].partner_id === g.id ? gm[g.partner_id] : null;
-    var members = p ? [g, p].sort(function(a, b){ return a.id - b.id; }) : [g];
+    var members = groupOf(g).slice().sort(function(a, b){ return a.id - b.id; });
     members.forEach(function(m){ seen[m.id] = true; });
     var titles = members.map(function(m){ return m.costume_title; }).filter(Boolean);
     titles = titles.filter(function(t, i){ return titles.indexOf(t) === i; });
     var photo = members.find(function(m){ return m.photo_v; });
-    out.push({id: members[0].id, members: members, names: members.map(shortName).join(' & '), title: titles.join(' / '), photo: photo || null});
+    out.push({id: members[0].id, key: g.group_id ? -g.group_id : g.id, members: members, names: joinNames(members.map(shortName)), title: titles.join(' / '), photo: photo || null});
   });
   return out;
 }
-function entryById(id){ return entries().find(function(e){ return e.id === id; }); }
-function myEntryIds(){ var me = S.state && S.state.me; if (!me) return []; return [me.id, me.partner_id].filter(Boolean); }
+function entryByKey(k){ return entries().find(function(e){ return e.key === k; }); }
+function myEntryIds(){ var me = S.state && S.state.me; if (!me) return []; return groupOf(guestsById()[me.id] || me).map(function(g){ return g.id; }); }
 function events(){
   var sch = (S.state && S.state.config.schedule) || [];
   return sch.map(function(e){ return {at: Date.parse(e.at), title: e.title}; }).filter(function(e){ return !isNaN(e.at); }).sort(function(a, b){ return a.at - b.at; });
@@ -668,21 +691,21 @@ function applyScroll(){
 var lastY = window.scrollY, scrollDir = 0, settleTimer = null, touching = false;
 var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 function settleHeader(){
-  if (touching) return;
+  if (touching || scrollDir <= 0) return;
   var b = app.querySelector('.banner'); if (!b) return;
   var end = b.offsetTop + b.offsetHeight - 6, y = window.scrollY;
-  if (y <= 2 || y >= end - 2) return;
-  window.scrollTo({top: scrollDir < 0 ? 0 : end, behavior: reduceMotion ? 'auto' : 'smooth'});
+  if (y < end * 0.45 || y >= end - 2) return;
+  window.scrollTo({top: end, behavior: reduceMotion ? 'auto' : 'smooth'});
 }
 window.addEventListener('scroll', function(){
   var y = window.scrollY;
   if (y !== lastY) scrollDir = y > lastY ? 1 : -1;
   lastY = y;
   if (!scrollTicking) { scrollTicking = true; requestAnimationFrame(applyScroll); }
-  clearTimeout(settleTimer); settleTimer = setTimeout(settleHeader, 140);
+  clearTimeout(settleTimer); settleTimer = setTimeout(settleHeader, 320);
 }, {passive: true});
 window.addEventListener('touchstart', function(){ touching = true; }, {passive: true});
-window.addEventListener('touchend', function(){ touching = false; clearTimeout(settleTimer); settleTimer = setTimeout(settleHeader, 140); }, {passive: true});
+window.addEventListener('touchend', function(){ touching = false; clearTimeout(settleTimer); settleTimer = setTimeout(settleHeader, 320); }, {passive: true});
 
 function render(force){
   if (!force && editing()) { renderQueued = true; return; }
@@ -730,8 +753,10 @@ function view(){
   var out = '';
   if (S.overlay === 'host') out = hostView();
   else if (S.overlay === 'info') out = infoView();
+  else if (S.overlay === 'profile') out = profileView();
   else if (S.overlay === 'print') out = printView();
   else out = '<main class="page">' + topbar() + tabView() + '</main>' + tabbar();
+  if (S.sheet) out += sheetView();
   if (S.viewer != null) out += viewerView();
   if (S.reveal) out += revealView();
   return out;
@@ -746,7 +771,7 @@ function gateView(){
   return '<main class="page bare">' +
     '<div class="hero"><span class="eyebrow">Saturday, October 31</span><h1>A Wake All Night</h1><p class="sub">In Memory of Daylight Saving Time 2026</p></div>' +
     '<form class="card" data-form="gate" autocomplete="off"><label class="fld"><span>Party passcode</span><input type="password" id="f-pass" autocomplete="current-password" required></label>' +
-    '<button class="btn primary block" type="submit"' + (S.busy.gate ? ' disabled' : '') + '>' + (S.busy.gate ? 'Checking…' : 'Enter the wake') + '</button>' +
+    '<button class="btn primary block" type="submit"' + (S.busy.gate ? ' disabled' : '') + '>' + (S.busy.gate ? 'Checking…' : 'Continue') + '</button>' +
     '<p class="muted small">Ask ' + esc(HOST) + ' for the passcode.</p></form>' +
     '<button class="linkbtn" data-act="about">How your info is kept private</button></main>';
 }
@@ -766,8 +791,10 @@ function joinView(){
 }
 
 function topbar(){
-  return '<div class="topbar"><span class="brand">A Wake All Night</span>' +
-    (S.isHost ? '<button class="chip gold" data-act="open-host" style="background:none;cursor:pointer">Host panel</button>' : '<span class="chip">' + esc(shortName(S.state.me)) + '</span>') + '</div>';
+  return '<div class="topbar"><span class="brand">A Wake All Night</span><span class="top-r">' +
+    (S.isHost ? '<button class="host-link" data-act="open-host">Host</button>' : '') +
+    '<button class="me-btn" data-act="profile" aria-label="Edit your info">' + esc(shortName(S.state.me)) +
+    '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16z"/><path d="M14 6l4 4"/></svg></button></span></div>';
 }
 
 var ICONS = {
@@ -799,11 +826,11 @@ function homeView(){
   var dstLeft = DST_END - t;
   var team = me.team_id ? teamsById()[me.team_id] : null;
   var h = S.state.hunt;
-  var out = banner('hero', '<span class="eyebrow">Welcome, ' + esc(shortName(me)) + '</span>' + fitTitle('h1', ['A Wake', 'All Night']) + '<p class="sub">In Memory of Daylight Saving Time 2026</p>', 'home');
+  var out = banner('hero', fitTitle('h1', ['A Wake', 'All Night']) + '<p class="sub">In Memory of Daylight Saving Time 2026</p>', 'home');
   if (cfg('results_visible')) out += '<section class="block"><h2>The Winners</h2>' + winnersHTML() + '</section>';
   out += '<section class="block"><h2>Tonight</h2>' + boardHTML(me, team, h) + '</section>';
   out += dstHTML(dstLeft);
-  out += '<div class="btns"><button class="btn ghost small" data-act="about">How your info is kept private</button><button class="btn ghost small" data-act="signout">' + (armed('signout') ? 'Tap again to sign out' : 'Not ' + esc(shortName(me)) + '? Sign out') + '</button></div>';
+  out += '<div class="pair-btns"><button class="btn ghost small" data-act="about">How your info is kept private</button><button class="btn ghost small" data-act="signout">' + (armed('signout') ? 'Tap again to sign out' : 'Not ' + esc(shortName(me)) + '? Sign out') + '</button></div>';
   return out;
 }
 
@@ -816,7 +843,7 @@ function podium(rows){
 function winnersHTML(){
   var res = S.state.results; if (!res) return '';
   var gm = guestsById(), tm = teamsById();
-  var cost = res.costume.map(function(r){ var e = entryById(r.entry); return e ? {who: esc(e.names) + (e.title ? ' as ' + esc(e.title) : ''), pts: r.points + ' pts'} : null; }).filter(Boolean);
+  var cost = res.costume.map(function(r){ var e = entryByKey(r.entry); return e ? {who: esc(e.names) + (e.title ? ' as ' + esc(e.title) : ''), pts: r.points + ' pts'} : null; }).filter(Boolean);
   var dr = res.drinks.map(function(r){ var t = tm[r.team]; return t ? {who: esc(t.name) + (t.drink_name ? ' · ' + esc(t.drink_name) : ''), pts: r.points + ' pts'} : null; }).filter(Boolean);
   var hu = res.hunt.map(function(r){ var g = gm[r.guest_id]; return g ? {who: esc(fullName(g)), pts: r.points + ' pts'} : null; }).filter(Boolean);
   var gf = S.state.hunt.grand_found_by ? gm[S.state.hunt.grand_found_by] : null;
@@ -905,7 +932,7 @@ function boardHTML(me, team, h){
     actionPin('costumes', me.photo_v ? imgHTML('costume', me.id, me.photo_v, 'thumb', 'Your costume', me.name) : moodImg(MOOD.pinCostume, 700),
               me.costume_title ? 'Your costume' : 'Costume contest', me.costume_title || 'Add your costume', false, me.photo_v ? '' : 'tall'),
     actionPin('drinks', team && team.photo_v ? imgHTML('team', team.id, team.photo_v, 'thumb', team.name, team.name) : moodImg(MOOD.pinDrink, 700),
-              team ? 'Your drink team' : 'Drink contest', team ? (team.drink_name || team.name) : 'Join a team', false, team && team.photo_v ? '' : 'sq'),
+              team ? 'Your drink team' : 'Drink Making Contest', team ? (team.drink_name || team.name) : 'Join a team', false, team && team.photo_v ? '' : 'sq'),
     actionPin('hunt', moodImg(MOOD.pinHunt, 700), 'Codes still hidden', String(h.total - h.found), true, 'wide')
   ];
   var people = entries().filter(function(e){ return e.photo; }).slice(-6).reverse().map(function(e){
@@ -938,13 +965,13 @@ function rankerHTML(kind, items, ownIds, open){
     var own = ownIds.indexOf(it.id) > -1, pos = ballot.indexOf(it.id);
     var pic = it.img ? '<span class="pimg">' + it.img
       : '<span class="pimg mood tall">' + moodImg(MOOD.empty[i % MOOD.empty.length], 600) + '<span class="empty-name">' + esc(it.name) + '</span>';
-    var tag = own ? '<span class="rk own">' + (kind === 'costume' ? 'You' : 'Your team') + '</span>' : pos > -1 ? '<span class="rk">' + ['1st', '2nd', '3rd'][pos] + '</span>' : '';
+    var tag = own ? '<span class="rk own">' + (kind === 'costume' ? 'You' : 'Your team') + '</span>' : pos > -1 ? '<span class="rk">' + (pos + 1) + '</span>' : '';
     return '<button class="pin' + (own ? ' own' : '') + (pos > -1 ? ' picked' : '') + '" data-act="rank" data-kind="' + kind + '" data-id="' + it.id + '"' + (own || !open ? ' disabled' : '') + ' aria-pressed="' + (pos > -1) + '" aria-label="' + esc(it.name + (it.sub ? ', ' + it.sub : '')) + '">' +
       pic + tag + '</span><span class="cap">' + esc(it.name) + '</span>' + (it.sub ? '<span class="psub">' + esc(it.sub) + '</span>' : '') + '</button>';
   }).join('') + '</div>';
   if (open) {
-    var names = ballot.map(function(id, i){ var it = items.find(function(x){ return x.id === id; }); return '<b>' + ['1st', '2nd', '3rd'][i] + '</b> ' + esc(it ? it.name : '?'); });
-    out += '<div class="ballot-bar"><span class="picks">' + (names.length ? names.join(' · ') : 'Tap up to three, in order: your favourite first.') + '</span>' +
+    var names = ballot.map(function(id, i){ var it = items.find(function(x){ return x.id === id; }); return '<b>' + (i + 1) + '.</b> ' + esc(it ? it.name : '?'); });
+    out += '<div class="ballot-bar"><span class="picks">' + (names.length ? names.join(' · ') : 'Tap your favourite first. Pick one, two or three.') + '</span>' +
       '<button class="btn primary" data-act="cast" data-kind="' + kind + '"' + (!ballot.length || same || S.busy['cast-' + kind] ? ' disabled' : '') + '>' +
       (same && saved.length ? 'Your vote is in. Tap entries to change it.' : saved.length ? 'Update my vote' : 'Cast my vote') + '</button></div>';
   }
@@ -954,27 +981,25 @@ function rankerHTML(kind, items, ownIds, open){
 /* ----- costumes ----- */
 function costumesView(){
   var me = S.state.me, gm = guestsById(), open = cfg('costume_voting') === 'open' && !ended();
-  var partner = me.partner_id ? gm[me.partner_id] : null;
-  var pairable = S.state.guests.filter(function(g){ return g.id !== me.id && !g.partner_id; });
+  var group = groupOf(gm[me.id] || me).filter(function(g){ return g.id !== me.id; });
   var out = banner('costumes', '<div class="row">' + fitTitle('h2', ['Costume', 'Contest']) + '<span class="chip' + (open ? ' gold' : '') + '">Voting ' + (open ? 'open' : 'closed') + '</span></div>') + '<section class="block">';
   out += '<div class="card"><span class="eyebrow">Your entry</span><div class="me-entry"><span class="avatar">' + imgHTML('costume', me.id, me.photo_v, 'thumb', 'Your costume photo', me.name) + '</span>' +
     '<div style="display:grid;gap:8px;min-width:0"><b>' + esc(fullName(me)) + '</b>' +
-    '<label class="btn small ghost">' + (me.photo_v ? 'Change photo' : 'Add a photo') + '<input type="file" accept="image/*" data-file="costume" hidden></label>' +
+    '<button class="btn small ghost" data-act="pick" data-pick="costume">' + (me.photo_v ? 'Change photo' : 'Add a photo') + '</button>' +
     (me.photo_v ? '<button class="linkbtn small" data-act="rm-costume-photo" style="justify-self:start">Remove photo</button>' : '') + '</div></div>' +
     '<form data-form="me" class="row2" style="align-items:end"><label class="fld"><span>Costume title</span><input type="text" id="f-title" maxlength="80" value="' + esc(me.costume_title || '') + '" placeholder="e.g. The Last Sunset"></label>' +
     '<label class="fld"><span>Nickname</span><input type="text" id="f-nick2" maxlength="40" value="' + esc(me.nickname || '') + '"></label>' +
     '<button class="btn primary" type="submit">Save</button></form>' +
-    '<div style="display:grid;gap:8px;border-top:1px solid var(--line);padding-top:12px"><span class="eyebrow">Couple or group costume</span>' +
-    (partner ? '<p>You’re entered together with <b>' + esc(fullName(partner)) + '</b>.</p><button class="btn small ghost" data-act="unpair" style="justify-self:start">Enter separately</button>'
-      : '<p class="muted small">Link up with someone who’s joined and you’ll appear as one entry. Neither of you can vote for it.</p>' +
-        (pairable.length ? '<div class="row2"><select id="f-partner" aria-label="Costume partner"><option value="">Choose a person</option>' + pairable.map(function(g){ return '<option value="' + g.id + '">' + esc(fullName(g)) + '</option>'; }).join('') + '</select><button class="btn" data-act="pair">Pair up</button></div>'
-          : '<p class="muted small">No one else is free to pair with yet.</p>')) + '</div></div></section>';
+    '<div style="display:grid;gap:8px;border-top:1px solid var(--line);padding-top:12px">' +
+    (group.length ? '<p>You’re entered together with <b>' + esc(joinNames(group.map(fullName))) + '</b>.</p>'
+      : '<p class="muted small">Dressed up as a couple or a group? Add the others and you’ll appear as one entry. None of you can vote for it.</p>') +
+    '<button class="btn" data-act="sheet" data-kind="group" style="justify-self:start">Couples / Group Costume</button></div></div></section>';
 
   var items = entries().map(function(e){
     return {id: e.id, name: e.names, sub: e.title || 'Untitled costume', img: e.photo ? imgHTML('costume', e.photo.id, e.photo.photo_v, 'thumb', e.names, e.names) : null};
   });
   out += '<section class="block"><div class="block-head"><h2>Vote</h2><span class="muted small">' + plural(S.state.ballots.costume, 'ballot') + ' cast</span></div>' +
-    (open ? '<p class="muted">Tap your three favourites in order. 1st gets 3 points, 2nd gets 2, 3rd gets 1. You can change your vote until voting closes.</p>' : '<div class="notice">' + (ended() ? 'Voting has closed. See the winners on the Home tab.' : 'Voting isn’t open right now. ' + esc(HOST) + ' will open it during the costume procession.') + '</div>') +
+    (open ? '<p class="muted">Tap up to three favourites, in order. Your 1 gets 3 points, 2 gets 2 and 3 gets 1. Voting for just one or two is fine. You can change your vote until voting closes.</p>' : '<div class="notice">' + (ended() ? 'Voting has closed. See the winners on the Home tab.' : 'Voting isn’t open right now. ' + esc(HOST) + ' will open it during the costume procession.') + '</div>') +
     rankerHTML('costume', items, open ? myEntryIds() : [], open) + '</section>';
   return out;
 }
@@ -984,15 +1009,16 @@ function drinksView(){
   var me = S.state.me, gm = guestsById(), tm = teamsById(), open = cfg('drink_voting') === 'open' && !ended();
   var team = me.team_id ? tm[me.team_id] : null;
   var members = function(tid){ return S.state.guests.filter(function(g){ return g.team_id === tid; }); };
-  var out = banner('drinks', '<div class="row">' + fitTitle('h2', ['Drink', 'Contest']) + '<span class="chip' + (open ? ' gold' : '') + '">Voting ' + (open ? 'open' : 'closed') + '</span></div>') + '<section class="block">';
+  var out = banner('drinks', '<div class="row">' + fitTitle('h2', ['Drink Making', 'Contest']) + '<span class="chip' + (open ? ' gold' : '') + '">Voting ' + (open ? 'open' : 'closed') + '</span></div>') + '<section class="block">';
   if (team) {
     out += '<div class="card"><span class="eyebrow">Your team</span><div class="me-entry"><span class="avatar">' + imgHTML('team', team.id, team.photo_v, 'thumb', 'Your drink', team.name) + '</span>' +
       '<div style="display:grid;gap:8px;min-width:0"><b>' + esc(team.name) + '</b><span class="muted small">' + members(team.id).map(function(g){ return esc(shortName(g)); }).join(', ') + '</span>' +
-      '<label class="btn small ghost">' + (team.photo_v ? 'Change drink photo' : 'Add a drink photo') + '<input type="file" accept="image/*" data-file="team" hidden></label></div></div>' +
+      '<button class="btn small ghost" data-act="pick" data-pick="team">' + (team.photo_v ? 'Change drink photo' : 'Add a drink photo') + '</button></div></div>' +
       '<form data-form="team" class="row2" style="align-items:end"><label class="fld"><span>Team name</span><input type="text" id="f-tname" maxlength="40" value="' + esc(team.name) + '" required></label>' +
       '<label class="fld"><span>Drink name</span><input type="text" id="f-dname" maxlength="60" value="' + esc(team.drink_name || '') + '" placeholder="e.g. The Fall Back Fizz"></label>' +
       '<button class="btn primary" type="submit">Save</button></form>' +
-      '<button class="btn small ghost" data-act="leave-team" style="justify-self:start">' + (armed('leave') ? 'Tap again to leave' : 'Leave this team') + '</button></div>';
+      '<div class="btns"><button class="btn" data-act="sheet" data-kind="team">Add Teammates</button>' +
+      '<button class="btn small ghost" data-act="leave-team">' + (armed('leave') ? 'Tap again to leave' : 'Leave this team') + '</button></div></div>';
   } else {
     out += '<div class="card"><span class="eyebrow">Join a team</span>' +
       (S.state.teams.length ? '<div>' + S.state.teams.map(function(t){
@@ -1004,7 +1030,7 @@ function drinksView(){
   out += '</section>';
   var items = S.state.teams.map(function(t){ return {id: t.id, name: t.name, sub: t.drink_name || 'Drink not named yet', img: t.photo_v ? imgHTML('team', t.id, t.photo_v, 'thumb', t.name, t.name) : null}; });
   out += '<section class="block"><div class="block-head"><h2>Vote</h2><span class="muted small">' + plural(S.state.ballots.drink, 'ballot') + ' cast</span></div>' +
-    (open ? '<p class="muted">Rank your top three drinks. You can’t vote for your own team.</p>' : '<div class="notice">' + (ended() ? 'Voting has closed. See the winners on the Home tab.' : 'Drink voting isn’t open right now.') + '</div>') +
+    (open ? '<p class="muted">Tap up to three favourite drinks, in order. Just one or two is fine. You can’t vote for your own team.</p>' : '<div class="notice">' + (ended() ? 'Voting has closed. See the winners on the Home tab.' : 'Drink voting isn’t open right now.') + '</div>') +
     rankerHTML('drink', items, open && me.team_id ? [me.team_id] : [], open) + '</section>';
   return out;
 }
@@ -1041,7 +1067,7 @@ function photosView(){
   var gm = guestsById(), me = S.state.me, ph = S.state.photos;
   var out = banner('photos', '<div class="row">' + fitTitle('h2', ['Photo', 'Album']) + '<span class="chip">' + plural(ph.length, 'photo') + '</span></div>') + '<section class="block">' +
     '<div class="card"><label class="fld"><span>Caption (optional)</span><input type="text" id="f-caption" maxlength="120" placeholder="Applies to the photos you add next"></label>' +
-    '<div class="btns"><label class="btn primary"' + (S.busy.upload ? ' aria-disabled="true"' : '') + '>' + (S.busy.upload ? esc(S.uploadMsg) : 'Add photos') + '<input type="file" accept="image/*" multiple data-file="album" hidden' + (S.busy.upload ? ' disabled' : '') + '></label>' +
+    '<div class="btns"><button class="btn primary" data-act="pick" data-pick="album"' + (S.busy.upload ? ' disabled' : '') + '>' + (S.busy.upload ? esc(S.uploadMsg) : 'Add photos') + '</button>' +
     (ph.length ? '<button class="btn ghost" data-act="zip"' + (S.busy.zip ? ' disabled' : '') + '>' + (S.busy.zip ? esc(S.zipMsg) : 'Download all') + '</button>' : '') + '</div>' +
     '<p class="muted small">Everyone at the party can see the album. You can remove any photo you added.</p></div>';
   out += ph.length ? '<div class="masonry">' + ph.map(function(p){
@@ -1090,6 +1116,53 @@ function revealView(){
     body = '<div class="word pop" style="font-size:52px">' + msgs[0] + '</div><p class="msg">' + msgs[1] + '</p>';
   }
   return '<div class="reveal" role="dialog" aria-live="polite"><div class="box">' + body + '<div class="btns" style="justify-content:center"><button class="btn primary" data-act="close-reveal">Back to the party</button><button class="btn ghost" data-act="close-reveal" data-tab="hunt">See the hunt</button></div></div></div>';
+}
+
+/* ----- pop-up guest list (costume groups and drink teams) ----- */
+function sheetRows(){
+  var sh = S.sheet, me = S.state.me, gm = guestsById(), tm = teamsById(), mine = gm[me.id] || me;
+  var q = (sh.q || '').trim().toLowerCase();
+  var list = S.state.guests.filter(function(g){ return g.id !== me.id; }).filter(function(g){
+    return !q || (g.name + ' ' + (g.nickname || '')).toLowerCase().indexOf(q) > -1;
+  }).sort(function(a, b){ return a.name.localeCompare(b.name); });
+  if (!list.length) return '<p class="muted small" style="padding:14px 0">' + (q ? 'No one by that name yet.' : 'No one else has joined yet.') + '</p>';
+  return list.map(function(g){
+    var state, note = '';
+    if (sh.kind === 'group') {
+      if (mine.group_id && g.group_id === mine.group_id) state = 'in';
+      else if (g.group_id) { state = 'taken'; note = 'In a group with ' + joinNames(groupOf(g).filter(function(x){ return x.id !== g.id; }).map(shortName)); }
+      else state = 'free';
+    } else {
+      if (g.team_id && g.team_id === mine.team_id) state = 'in';
+      else if (g.team_id) { state = 'taken'; note = 'On ' + (tm[g.team_id] ? tm[g.team_id].name : 'another team'); }
+      else state = 'free';
+    }
+    return '<button class="srow ' + state + '" data-act="sheet-toggle" data-id="' + g.id + '"' + (state === 'taken' || S.busy.sheet ? ' disabled' : '') + ' aria-pressed="' + (state === 'in') + '">' +
+      '<span class="nm">' + esc(fullName(g)) + (note ? '<span class="muted small">' + esc(note) + '</span>' : '') + '</span>' +
+      '<span class="tick">' + (state === 'in' ? '\u2713' : state === 'free' ? '+' : '') + '</span></button>';
+  }).join('');
+}
+function sheetView(){
+  var sh = S.sheet, group = sh.kind === 'group';
+  return '<div class="sheet" role="dialog" aria-label="' + (group ? 'Couples / Group Costume' : 'Add Teammates') + '"><div class="sheet-in">' +
+    '<div class="overlay-top"><h3>' + (group ? 'Couples / Group Costume' : 'Add Teammates') + '</h3><button class="btn small ghost" data-act="sheet-close">Done</button></div>' +
+    '<p class="muted small">' + (group ? 'Tap the people in your costume. Tap again to take them out. It updates on their phones too.' : 'Tap people to add them to your team. Tap again to take them off.') + '</p>' +
+    '<input type="search" id="f-sheetq" placeholder="Search guests" autocomplete="off" value="' + esc(sh.q || '') + '">' +
+    '<div class="slist" id="sheet-list">' + sheetRows() + '</div></div></div>';
+}
+
+/* ----- edit my info ----- */
+function profileView(){
+  var me = S.state.me;
+  return '<div class="overlay"><main class="page"><div class="overlay-top"><span class="eyebrow">Your info</span><button class="btn small ghost" data-act="close-overlay">Close</button></div>' +
+    '<h1 style="font-size:44px">' + esc(shortName(me)) + '</h1>' +
+    '<form class="card" data-form="profile" autocomplete="off">' +
+    '<label class="fld"><span>Name</span><input type="text" id="f-pname" maxlength="40" value="' + esc(me.name) + '" required></label>' +
+    '<label class="fld"><span>Nickname (optional)</span><input type="text" id="f-pnick" maxlength="40" value="' + esc(me.nickname || '') + '"></label>' +
+    '<label class="fld"><span>New 4-digit PIN (leave blank to keep yours)</span><input type="password" id="f-ppin" inputmode="numeric" pattern="[0-9]{4}" maxlength="4"></label>' +
+    '<button class="btn primary" type="submit" style="justify-self:start">Save</button></form>' +
+    '<div class="pair-btns"><button class="btn ghost small" data-act="about">How your info is kept private</button><button class="btn ghost small" data-act="signout">' + (armed('signout') ? 'Tap again to sign out' : 'Sign out') + '</button></div>' +
+    '</main></div>';
 }
 
 /* ----- party info ----- */
@@ -1275,6 +1348,11 @@ app.addEventListener('submit', function(e){
     p.then(function(r){ S.token = r.token; store.set('wake-token', r.token); S.ballots = {costume: null, drink: null}; S.tab = 'home'; return refresh(); })
      .catch(function(err){ toast(err.message, true); }).then(function(){ busy('join', false); render(true); });
   }
+  if (kind === 'profile') {
+    var np = val('f-ppin').trim();
+    if (np && !/^\d{4}$/.test(np)) { toast(ERR.bad_pin, true); return; }
+    act('me', rpc('party_update_profile', {p_pass: S.pass, p_token: S.token, p_name: val('f-pname').trim(), p_nickname: val('f-pnick').trim() || null, p_new_pin: np || null}).then(function(){ var p = document.getElementById('f-ppin'); if (p) p.value = ''; }), 'Saved');
+  }
   if (kind === 'me') act('me', rpc('party_update_me', {p_pass: S.pass, p_token: S.token, p_nickname: val('f-nick2').trim() || null, p_costume_title: val('f-title').trim() || null}), 'Saved');
   if (kind === 'team') act('team', rpc('party_update_team', {p_pass: S.pass, p_token: S.token, p_name: val('f-tname').trim(), p_drink_name: val('f-dname').trim() || null}), 'Team saved');
   if (kind === 'newteam') { var tn = val('f-newteam').trim(); if (tn) act('team', rpc('party_create_team', {p_pass: S.pass, p_token: S.token, p_name: tn}), 'Team started'); }
@@ -1306,6 +1384,7 @@ app.addEventListener('submit', function(e){
 
 app.addEventListener('input', function(e){
   var t = e.target;
+  if (t.id === 'f-sheetq' && S.sheet) { S.sheet.q = t.value; var l = document.getElementById('sheet-list'); if (l) l.innerHTML = sheetRows(); return; }
   if (t.hasAttribute('data-sch')) {
     var row = S.hostSchedule[+t.getAttribute('data-sch')], f = t.getAttribute('data-field');
     if (f === 'at') { var d = new Date(t.value); if (!isNaN(d)) row.at = d.toISOString(); }
@@ -1313,8 +1392,18 @@ app.addEventListener('input', function(e){
   }
 });
 
-app.addEventListener('change', function(e){
-  var t = e.target, which = t.getAttribute('data-file');
+/* Photo picking. The page redraws every few seconds, and a phone's photo picker can stay open much longer,
+   so the file input lives outside the redrawn area and keeps working however long someone takes. */
+var picker = document.getElementById('picker'), pickFor = null, pickCaption = null;
+function openPicker(which){
+  pickFor = which;
+  pickCaption = which === 'album' ? (val('f-caption').trim() || null) : null;
+  picker.multiple = which === 'album';
+  picker.value = '';
+  picker.click();
+}
+picker.addEventListener('change', function(){
+  var which = pickFor, t = picker;
   if (!which || !t.files || !t.files.length) return;
   var files = Array.prototype.slice.call(t.files);
   t.value = '';
@@ -1325,12 +1414,12 @@ app.addEventListener('change', function(e){
     }).catch(function(err){ toast(err.message || ERR.bad_image, true); });
   }
   if (which === 'album') {
-    var caption = val('f-caption').trim() || null, done = 0;
+    var caption = val('f-caption').trim() || pickCaption, done = 0;
     busy('upload', true);
     var next = function(i){
       if (i >= files.length) return Promise.resolve();
       S.uploadMsg = 'Uploading ' + (i + 1) + ' of ' + files.length + '…'; render(true);
-      return Promise.all([shrink(files[i], 1600, 0.82, 1100000), shrink(files[i], 420, 0.72, 150000)]).then(function(r){
+      return Promise.all([shrink(files[i], 1400, 0.8, 700000), shrink(files[i], 420, 0.72, 150000)]).then(function(r){
         return rpc('party_add_photo', {p_pass: S.pass, p_token: S.token, p_caption: caption, p_thumb: r[1], p_full: r[0]}).then(function(id){
           imgCache.set(imgKey('photo', id, 'p', 'thumb'), r[1]); imgCache.set(imgKey('photo', id, 'p', 'full'), r[0]); done++;
         });
@@ -1350,6 +1439,7 @@ app.addEventListener('click', function(e){
   var a = b.getAttribute('data-act'), id = +b.getAttribute('data-id');
   switch (a) {
     case 'retry': S.fatal = null; init(); break;
+    case 'pick': openPicker(b.getAttribute('data-pick')); break;
     case 'about': S.overlay = 'about'; render(true); window.scrollTo(0, 0); break;
     case 'info': S.overlay = 'info'; render(true); window.scrollTo(0, 0); break;
     case 'no-playlist': toast('The playlist isn\u2019t up yet. Check back soon.'); break;
@@ -1369,8 +1459,14 @@ app.addEventListener('click', function(e){
       act('cast-' + k2, rpc(k2 === 'costume' ? 'party_vote_costume' : 'party_vote_drink', {p_pass: S.pass, p_token: S.token, p_picks: S.ballots[k2]}), 'Vote counted');
       break;
     }
-    case 'pair': { var pid = +val('f-partner'); if (!pid) { toast('Choose someone first.', true); break; } act('pair', rpc('party_set_partner', {p_pass: S.pass, p_token: S.token, p_partner: pid}), 'You’re entered together'); break; }
-    case 'unpair': act('pair', rpc('party_set_partner', {p_pass: S.pass, p_token: S.token, p_partner: null}), 'You’re entered on your own'); break;
+    case 'profile': S.overlay = 'profile'; render(true); window.scrollTo(0, 0); break;
+    case 'sheet': S.sheet = {kind: b.getAttribute('data-kind'), q: ''}; render(true); break;
+    case 'sheet-close': S.sheet = null; render(true); break;
+    case 'sheet-toggle': {
+      var fn = S.sheet.kind === 'group' ? 'party_toggle_group' : 'party_toggle_teammate';
+      act('sheet', rpc(fn, {p_pass: S.pass, p_token: S.token, p_other: id}).then(function(){ S.ballots.costume = null; S.ballots.drink = null; }));
+      break;
+    }
     case 'rm-costume-photo': act('photo', rpc('party_set_costume_photo', {p_pass: S.pass, p_token: S.token, p_photo: null}), 'Photo removed'); break;
     case 'join-team': act('team', rpc('party_join_team', {p_pass: S.pass, p_token: S.token, p_team: id}).then(function(){ S.ballots.drink = null; }), 'Welcome to the team'); break;
     case 'leave-team': if (!armed('leave')) { arm('leave'); break; } S.confirm = null; act('team', rpc('party_join_team', {p_pass: S.pass, p_token: S.token, p_team: null}), 'You left the team'); break;
