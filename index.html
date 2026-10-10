@@ -1,0 +1,1465 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#110c15">
+<title>A Wake All Night</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Grenze+Gotisch:wght@400;500;600&family=Spectral:wght@400;500;600&family=Courier+Prime:wght@400;700&display=swap">
+<style>
+/* Candlelit mood board: one dark look by design (it's a party at night). Full-bleed photo banners, masonry pins, blackletter headings, book serif text. */
+:root{
+  --bg:#110c15; --surface:#1b1420; --raised:#251c2c; --ink:#f0e7f1; --muted:#a596ad; --line:#382c41;
+  --gold:#e3b55f; --gold-ink:#1d1409; --plum:#c58fbe; --trick:#ec8296; --ok:#83c99a;
+  --display:"Grenze Gotisch", "Old English Text MT", Georgia, serif;
+  --body:"Spectral", "Iowan Old Style", Georgia, serif;
+  --mono:"Courier Prime", "Courier New", Courier, monospace;
+  --nav-h:64px;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.55 var(--body);min-height:100vh;
+  background-image:radial-gradient(ellipse 80% 40% at 50% -5%, rgba(227,181,95,.10), transparent 70%);background-repeat:no-repeat}
+h1,h2,h3{font-family:var(--display);font-weight:500;margin:0;text-wrap:balance;line-height:1.05;letter-spacing:.01em}
+p{margin:0}
+button,input,select,textarea{font:inherit;color:inherit}
+img{max-width:100%;display:block}
+[hidden]{display:none!important}
+a{color:var(--gold)}
+
+.page{max-width:600px;margin:0 auto;padding-inline:20px;padding-block:calc(16px + env(safe-area-inset-top,0px)) calc(var(--nav-h) + 40px + env(safe-area-inset-bottom,0px));display:grid;gap:30px}
+.page.bare{padding-bottom:40px}
+.eyebrow{font-family:var(--body);font-size:15px;font-weight:500;color:var(--gold)}
+.muted{color:var(--muted)}
+.small{font-size:14px}
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:10px;position:relative;z-index:4;height:38px}
+.topbar .brand{font-family:var(--display);font-size:24px}
+.chip{font-family:var(--body);font-size:13px;font-weight:600;border:0;border-bottom:1px solid currentColor;border-radius:0;padding:0 0 1px;color:var(--muted);white-space:nowrap}
+.chip.gold{color:var(--gold)}
+.chip.trick{color:var(--trick)}
+
+section.block{display:grid;gap:12px}
+.block > h2{font-size:34px}
+.block-head{display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex-wrap:wrap}
+.block-head h2{font-size:34px}
+.card{background:none;border:0;border-top:1px solid var(--line);border-radius:0;padding:20px 0 0;display:grid;gap:14px;min-width:0}
+.card.quiet{background:transparent}
+.notice{border:0;padding:0;color:var(--muted);font-size:16px}
+.notice.gold{color:var(--gold)}
+
+.hero{display:grid;gap:8px;text-align:center;padding-block:10px 4px}
+.hero h1{font-size:clamp(48px,14vw,76px);font-weight:600}
+.hero .sub{font-family:var(--body);font-size:18px;color:var(--muted)}
+
+.dst{display:grid;gap:4px;text-align:center;padding:22px 16px;border-block:1px solid var(--line)}
+.dst .big{font-family:var(--display);font-weight:500;font-size:clamp(40px,12vw,56px);color:var(--gold);font-variant-numeric:tabular-nums;line-height:1.1}
+.dst .lbl{font-size:17px;color:var(--muted)}
+
+.next{display:grid;gap:4px}
+.next .when{font-family:var(--mono);font-size:22px;color:var(--gold);font-variant-numeric:tabular-nums}
+.next h3{font-size:30px}
+
+.stats{display:grid;border-block:1px solid var(--line)}
+.stat{background:none;border:0;border-top:1px solid var(--line);border-radius:0;padding:13px 0;display:grid;grid-template-columns:7.5rem minmax(0,1fr) auto;gap:12px;align-items:baseline;text-align:left;cursor:pointer;min-width:0;color:var(--ink);font-size:17px}
+.stat:first-child{border-top:0}
+.stat span{color:var(--muted);font-size:15px}
+.stat small{font-size:17px;color:var(--ink);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;order:1}
+.stat b{font-family:var(--mono);font-weight:400;font-size:17px;color:var(--gold);order:2}
+.stat:hover small{text-decoration:underline;text-decoration-color:var(--gold);text-underline-offset:3px}
+
+.sched{list-style:none;margin:0;padding:0;display:grid}
+.sched li{display:grid;grid-template-columns:5.6rem minmax(0,1fr);gap:12px;padding:10px 0;border-top:1px solid var(--line);align-items:baseline}
+.sched li:first-child{border-top:0}
+.sched .t{font-family:var(--mono);font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
+.sched li.past{opacity:.45}
+.sched li.now .t,.sched li.now .what{color:var(--gold)}
+.sched li.now .what::after{content:"now";margin-left:8px;font-size:13px;font-weight:600;border-bottom:1px solid var(--gold)}
+
+label.fld{display:grid;gap:5px;min-width:0}
+label.fld > span{font-size:14px;font-weight:500;color:var(--muted)}
+input[type=text],input[type=password],input[type=search],input[type=datetime-local],input[type=number],select,textarea{width:100%;background:var(--bg);border:1px solid var(--line);border-radius:2px;padding:11px 12px;font-size:16px;min-width:0}
+textarea{resize:vertical;min-height:70px}
+input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-visible,.btn:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.row2{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px}
+
+/* Buttons are printed memorial cards: square corners, a fine inner rule, no glow. */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:1px solid var(--ink);background:transparent;border-radius:0;padding:10px 18px;font-family:var(--body);font-weight:600;font-size:15px;letter-spacing:.01em;cursor:pointer;text-decoration:none;color:var(--ink);min-height:44px;box-shadow:inset 0 0 0 3px var(--bg),inset 0 0 0 4px var(--line);transition:background-color .15s,color .15s}
+.btn:hover{background:var(--raised)}
+.btn:active{transform:translateY(1px)}
+.btn.primary{background:var(--ink);border-color:var(--ink);color:var(--bg);box-shadow:inset 0 0 0 3px var(--ink),inset 0 0 0 4px var(--bg)}
+.btn.primary:hover{background:var(--gold);border-color:var(--gold);box-shadow:inset 0 0 0 3px var(--gold),inset 0 0 0 4px var(--bg)}
+.btn.danger{border-color:var(--trick);color:var(--trick);box-shadow:none}
+.btn.ghost{border-color:var(--line);box-shadow:none}
+.btn.ghost:hover{border-color:var(--ink)}
+.btn.small{min-height:36px;padding:6px 12px;font-size:14px;box-shadow:none}
+.btn.primary.small{box-shadow:inset 0 0 0 2px var(--ink),inset 0 0 0 3px var(--bg)}
+.btn.block{width:100%}
+.btn:disabled{opacity:.4;cursor:default;transform:none}
+.btns{display:flex;gap:8px;flex-wrap:wrap}
+.linkbtn{background:none;border:0;padding:0;color:var(--ink);text-decoration:underline;text-decoration-color:var(--gold);text-underline-offset:3px;cursor:pointer;font-size:15px}
+
+.avatar{width:56px;height:56px;border-radius:2px;object-fit:cover;background:var(--raised);display:grid;place-items:center;font-family:var(--display);font-size:24px;color:var(--muted);flex:none;overflow:hidden}
+.avatar.lg{width:100%;height:auto;aspect-ratio:4/5;max-width:100%;font-size:48px}
+.avatar img{width:100%;height:100%;object-fit:cover}
+.me-entry{display:grid;grid-template-columns:110px minmax(0,1fr);gap:14px;align-items:start}
+.me-entry .avatar{width:110px;height:138px}
+
+.rank-list{display:grid;border-bottom:1px solid var(--line)}
+.entry{display:grid;grid-template-columns:56px minmax(0,1fr) auto;gap:14px;align-items:center;background:none;border:0;border-top:1px solid var(--line);border-radius:0;padding:10px 0;text-align:left;cursor:pointer;width:100%;min-height:76px;color:var(--ink)}
+.entry .nm{font-weight:600;overflow-wrap:anywhere}
+.entry .tt{font-size:15px;color:var(--muted);overflow-wrap:anywhere}
+.entry .badge{font-family:var(--mono);font-size:14px;border:1px solid var(--line);border-radius:0;padding:3px 9px;color:var(--muted);white-space:nowrap}
+.entry.picked .nm{color:var(--gold)}
+.entry.picked .badge{background:var(--gold);color:var(--gold-ink);border-color:var(--gold);font-weight:700}
+.entry.own{opacity:.4;cursor:not-allowed}
+.ballot-bar{display:grid;gap:10px;position:sticky;bottom:calc(var(--nav-h) + env(safe-area-inset-bottom,0px));background:var(--bg);border-top:1px solid var(--gold);padding:12px 0 14px;z-index:3}
+.ballot-bar .picks{font-size:14px;color:var(--muted)}
+.ballot-bar .picks b{color:var(--ink)}
+
+.team-row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;align-items:center;padding:10px 0;border-top:1px solid var(--line)}
+.team-row:first-child{border-top:0}
+.team-row .nm{font-weight:700}
+
+.hunt-count{display:grid;gap:2px;text-align:center;padding:8px 0}
+.hunt-count .big{font-family:var(--display);font-weight:500;font-size:72px;line-height:1;color:var(--gold);font-variant-numeric:tabular-nums}
+.pips{display:flex;flex-wrap:wrap;gap:5px;justify-content:center;margin-top:8px}
+.pips i{width:12px;height:12px;border-radius:50%;border:1px solid var(--gold)}
+.pips i.found{background:var(--gold)}
+.board{list-style:none;margin:0;padding:0;display:grid;counter-reset:b}
+.board li{display:grid;grid-template-columns:2rem minmax(0,1fr) auto;gap:10px;padding:9px 0;border-top:1px solid var(--line);align-items:baseline;counter-increment:b}
+.board li:first-child{border-top:0}
+.board li::before{content:counter(b);font-family:var(--mono);color:var(--muted);font-size:13px}
+.board li.me{color:var(--gold)}
+.board .pts{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.finds{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.finds li{display:grid;grid-template-columns:3.4rem minmax(0,1fr);gap:10px;align-items:baseline}
+.finds .pts{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.pts.neg{color:var(--trick)}
+.pts.pos{color:var(--gold)}
+
+
+
+.winners{display:grid;gap:14px}
+.win{display:grid;gap:8px}
+.win h3{font-size:28px}
+.podium{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+.podium li{display:grid;grid-template-columns:2.4rem minmax(0,1fr) auto;gap:10px;align-items:center}
+.podium .place{font-family:var(--mono);font-size:12px;color:var(--muted)}
+.podium li:first-child .place{color:var(--gold)}
+.podium li:first-child .who{font-weight:600}
+.podium .pts{font-family:var(--mono);font-size:13px;color:var(--muted)}
+
+nav.tabbar{position:fixed;left:0;right:0;bottom:0;z-index:20;background:rgba(17,12,21,.96);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom,0px);backdrop-filter:blur(8px)}
+nav.tabbar .in{max-width:640px;margin:0 auto;display:grid;grid-template-columns:repeat(5,1fr);height:var(--nav-h)}
+nav.tabbar button{background:none;border:0;border-top:2px solid transparent;display:grid;justify-items:center;align-content:center;gap:3px;font-size:12px;color:var(--muted);cursor:pointer}
+nav.tabbar button svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+nav.tabbar button[aria-current="page"]{color:var(--gold);border-top-color:var(--gold)}
+
+.overlay{background:var(--bg)}
+.overlay .page{padding-bottom:calc(40px + env(safe-area-inset-bottom,0px))}
+.overlay-top{display:flex;justify-content:space-between;align-items:center;gap:10px}
+
+.viewer{position:fixed;inset:0;z-index:50;background:rgba(8,5,10,.97);display:grid;grid-template-rows:auto minmax(0,1fr) auto;padding:calc(10px + env(safe-area-inset-top,0px)) 12px calc(12px + env(safe-area-inset-bottom,0px))}
+.viewer .stage{display:grid;place-items:center;min-height:0}
+.viewer .stage img{max-height:100%;max-width:100%;object-fit:contain;border-radius:4px}
+.viewer .meta{display:grid;gap:8px;padding-top:10px}
+
+.reveal{position:fixed;inset:0;z-index:60;background:rgba(8,5,10,.96);display:grid;place-items:center;padding:24px 16px}
+.reveal .box{max-width:420px;width:100%;text-align:center;display:grid;gap:14px;justify-items:center}
+.reveal .word{font-family:var(--display);font-weight:600;font-size:clamp(64px,20vw,100px);line-height:1}
+.reveal .word.treat{color:var(--gold)}
+.reveal .word.trick{color:var(--trick)}
+.reveal .pts{font-family:var(--mono);font-weight:700;font-size:30px}
+.reveal .msg{font-family:var(--body);font-size:20px}
+.reveal .door{width:120px;height:170px;border:2px solid var(--gold);border-radius:60px 60px 4px 4px;position:relative;animation:knock .9s ease-in-out infinite}
+.reveal .door::after{content:"";position:absolute;right:18px;top:50%;width:9px;height:9px;border-radius:50%;background:var(--gold)}
+@keyframes knock{0%,100%{transform:rotate(0)}20%{transform:rotate(-2deg)}40%{transform:rotate(2deg)}60%{transform:rotate(-1deg)}}
+.reveal .pop{animation:pop .45s ease-out}
+@keyframes pop{from{transform:scale(.7);opacity:0}to{transform:scale(1);opacity:1}}
+
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(var(--nav-h) + 14px + env(safe-area-inset-bottom,0px));z-index:70;background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:0;font-weight:600;font-size:14px;max-width:calc(100% - 32px);box-shadow:0 6px 24px rgba(0,0,0,.4)}
+.toast.err{background:var(--trick);color:#1b0a0e}
+
+.htabs{display:flex;gap:18px;overflow-x:auto;border-bottom:1px solid var(--line)}
+.htabs button{flex:none;border:0;border-bottom:2px solid transparent;background:none;border-radius:0;padding:8px 0;margin-bottom:-1px;font-size:15px;color:var(--muted);cursor:pointer}
+.htabs button[aria-pressed="true"]{color:var(--ink);border-bottom-color:var(--gold);font-weight:600}
+.seg{display:inline-flex;border:1px solid var(--ink);border-radius:0}
+.seg button{border:0;border-left:1px solid var(--ink);background:transparent;border-radius:0;padding:8px 14px;font-size:14px;cursor:pointer;min-height:38px}
+.seg button:first-child{border-left:0}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--bg);font-weight:600}
+.ctl{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;padding:10px 0;border-top:1px solid var(--line)}
+.ctl:first-child{border-top:0}
+.code-row{display:grid;gap:8px;padding:16px 0 0;border:0;border-top:1px solid var(--line);border-radius:0;background:none}
+.code-row.grand{border-top-color:var(--gold)}
+.code-row .head{display:flex;justify-content:space-between;gap:8px;align-items:center;flex-wrap:wrap}
+.code-row .grid4{display:grid;grid-template-columns:minmax(0,1fr) 6rem 5rem;gap:8px}
+.sch-row{display:grid;grid-template-columns:minmax(0,13rem) minmax(0,1fr) auto;gap:8px;align-items:center}
+.x{border:0;background:none;color:var(--muted);font-size:22px;cursor:pointer;padding:4px 8px;min-height:40px}
+.mono{font-family:var(--mono)}
+
+/* ---- mood board ---- */
+/* Banners fill the top 3/8 of the screen, running up under the top bar to the top edge.
+   As the page scrolls, --p goes 0 to 1: the title lifts and fades while the photo drifts and swells. */
+.banner{--p:0;position:relative;margin-inline:-20px;margin-top:calc(-84px - env(safe-area-inset-top,0px));min-height:max(300px, 37.5vh);min-height:max(300px, 37.5svh);display:flex;flex-direction:column;overflow:hidden;background:var(--surface)}
+.banner::before{content:"";position:absolute;inset:0 0 auto;height:140px;background:linear-gradient(180deg, rgba(10,6,12,.7), transparent);z-index:1;pointer-events:none}
+.banner > img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:saturate(.8) brightness(.72);transform-origin:50% 0;transform:translateY(calc(var(--p) * 18%)) scale(calc(1 + var(--p) * .14));opacity:calc(1 - var(--p) * .55);will-change:transform}
+.banner::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg, rgba(17,12,21,0) 40%, rgba(17,12,21,.5) 75%, var(--bg) 100%);pointer-events:none}
+.banner .over{position:relative;flex:1;padding:calc(84px + env(safe-area-inset-top,0px)) 20px 24px;z-index:2;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;text-align:center;
+  transform:translateY(calc(var(--p) * -90px)) scale(calc(1 - var(--p) * .1));opacity:calc(1 - var(--p) * 1.6);will-change:transform,opacity}
+.banner h1{font-size:clamp(54px,16vw,96px);font-weight:600;line-height:.92}
+/* Header titles: stretched wide, worn and rough like old letterpress, slightly see-through so the photo shows in the ink. */
+.banner .fit{width:100%;font-weight:600;line-height:.9;letter-spacing:.01em;padding-block:.04em .06em;color:#efe6e2;opacity:.9;filter:url(#grit)}
+.banner .fit .ln{display:block;white-space:nowrap;width:max-content;margin-inline:auto;transform:scaleY(.8);transform-origin:50% 55%}
+.banner h2{font-size:clamp(52px,15vw,84px);font-weight:600;line-height:.95}
+.banner .sub{font-size:18px;color:var(--ink);opacity:.85}
+.banner .row{display:flex;flex-direction:column;align-items:center;gap:10px;width:100%}
+.banner.home .over{justify-content:center;padding-top:calc(124px + env(safe-area-inset-top,0px))}
+.banner.home .over > .eyebrow{position:absolute;top:calc(84px + env(safe-area-inset-top,0px));left:0;right:0}
+@media (prefers-reduced-motion:reduce){.banner > img,.banner .over{transform:none!important;opacity:1!important}}
+
+
+.masonry{columns:2;column-gap:12px}
+@media (min-width:560px){.masonry{columns:3}}
+.pin{display:block;width:100%;break-inside:avoid;margin:0 0 18px;background:none;border:0;padding:0;text-align:left;color:var(--ink);cursor:default}
+button.pin,a.pin{cursor:pointer}
+a.pin{text-decoration:none;color:var(--ink)}
+.pin .pimg{display:block;position:relative;border-radius:6px;overflow:hidden;background:var(--surface)}
+.pin .pimg img{display:block;width:100%;height:auto}
+.pin .pimg img:not([src]){aspect-ratio:3/4}
+.pin .pimg.tall img{aspect-ratio:3/4;object-fit:cover}
+.pin .pimg.sq img{aspect-ratio:1;object-fit:cover}
+.pin .pimg.wide img{aspect-ratio:4/3;object-fit:cover}
+.pin .pimg.mood img{filter:saturate(.8) brightness(.8)}
+.pin .ov{position:absolute;left:0;right:0;bottom:0;padding:40px 12px 12px;background:linear-gradient(180deg, transparent, rgba(10,6,12,.85));display:grid;gap:2px}
+.pin .ov .k{font-size:14px;color:var(--gold)}
+.pin .ov .v{font-family:var(--display);font-size:24px;line-height:1.05;font-weight:500}
+.pin .ov .v.num{font-size:44px}
+.pin .cap{display:block;margin-top:7px;font-size:15px;font-weight:600;line-height:1.3;overflow-wrap:anywhere}
+.pin .psub{display:block;font-size:14px;color:var(--muted);line-height:1.3;overflow-wrap:anywhere}
+button.pin:hover .pimg img{filter:brightness(1.08)}
+button.pin.mood-act:hover .pimg img{filter:saturate(.8) brightness(.95)}
+.pin .rk{position:absolute;top:8px;left:8px;z-index:2;font-family:var(--mono);font-size:14px;font-weight:700;background:var(--gold);color:var(--gold-ink);padding:3px 8px;border-radius:3px}
+.pin .rk.own{background:rgba(10,6,12,.8);color:var(--ink);font-weight:400}
+.pin.picked .pimg{outline:2px solid var(--gold);outline-offset:3px}
+.pin.picked .cap{color:var(--gold)}
+.pin.own{opacity:.4;cursor:not-allowed}
+.pin .empty-name{position:absolute;inset:0;display:grid;place-items:center;padding:16px;text-align:center;font-family:var(--display);font-size:30px;line-height:1.05;z-index:1;text-shadow:0 2px 16px rgba(0,0,0,.6)}
+
+.dst .cdp{display:flex;justify-content:space-between;align-items:baseline;padding:4px 2% 6px}
+.dst .cdp.done{justify-content:center}
+.dst .cdp .u{display:flex;align-items:baseline;gap:.08em;font-family:var(--display);color:var(--gold);line-height:.9}
+.dst .cdp b{font-weight:600;font-size:clamp(64px,21vw,120px);font-variant-numeric:tabular-nums}
+.dst .cdp small{font-family:var(--body);font-weight:600;font-size:clamp(28px,8vw,48px);margin-left:.06em}
+
+.stagger{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;align-items:start}
+.stagger .col{display:grid;gap:12px;min-width:0}
+.stagger .col + .col{padding-top:calc(66.67% - 6px)}
+.stagger .pin{margin:0}
+.stagger .pin .pimg img{aspect-ratio:3/4;height:auto;object-fit:cover}
+.stagger .pin .pimg img:not([src]){aspect-ratio:3/4}
+.stagger .pin .ov .v{font-size:22px}
+.stagger .pin .ov .v.num{font-size:40px}
+
+.stagger .pin.mood-only .pimg{position:relative}
+.stagger .pin.mood-only img.rot-in{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 1.2s ease}
+.stagger .pin.mood-only img.rot-in.on{opacity:1}
+
+#print-sheet{display:none}
+@media print{
+  body{background:#fff;color:#000}
+  #app,.toast{display:none!important}
+  #print-sheet{display:grid!important;grid-template-columns:repeat(3,1fr);gap:8mm;padding:6mm}
+  .qr-card{border:1px dashed #999;border-radius:4mm;padding:4mm;text-align:center;break-inside:avoid;font-family:Georgia,serif;color:#000}
+  .qr-card svg{width:100%;height:auto}
+  .qr-card .q1{font-size:14pt}
+  .qr-card .q2{font-family:monospace;font-size:8pt;color:#555}
+  .qr-card.grand{border:2px solid #000}
+}
+@media (max-width:420px){
+  .stat{grid-template-columns:6.5rem minmax(0,1fr) auto}
+  .me-entry{grid-template-columns:88px minmax(0,1fr)}
+  .me-entry .avatar{width:88px;height:110px}
+  .sch-row{grid-template-columns:minmax(0,1fr) auto}
+  .sch-row input[type=text]{grid-column:1 / 2}
+  .code-row .grid4{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+  .code-row .grid4 > :first-child{grid-column:1 / -1}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<div id="print-sheet"></div>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <filter id="grit" x="-4%" y="-8%" width="108%" height="116%" color-interpolation-filters="sRGB">
+    <feTurbulence type="fractalNoise" baseFrequency="0.7" numOctaves="2" seed="4" result="fine"/>
+    <feDisplacementMap in="SourceGraphic" in2="fine" scale="3" xChannelSelector="R" yChannelSelector="G" result="rough"/>
+    <feTurbulence type="fractalNoise" baseFrequency="0.09" numOctaves="4" seed="11" result="blot"/>
+    <feColorMatrix in="blot" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -6 0 0 0 5.0" result="worn"/>
+    <feTurbulence type="fractalNoise" baseFrequency="1.4" numOctaves="1" seed="2" result="dust"/>
+    <feColorMatrix in="dust" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -12 0 0 0 9.9" result="specks"/>
+    <feComposite in="rough" in2="worn" operator="in" result="a"/>
+    <feComposite in="a" in2="specks" operator="in"/>
+  </filter>
+</svg>
+
+<script>
+/* ================== YOUR SETTINGS ==================
+   Paste the two values from Supabase > Project Settings > API (or "Connect").
+   Keep the quote marks. */
+window.WAKE_CONFIG = {
+  supabaseUrl: "https://euktrwtkdpteroeykhut.supabase.co",
+  supabaseKey: "sb_publishable_rgw1nPhAJcYZrcUR7d5Y5g_uJqPu3xo",
+  hostName: "Rebecca",
+  /* Optional: swap any mood photo for your own. Use an Unsplash photo id
+     (the part after "photo-") or a file you upload to the repo, e.g. "mood/candles.jpg". */
+  mood: {}
+};
+/* =================================================== */
+</script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.116.0/dist/umd/supabase.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+<script>
+(function(){
+'use strict';
+
+var CFG = window.WAKE_CONFIG || {};
+var HOST = CFG.hostName || 'the host';
+var DST_END = Date.UTC(2026, 10, 1, 6, 0, 0); /* 2:00 a.m. EDT, Sunday Nov 1 2026 */
+var TZ = 'America/Toronto';
+var app = document.getElementById('app');
+
+/* ---------- small utilities ---------- */
+var store = {
+  get: function(k){ try { return localStorage.getItem(k); } catch(e){ return null; } },
+  set: function(k, v){ try { localStorage.setItem(k, v); } catch(e){} },
+  del: function(k){ try { localStorage.removeItem(k); } catch(e){} }
+};
+function esc(s){ return String(s == null ? '' : s).replace(/[&<>"']/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
+function now(){ return Date.now() + S.clockOffset; }
+function fmtTime(ms){ return new Date(ms).toLocaleTimeString('en-CA', {timeZone: TZ, hour: 'numeric', minute: '2-digit'}).replace(/\./g, '').replace(/\s?(am|pm)/i, function(m){ return ' ' + m.trim().toLowerCase(); }); }
+function fmtDur(ms, withSecs){
+  if (ms <= 0) return '0m';
+  var s = Math.floor(ms / 1000), d = Math.floor(s / 86400), h = Math.floor(s % 86400 / 3600), m = Math.floor(s % 3600 / 60), sec = s % 60;
+  if (d > 0) return d + 'd ' + h + 'h ' + m + 'm';
+  if (h > 0) return h + 'h ' + String(m).padStart(2, '0') + 'm' + (withSecs ? ' ' + String(sec).padStart(2, '0') + 's' : '');
+  return m + 'm ' + String(sec).padStart(2, '0') + 's';
+}
+function plural(n, one, many){ return n + ' ' + (n === 1 ? one : (many || one + 's')); }
+function pad(n){ return String(n).padStart(2, '0'); }
+function toLocalInput(iso){ var d = new Date(iso); if (isNaN(d)) return ''; return d.getFullYear() + '-' + pad(d.getMonth()+1) + '-' + pad(d.getDate()) + 'T' + pad(d.getHours()) + ':' + pad(d.getMinutes()); }
+function signed(n){ return n > 0 ? '+' + n : n < 0 ? '−' + Math.abs(n) : '0'; }
+
+/* ---------- state ---------- */
+var S = {
+  pass: store.get('wake-pass'),
+  token: store.get('wake-token'),
+  isHost: false,
+  state: null,
+  host: null,
+  tab: 'home',
+  overlay: null,          /* 'about' | 'host' | 'print' */
+  hostTab: 'controls',
+  authMode: 'join',
+  clockOffset: 0,
+  ballots: {costume: null, drink: null},
+  viewer: null,           /* photo id being viewed */
+  reveal: null,           /* {phase:'knock'|'show', result} */
+  toast: null,
+  confirm: null,
+  busy: {},
+  ready: false,
+  fatal: null,
+  uploadMsg: '',
+  zipMsg: ''
+};
+
+var ERR = {
+  bad_passcode: 'That passcode isn’t right.',
+  bad_host_passcode: 'That needs the host passcode.',
+  name_taken: 'Someone already signed in with that name. If it’s you, use “Sign back in”.',
+  need_name: 'Please add a name.',
+  bad_pin: 'Your PIN needs to be 4 digits.',
+  bad_signin: 'That name and PIN don’t match.',
+  voting_closed: 'Voting is closed right now.',
+  own_entry: 'You can’t vote for your own entry.',
+  bad_ballot: 'Pick one to three different entries.',
+  already_paired: 'They’re already paired with someone else.',
+  bad_partner: 'Pick someone from the list.',
+  bad_team: 'That team no longer exists.',
+  no_team: 'Join a team first.',
+  bad_image: 'That photo couldn’t be used. Try a different one.',
+  photo_limit: 'You’ve reached the 80 photo limit.',
+  not_yours: 'You can only remove photos you uploaded.',
+  too_many: 'Too many photos at once. Try again.',
+  network: 'Can’t reach the party server. Check your connection and try again.'
+};
+function AppError(code){ this.code = code; this.message = ERR[code] || 'Something went wrong. Try again.'; }
+
+/* ---------- server ---------- */
+var sb = null;
+function configured(){ return CFG.supabaseUrl && CFG.supabaseUrl.indexOf('PASTE') === -1 && CFG.supabaseKey && CFG.supabaseKey.indexOf('PASTE') === -1; }
+
+function rpc(fn, args){
+  if (!sb) return Promise.reject(new AppError('network'));
+  return sb.rpc(fn, args || {}).then(function(res){
+    if (res.error) {
+      var msg = String(res.error.message || '');
+      var code = Object.keys(ERR).concat(['not_joined']).find(function(k){ return msg.indexOf(k) > -1; });
+      if (!code && /fetch|network|Failed|timeout/i.test(msg)) code = 'network';
+      if (code === 'bad_passcode') { forgetPass(); }
+      if (code === 'not_joined') { forgetMe(); render(true); }
+      throw new AppError(code || 'unknown');
+    }
+    return res.data;
+  }, function(){ throw new AppError('network'); });
+}
+
+function forgetPass(){ S.pass = null; S.isHost = false; store.del('wake-pass'); S.state = null; render(true); }
+function forgetMe(){ S.token = null; store.del('wake-token'); S.ballots = {costume: null, drink: null}; if (S.state) S.state.me = null; }
+
+var refreshing = false;
+function refresh(){
+  if (!S.pass || refreshing) return Promise.resolve();
+  refreshing = true;
+  return rpc('party_state', {p_pass: S.pass, p_token: S.token || null}).then(function(st){
+    S.state = st;
+    S.clockOffset = Date.parse(st.now) - Date.now();
+    if (S.token && !st.me) forgetMe();
+    if (st.me) {
+      if (S.ballots.costume === null) S.ballots.costume = (st.my_costume_vote || []).slice();
+      if (S.ballots.drink === null) S.ballots.drink = (st.my_drink_vote || []).slice();
+    }
+    render();
+    processPending();
+  }).catch(function(e){
+    if (e.code === 'network' && !S.state) S.fatal = ERR.network;
+    render();
+  }).then(function(){ refreshing = false; });
+}
+
+function refreshHost(){
+  if (!S.isHost) return Promise.resolve();
+  return rpc('host_state', {p_pass: S.pass}).then(function(h){ S.host = h; render(); }).catch(function(e){ toast(e.message, true); });
+}
+
+/* ---------- images ---------- */
+var imgCache = new Map(), imgWant = new Map(), imgTimer = null;
+function imgKey(kind, id, v, size){ return kind + ':' + id + ':' + (v || '') + ':' + size; }
+function imgHTML(kind, id, v, size, alt, fallbackText){
+  if (!v) return '<span aria-hidden="true">' + esc((fallbackText || '?').trim().charAt(0).toUpperCase()) + '</span>';
+  var k = imgKey(kind, id, v, size), src = imgCache.get(k);
+  if (!src) { imgWant.set(k, {kind: kind, id: id, size: size}); clearTimeout(imgTimer); imgTimer = setTimeout(loadImages, 40); }
+  return '<img data-img="' + esc(k) + '" alt="' + esc(alt || '') + '"' + (src ? ' src="' + src + '"' : '') + ' loading="lazy">';
+}
+function loadImages(){
+  var groups = {};
+  imgWant.forEach(function(w, k){ var g = w.kind + '|' + w.size; (groups[g] = groups[g] || []).push({k: k, id: w.id}); });
+  imgWant.clear();
+  Object.keys(groups).forEach(function(g){
+    var parts = g.split('|'), list = groups[g], per = parts[1] === 'full' ? 4 : 30;
+    for (var i = 0; i < list.length; i += per) (function(chunk){
+      rpc('party_images', {p_pass: S.pass, p_kind: parts[0], p_ids: chunk.map(function(c){ return c.id; }), p_size: parts[1]}).then(function(map){
+        chunk.forEach(function(c){
+          var src = map[String(c.id)];
+          if (!src) return;
+          imgCache.set(c.k, src);
+          document.querySelectorAll('img[data-img="' + c.k + '"]').forEach(function(el){ el.src = src; });
+        });
+      }).catch(function(){});
+    })(list.slice(i, i + per));
+  });
+}
+function getFull(id){
+  var k = imgKey('photo', id, 'p', 'full');
+  if (imgCache.has(k)) return Promise.resolve(imgCache.get(k));
+  return rpc('party_images', {p_pass: S.pass, p_kind: 'photo', p_ids: [id], p_size: 'full'}).then(function(m){ var s = m[String(id)]; if (s) imgCache.set(k, s); return s; });
+}
+
+function shrink(file, maxDim, quality, maxLen){
+  function draw(src, w0, h0){
+    var scale = Math.min(1, maxDim / Math.max(w0, h0));
+    var tries = 0;
+    while (true) {
+      var w = Math.max(1, Math.round(w0 * scale)), h = Math.max(1, Math.round(h0 * scale));
+      var c = document.createElement('canvas'); c.width = w; c.height = h;
+      var ctx = c.getContext('2d'); ctx.fillStyle = '#000'; ctx.fillRect(0, 0, w, h); ctx.drawImage(src, 0, 0, w, h);
+      var q = quality, url = c.toDataURL('image/jpeg', q);
+      while (url.length > maxLen && q > 0.45) { q -= 0.08; url = c.toDataURL('image/jpeg', q); }
+      if (url.length <= maxLen || tries > 3) return url;
+      scale *= 0.75; tries++;
+    }
+  }
+  var bitmap = window.createImageBitmap ? createImageBitmap(file, {imageOrientation: 'from-image'}).catch(function(){ return null; }) : Promise.resolve(null);
+  return bitmap.then(function(bmp){
+    if (bmp) return draw(bmp, bmp.width, bmp.height);
+    return new Promise(function(res, rej){
+      var url = URL.createObjectURL(file), im = new Image();
+      im.onload = function(){ URL.revokeObjectURL(url); res(draw(im, im.naturalWidth, im.naturalHeight)); };
+      im.onerror = function(){ URL.revokeObjectURL(url); rej(new AppError('bad_image')); };
+      im.src = url;
+    });
+  });
+}
+function dataUrlToBlob(d){
+  var parts = d.split(','), mime = (parts[0].match(/data:([^;]+)/) || [])[1] || 'image/jpeg';
+  var bin = atob(parts[1]), arr = new Uint8Array(bin.length);
+  for (var i = 0; i < bin.length; i++) arr[i] = bin.charCodeAt(i);
+  return new Blob([arr], {type: mime});
+}
+function saveBlob(blob, name){
+  var url = URL.createObjectURL(blob), a = document.createElement('a');
+  a.href = url; a.download = name; document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(function(){ URL.revokeObjectURL(url); }, 4000);
+}
+
+/* ---------- mood photos (Unsplash, free to use) ---------- */
+var MOOD = {
+  hero: '1508802417248-856259d2c0f9',      /* the last sunset */
+  costumes: '1646657402425-ecd35e893746',  /* dark flowers */
+  drinks: '1500217052183-bc01eee1a74e',    /* dark cocktail */
+  hunt: '1477516561410-f0b5dd8319e4',      /* jack-o-lanterns at night */
+  photos: '1476900164809-ff19b8ae5968',    /* candles */
+  pinCostume: '1638129640863-d1f283b8ffdb',
+  pinDrink: '1723691802828-707ecdf3ee25',
+  pinHunt: '1572860177022-8fda92a90c95',
+  pinInfo: '1530049080396-450947c04fcd',
+  pinPlaylist: '1637870793159-53329ad6b958',
+  board: ['1601922046210-41e129a3e64a', '1584204159455-11ad2b12ebf8', '1746913620906-ac39272aa9d1',
+          '1640085461451-e3dc47415dd1', '1763960091036-813259b59775', '1509558567730-6c838437b06b',
+          '1647633783533-de8d1722888e', '1619378352777-1742dc62b564', '1437435409766-a478cc6da81a'],
+  empty: ['1637870793159-53329ad6b958', '1646657402425-ecd35e893746', '1530049080396-450947c04fcd', '1589378938275-947b7adf8665']
+};
+Object.keys(CFG.mood || {}).forEach(function(k){ MOOD[k] = CFG.mood[k]; });
+function moodUrl(v, w){
+  if (!v) return '';
+  if (/^(https?:|\.|\/)/.test(v) || /\.(jpe?g|png|webp|avif)$/i.test(v)) return v;
+  return 'https://images.unsplash.com/photo-' + v + '?auto=format&fit=crop&w=' + (w || 800) + '&q=70';
+}
+function moodImg(v, w){ return '<img data-mood src="' + esc(moodUrl(v, w)) + '" alt="" loading="lazy" decoding="async">'; }
+document.addEventListener('error', function(e){
+  var el = e.target;
+  if (!el || el.tagName !== 'IMG' || !el.hasAttribute('data-mood')) return;
+  var pin = el.closest('.pin.mood-only');
+  if (pin) pin.remove(); else el.style.visibility = 'hidden';
+}, true);
+/* Header titles: each line is sized so the longest one spans the full width, then stretched taller. */
+function fitTitle(tag, lines){
+  return '<' + tag + ' class="fit" aria-label="' + esc(lines.join(' ')) + '">' + lines.map(function(l){ return '<span class="ln" aria-hidden="true">' + esc(l) + '</span>'; }).join('') + '</' + tag + '>';
+}
+function fitTitles(){
+  app.querySelectorAll('.fit').forEach(function(t){
+    var lines = t.querySelectorAll('.ln'), par = t.parentElement, cs = getComputedStyle(par);
+    var avail = par.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
+    if (!lines.length || !avail) return;
+    t.style.fontSize = '100px';
+    var widest = 0;
+    lines.forEach(function(l){ widest = Math.max(widest, l.scrollWidth); });
+    if (widest) t.style.fontSize = Math.min(200, Math.floor(100 * avail / widest * 0.98)) + 'px';
+  });
+}
+window.addEventListener('resize', function(){ requestAnimationFrame(fitTitles); });
+if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitTitles);
+
+function banner(key, inner, cls){
+  return '<header class="banner' + (cls ? ' ' + cls : '') + '">' + moodImg(MOOD[key], 1200) + '<div class="over">' + inner + '</div></header>';
+}
+
+/* ---------- derived data ---------- */
+function guestsById(){ var m = {}; (S.state ? S.state.guests : []).forEach(function(g){ m[g.id] = g; }); return m; }
+function teamsById(){ var m = {}; (S.state ? S.state.teams : []).forEach(function(t){ m[t.id] = t; }); return m; }
+function shortName(g){ return g ? (g.nickname || g.name) : 'Someone'; }
+function fullName(g){ return g ? (g.nickname ? g.name + ' “' + g.nickname + '”' : g.name) : 'Someone'; }
+function entries(){
+  var gm = guestsById(), out = [], seen = {};
+  (S.state ? S.state.guests : []).forEach(function(g){
+    if (seen[g.id]) return;
+    var p = g.partner_id && gm[g.partner_id] && gm[g.partner_id].partner_id === g.id ? gm[g.partner_id] : null;
+    var members = p ? [g, p].sort(function(a, b){ return a.id - b.id; }) : [g];
+    members.forEach(function(m){ seen[m.id] = true; });
+    var titles = members.map(function(m){ return m.costume_title; }).filter(Boolean);
+    titles = titles.filter(function(t, i){ return titles.indexOf(t) === i; });
+    var photo = members.find(function(m){ return m.photo_v; });
+    out.push({id: members[0].id, members: members, names: members.map(shortName).join(' & '), title: titles.join(' / '), photo: photo || null});
+  });
+  return out;
+}
+function entryById(id){ return entries().find(function(e){ return e.id === id; }); }
+function myEntryIds(){ var me = S.state && S.state.me; if (!me) return []; return [me.id, me.partner_id].filter(Boolean); }
+function events(){
+  var sch = (S.state && S.state.config.schedule) || [];
+  return sch.map(function(e){ return {at: Date.parse(e.at), title: e.title}; }).filter(function(e){ return !isNaN(e.at); }).sort(function(a, b){ return a.at - b.at; });
+}
+function myPoints(){
+  var me = S.state && S.state.me; if (!me) return 0;
+  var row = S.state.hunt.leaderboard.find(function(r){ return r.guest_id === me.id; });
+  return row ? row.points : 0;
+}
+function cfg(k){ return S.state ? S.state.config[k] : null; }
+function ended(){ return cfg('phase') === 'ended'; }
+
+/* ---------- toasts & confirm ---------- */
+var toastTimer = null;
+function toast(msg, isErr, ms){
+  S.toast = {msg: msg, err: !!isErr};
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(function(){ S.toast = null; paintToast(); }, ms || (isErr ? 4200 : 2400));
+  paintToast();
+}
+function paintToast(){
+  var el = document.getElementById('toast');
+  if (!el) { el = document.createElement('div'); el.id = 'toast'; el.setAttribute('role', 'status'); el.setAttribute('aria-live', 'polite'); document.body.appendChild(el); }
+  if (!S.toast) { el.hidden = true; return; }
+  el.hidden = false; el.className = 'toast' + (S.toast.err ? ' err' : ''); el.textContent = S.toast.msg;
+}
+var confirmTimer = null;
+function armed(key){ return S.confirm === key; }
+function arm(key){ S.confirm = key; clearTimeout(confirmTimer); confirmTimer = setTimeout(function(){ S.confirm = null; render(true); }, 3500); render(true); }
+
+/* ---------- pending QR code from the URL ---------- */
+(function readHash(){
+  var m = location.hash.match(/^#c=([0-9a-zA-Z]+)$/);
+  if (m) {
+    try { sessionStorage.setItem('wake-pending', m[1].toLowerCase()); } catch(e){ window.__pending = m[1].toLowerCase(); }
+    try { history.replaceState(null, '', location.pathname + location.search); } catch(e){}
+  }
+})();
+function pendingCode(){ try { return sessionStorage.getItem('wake-pending') || window.__pending || null; } catch(e){ return window.__pending || null; } }
+function clearPending(){ try { sessionStorage.removeItem('wake-pending'); } catch(e){} window.__pending = null; }
+var claiming = false;
+function processPending(){
+  var code = pendingCode();
+  if (!code || claiming || !S.state || !S.state.me) return;
+  clearPending();
+  claimCode(code);
+}
+function claimCode(code){
+  claiming = true;
+  S.reveal = {phase: 'knock'}; render(true);
+  var started = Date.now();
+  rpc('party_claim', {p_pass: S.pass, p_token: S.token, p_secret: code}).then(function(r){
+    setTimeout(function(){ S.reveal = {phase: 'show', result: r}; render(true); refresh(); }, Math.max(0, 1300 - (Date.now() - started)));
+  }).catch(function(e){
+    S.reveal = null; toast(e.message, true); render(true);
+  }).then(function(){ claiming = false; });
+}
+
+/* ---------- rendering ---------- */
+var renderQueued = false;
+function editing(){
+  var a = document.activeElement;
+  return a && app.contains(a) && /^(INPUT|TEXTAREA|SELECT)$/.test(a.tagName) && a.type !== 'file';
+}
+/* Scroll-linked header: drives the --p variable on the banner. */
+var scrollTicking = false;
+function applyScroll(){
+  scrollTicking = false;
+  var b = app.querySelector('.banner'); if (!b) return;
+  var p = Math.min(1, Math.max(0, window.scrollY / (b.offsetHeight * 0.75)));
+  b.style.setProperty('--p', p.toFixed(3));
+}
+/* Whoosh: once a scroll settles part-way through the header, glide the rest of the way,
+   down to the content if they were scrolling down, or back to the top if scrolling up. */
+var lastY = window.scrollY, scrollDir = 0, settleTimer = null, touching = false;
+var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+function settleHeader(){
+  if (touching) return;
+  var b = app.querySelector('.banner'); if (!b) return;
+  var end = b.offsetTop + b.offsetHeight - 6, y = window.scrollY;
+  if (y <= 2 || y >= end - 2) return;
+  window.scrollTo({top: scrollDir < 0 ? 0 : end, behavior: reduceMotion ? 'auto' : 'smooth'});
+}
+window.addEventListener('scroll', function(){
+  var y = window.scrollY;
+  if (y !== lastY) scrollDir = y > lastY ? 1 : -1;
+  lastY = y;
+  if (!scrollTicking) { scrollTicking = true; requestAnimationFrame(applyScroll); }
+  clearTimeout(settleTimer); settleTimer = setTimeout(settleHeader, 140);
+}, {passive: true});
+window.addEventListener('touchstart', function(){ touching = true; }, {passive: true});
+window.addEventListener('touchend', function(){ touching = false; clearTimeout(settleTimer); settleTimer = setTimeout(settleHeader, 140); }, {passive: true});
+
+function render(force){
+  if (!force && editing()) { renderQueued = true; return; }
+  renderQueued = false;
+  var y = window.scrollY, kept = snapshot();
+  app.innerHTML = view();
+  restoreInputs(kept);
+  fitTitles();
+  window.scrollTo(0, y);
+  applyScroll();
+  tick();
+}
+/* Keep whatever someone has typed but not saved when the page redraws. */
+function inputKey(el){
+  if (el.id) return el.id;
+  var f = el.form;
+  if (f && f.getAttribute('data-id') && el.name) return f.getAttribute('data-form') + f.getAttribute('data-id') + ':' + el.name;
+  return null;
+}
+function snapshot(){
+  var m = {};
+  app.querySelectorAll('input,textarea,select').forEach(function(el){
+    if (el.type === 'file' || el.hasAttribute('data-sch')) return;
+    var k = inputKey(el); if (!k) return;
+    var changed = el.tagName === 'SELECT' ? el.selectedIndex !== Array.prototype.findIndex.call(el.options, function(o){ return o.defaultSelected; }) : el.value !== el.defaultValue;
+    if (changed) m[k] = el.value;
+  });
+  return m;
+}
+function restoreInputs(m){
+  app.querySelectorAll('input,textarea,select').forEach(function(el){
+    var k = inputKey(el);
+    if (k && Object.prototype.hasOwnProperty.call(m, k)) el.value = m[k];
+  });
+}
+app.addEventListener('focusout', function(){ setTimeout(function(){ if (renderQueued && !editing()) render(); }, 60); });
+
+function view(){
+  if (!configured()) return setupView();
+  if (S.fatal && !S.state) return '<main class="page bare"><div class="hero"><h1>A Wake All Night</h1></div><div class="notice gold">' + esc(S.fatal) + '</div><button class="btn primary" data-act="retry">Try again</button></main>';
+  if (!S.pass) return gateView();
+  if (!S.state) return '<main class="page bare"><div class="hero"><h1>A Wake All Night</h1><p class="sub">Lighting the candles…</p></div></main>';
+  if (S.overlay === 'about') return aboutView();
+  if (!S.state.me) return joinView();
+  var out = '';
+  if (S.overlay === 'host') out = hostView();
+  else if (S.overlay === 'info') out = infoView();
+  else if (S.overlay === 'print') out = printView();
+  else out = '<main class="page">' + topbar() + tabView() + '</main>' + tabbar();
+  if (S.viewer != null) out += viewerView();
+  if (S.reveal) out += revealView();
+  return out;
+}
+
+function setupView(){
+  return '<main class="page bare"><div class="hero"><span class="eyebrow">Almost ready</span><h1>A Wake All Night</h1></div>' +
+    '<div class="card"><h3>This Site Isn’t Connected Yet</h3><p class="muted">Open <span class="mono">index.html</span>, find <span class="mono">WAKE_CONFIG</span> near the bottom, and paste in your Supabase project URL and key. The setup guide walks you through it.</p></div></main>';
+}
+
+function gateView(){
+  return '<main class="page bare">' +
+    '<div class="hero"><span class="eyebrow">Saturday, October 31</span><h1>A Wake All Night</h1><p class="sub">In Memory of Daylight Saving Time 2026</p></div>' +
+    '<form class="card" data-form="gate" autocomplete="off"><label class="fld"><span>Party passcode</span><input type="password" id="f-pass" autocomplete="current-password" required></label>' +
+    '<button class="btn primary block" type="submit"' + (S.busy.gate ? ' disabled' : '') + '>' + (S.busy.gate ? 'Checking…' : 'Enter the wake') + '</button>' +
+    '<p class="muted small">Ask ' + esc(HOST) + ' for the passcode.</p></form>' +
+    '<button class="linkbtn" data-act="about">How your info is kept private</button></main>';
+}
+
+function joinView(){
+  var join = S.authMode === 'join';
+  return '<main class="page bare">' +
+    '<div class="hero"><span class="eyebrow">' + (join ? 'Sign the condolence book' : 'Welcome back') + '</span><h1>A Wake All Night</h1></div>' +
+    '<form class="card" data-form="' + (join ? 'join' : 'signin') + '" autocomplete="off">' +
+    '<label class="fld"><span>Your name</span><input type="text" id="f-name" maxlength="40" autocomplete="given-name" required></label>' +
+    (join ? '<label class="fld"><span>Nickname (optional)</span><input type="text" id="f-nick" maxlength="40" placeholder="e.g. The Grieving Widow"></label>' : '') +
+    '<label class="fld"><span>' + (join ? 'Choose a 4-digit PIN' : 'Your 4-digit PIN') + '</span><input type="password" id="f-pin" inputmode="numeric" pattern="[0-9]{4}" maxlength="4" required></label>' +
+    (join ? '<p class="muted small">Your PIN lets you sign back in on another phone or browser. You’ll be entered into the costume contest automatically.</p>' : '') +
+    '<button class="btn primary block" type="submit"' + (S.busy.join ? ' disabled' : '') + '>' + (join ? 'Join the wake' : 'Sign back in') + '</button></form>' +
+    '<button class="linkbtn" data-act="authmode">' + (join ? 'Already joined on another phone? Sign back in' : 'New here? Join the wake') + '</button>' +
+    '<button class="linkbtn" data-act="about">How your info is kept private</button></main>';
+}
+
+function topbar(){
+  return '<div class="topbar"><span class="brand">A Wake All Night</span>' +
+    (S.isHost ? '<button class="chip gold" data-act="open-host" style="background:none;cursor:pointer">Host panel</button>' : '<span class="chip">' + esc(shortName(S.state.me)) + '</span>') + '</div>';
+}
+
+var ICONS = {
+  home: '<svg viewBox="0 0 24 24"><path d="M12 3c1.5 2 1.5 3.5 0 5-1.5-1.5-1.5-3 0-5z"/><rect x="9" y="9" width="6" height="12" rx="1"/><path d="M6 21h12"/></svg>',
+  costumes: '<svg viewBox="0 0 24 24"><path d="M4 7c3-2 13-2 16 0 0 7-3 12-8 12S4 14 4 7z"/><path d="M8 11c1-1 2-1 3 0M13 11c1-1 2-1 3 0"/><path d="M10 15c1 .8 3 .8 4 0"/></svg>',
+  drinks: '<svg viewBox="0 0 24 24"><path d="M5 4h14l-7 8z"/><path d="M12 12v7M8 20h8"/></svg>',
+  hunt: '<svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h3v3h-3zM20 14v1M14 20h1M18 18h3v3"/></svg>',
+  photos: '<svg viewBox="0 0 24 24"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg>'
+};
+function tabbar(){
+  var tabs = [['home','Home'],['costumes','Costumes'],['drinks','Drinks'],['hunt','Hunt'],['photos','Photos']];
+  return '<nav class="tabbar" aria-label="Sections"><div class="in">' + tabs.map(function(t){
+    return '<button data-act="tab" data-tab="' + t[0] + '"' + (S.tab === t[0] ? ' aria-current="page"' : '') + '>' + ICONS[t[0]] + '<span>' + t[1] + '</span></button>';
+  }).join('') + '</div></nav>';
+}
+function tabView(){
+  if (S.tab === 'costumes') return costumesView();
+  if (S.tab === 'drinks') return drinksView();
+  if (S.tab === 'hunt') return huntView();
+  if (S.tab === 'photos') return photosView();
+  return homeView();
+}
+
+/* ----- home ----- */
+function homeView(){
+  if (ended()) return endView();
+  var me = S.state.me, evs = events(), t = now();
+  var nextEv = evs.find(function(e){ return e.at > t; });
+  var dstLeft = DST_END - t;
+  var team = me.team_id ? teamsById()[me.team_id] : null;
+  var h = S.state.hunt;
+  var out = banner('hero', '<span class="eyebrow">Welcome, ' + esc(shortName(me)) + '</span>' + fitTitle('h1', ['A Wake', 'All Night']) + '<p class="sub">In Memory of Daylight Saving Time 2026</p>', 'home');
+  if (cfg('results_visible')) out += '<section class="block"><h2>The Winners</h2>' + winnersHTML() + '</section>';
+  out += '<section class="block"><h2>Tonight</h2>' + boardHTML(me, team, h) + '</section>';
+  out += dstHTML(dstLeft);
+  out += '<div class="btns"><button class="btn ghost small" data-act="about">How your info is kept private</button><button class="btn ghost small" data-act="signout">' + (armed('signout') ? 'Tap again to sign out' : 'Not ' + esc(shortName(me)) + '? Sign out') + '</button></div>';
+  return out;
+}
+
+function podium(rows){
+  if (!rows.length) return '<p class="muted small">No votes yet.</p>';
+  return '<ol class="podium">' + rows.slice(0, 3).map(function(r, i){
+    return '<li><span class="place">' + ['1st', '2nd', '3rd'][i] + '</span><span class="who">' + r.who + '</span><span class="pts">' + r.pts + '</span></li>';
+  }).join('') + '</ol>';
+}
+function winnersHTML(){
+  var res = S.state.results; if (!res) return '';
+  var gm = guestsById(), tm = teamsById();
+  var cost = res.costume.map(function(r){ var e = entryById(r.entry); return e ? {who: esc(e.names) + (e.title ? ' as ' + esc(e.title) : ''), pts: r.points + ' pts'} : null; }).filter(Boolean);
+  var dr = res.drinks.map(function(r){ var t = tm[r.team]; return t ? {who: esc(t.name) + (t.drink_name ? ' · ' + esc(t.drink_name) : ''), pts: r.points + ' pts'} : null; }).filter(Boolean);
+  var hu = res.hunt.map(function(r){ var g = gm[r.guest_id]; return g ? {who: esc(fullName(g)), pts: r.points + ' pts'} : null; }).filter(Boolean);
+  var gf = S.state.hunt.grand_found_by ? gm[S.state.hunt.grand_found_by] : null;
+  return '<div class="winners">' +
+    '<div class="card win"><h3>Best Costume</h3>' + podium(cost) + '</div>' +
+    '<div class="card win"><h3>Best Drink</h3>' + podium(dr) + '</div>' +
+    '<div class="card win"><h3>Trick-or-Treat Hunt</h3>' + podium(hu) + (gf ? '<p class="small">Grand code found by ' + esc(fullName(gf)) + '</p>' : '') + '</div></div>';
+}
+
+function endView(){
+  return banner('hero', '<span class="eyebrow">Daylight Saving Time 2026 · Rest in peace</span>' + fitTitle('h1', ['Happy', 'Halloween']) + '<p class="sub">Thank you for coming, ' + esc(shortName(S.state.me)) + '. The sun will be back tomorrow, a little earlier.</p>', 'home') +
+    '<section class="block"><h2>The Winners</h2>' + winnersHTML() + '</section>' +
+    '<section class="card"><h3>The Photo Album</h3><p class="muted">' + S.state.photos.length + ' photos from the night. Add yours, or download them all.</p><button class="btn primary" data-act="tab" data-tab="photos">Open the album</button></section>' +
+    '<button class="linkbtn" data-act="about">How your info is kept private</button>';
+}
+
+/* Daylight Saving Time countdown: big, spread out, with D H M units. */
+function dstParts(ms){
+  var mins = Math.max(0, Math.floor(ms / 60000));
+  return [[Math.floor(mins / 1440), 'D'], [Math.floor(mins % 1440 / 60), 'H'], [mins % 60, 'M']].map(function(p){
+    return '<span class="u"><b>' + p[0] + '</b><small>' + p[1] + '</small></span>';
+  }).join('');
+}
+function dstHTML(ms){
+  if (ms <= 0) return '<div class="dst"><span class="cdp done"><span class="u"><b>1</b><small>H</small></span></span><span class="lbl">Daylight Saving Time has passed. It left everyone an extra hour.</span></div>';
+  return '<div class="dst"><span class="cdp" data-cdp="' + DST_END + '">' + dstParts(ms) + '</span><span class="lbl">Until the clocks fall back</span></div>';
+}
+
+/* The home mood board: action pins, guests' costumes and album photos, woven between mood photos. */
+/* Home board: every tile the same size, two columns, the right one starting half a tile lower. */
+function staggered(items){
+  var l = [], r = [];
+  items.filter(Boolean).forEach(function(x, i){ (i % 2 ? r : l).push(x); });
+  return '<div class="stagger"><div class="col">' + l.join('') + '</div><div class="col">' + r.join('') + '</div></div>';
+}
+function actionPin(tab, img, k, v, numeric, cls){
+  return '<button class="pin mood-act" data-act="tab" data-tab="' + tab + '"><span class="pimg ' + (cls || 'tall') + '">' + img +
+    '<span class="ov"><span class="k">' + esc(k) + '</span><span class="v' + (numeric ? ' num' : '') + '">' + esc(v) + '</span></span></span></button>';
+}
+function linkPin(attrs, img, k, v, cls){
+  var tag = attrs.indexOf('href=') > -1 ? 'a' : 'button';
+  return '<' + tag + ' class="pin mood-act" ' + attrs + '><span class="pimg ' + (cls || 'tall') + '">' + img +
+    '<span class="ov"><span class="k">' + esc(k) + '</span><span class="v">' + esc(v) + '</span></span></span></' + tag + '>';
+}
+/* Rotating photo tiles: every few seconds one plain photo tile cross-fades to another mood photo,
+   or to a party photo once guests start adding them. What each tile shows survives page refreshes. */
+var rotation = {};
+function rotationPool(){
+  var pool = MOOD.board.concat(MOOD.empty);
+  imgCache.forEach(function(src, k){ if (k.indexOf('photo:') === 0 && /:thumb$/.test(k)) pool.push(src); });
+  return pool;
+}
+function rotateTile(){
+  if (document.visibilityState !== 'visible' || S.tab !== 'home' || S.overlay || S.viewer != null || S.reveal) return;
+  var tiles = Array.prototype.slice.call(app.querySelectorAll('.stagger .pin.mood-only[data-slot]'));
+  var visible = tiles.filter(function(t){ var r = t.getBoundingClientRect(); return r.bottom > 0 && r.top < window.innerHeight; });
+  if (!visible.length) return;
+  var tile = visible[Math.floor(Math.random() * visible.length)], slot = tile.getAttribute('data-slot');
+  var box = tile.querySelector('.pimg'), old = box.querySelector('img:last-of-type');
+  var showing = Array.prototype.map.call(app.querySelectorAll('.stagger .pin.mood-only img'), function(i){ return i.getAttribute('src'); });
+  var pool = rotationPool().filter(function(v){ return showing.indexOf(/^data:/.test(v) ? v : moodUrl(v, 700)) === -1; });
+  if (!pool.length) return;
+  var pick = pool[Math.floor(Math.random() * pool.length)];
+  var img = new Image();
+  img.alt = ''; img.className = 'rot-in'; img.setAttribute('data-mood', '');
+  img.onload = function(){
+    box.appendChild(img);
+    requestAnimationFrame(function(){ requestAnimationFrame(function(){ img.classList.add('on'); }); });
+    setTimeout(function(){ if (old && old.parentNode && box.contains(img)) { old.remove(); img.classList.remove('rot-in', 'on'); } }, 1300);
+    rotation[slot] = pick;
+  };
+  img.src = /^data:/.test(pick) ? pick : moodUrl(pick, 700);
+}
+if (!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches)) setInterval(rotateTile, 3500);
+
+function moodPin(id, cls){ return '<div class="pin mood-only" aria-hidden="true"><span class="pimg mood ' + (cls || '') + '">' + moodImg(id, 700) + '</span></div>'; }
+function boardHTML(me, team, h){
+  var gm = guestsById(), mood = MOOD.board.slice(), m = 0;
+  function nextMood(cls){
+    if (m >= mood.length) return '';
+    var slot = m++, cur = rotation[slot] || mood[slot];
+    return '<div class="pin mood-only" aria-hidden="true" data-slot="' + slot + '"><span class="pimg mood ' + (cls || '') + '">' +
+      (/^data:/.test(cur) ? '<img data-mood src="' + cur + '" alt="">' : moodImg(cur, 700)) + '</span></div>';
+  }
+  var acts = [
+    actionPin('costumes', me.photo_v ? imgHTML('costume', me.id, me.photo_v, 'thumb', 'Your costume', me.name) : moodImg(MOOD.pinCostume, 700),
+              me.costume_title ? 'Your costume' : 'Costume contest', me.costume_title || 'Add your costume', false, me.photo_v ? '' : 'tall'),
+    actionPin('drinks', team && team.photo_v ? imgHTML('team', team.id, team.photo_v, 'thumb', team.name, team.name) : moodImg(MOOD.pinDrink, 700),
+              team ? 'Your drink team' : 'Drink contest', team ? (team.drink_name || team.name) : 'Join a team', false, team && team.photo_v ? '' : 'sq'),
+    actionPin('hunt', moodImg(MOOD.pinHunt, 700), 'Codes still hidden', String(h.total - h.found), true, 'wide')
+  ];
+  var people = entries().filter(function(e){ return e.photo; }).slice(-6).reverse().map(function(e){
+    return '<button class="pin" data-act="tab" data-tab="costumes"><span class="pimg">' + imgHTML('costume', e.photo.id, e.photo.photo_v, 'thumb', e.names, e.names) +
+      '<span class="ov"><span class="k">' + esc(e.title || 'Costume') + '</span><span class="v">' + esc(e.names) + '</span></span></span></button>';
+  });
+  var snaps = S.state.photos.slice(0, 6).map(function(p){
+    return '<button class="pin" data-act="view" data-id="' + p.id + '"><span class="pimg">' + imgHTML('photo', p.id, 'p', 'thumb', p.caption || 'Party photo', '?') +
+      '<span class="ov"><span class="k">' + esc(p.caption || 'Photo') + '</span><span class="v">' + esc(shortName(gm[p.guest_id])) + '</span></span></span></button>';
+  });
+  var playlist = cfg('playlist_url');
+  var info = linkPin('data-act="info"', moodImg(MOOD.pinInfo, 700), 'When, where & the schedule', 'Info', 'sq');
+  var music = playlist && /^https?:\/\//.test(playlist)
+    ? linkPin('href="' + esc(playlist) + '" target="_blank" rel="noopener"', moodImg(MOOD.pinPlaylist, 700), 'Tonight\u2019s music', 'Playlist', 'tall')
+    : linkPin('data-act="no-playlist"', moodImg(MOOD.pinPlaylist, 700), 'Tonight\u2019s music', 'Playlist', 'tall');
+  var out = [acts[0], nextMood(), acts[1], info, nextMood(), acts[2], music, nextMood()];
+  var extra = people.concat(snaps);
+  extra.forEach(function(x, i){ out.push(x); if (i % 3 === 2) out.push(nextMood()); });
+  if (out.filter(Boolean).length % 2) out.push(nextMood());
+  return staggered(out);
+}
+
+/* ----- ranking (shared by both contests) ----- */
+function rankerHTML(kind, items, ownIds, open){
+  var ballot = S.ballots[kind] || [];
+  var saved = (kind === 'costume' ? S.state.my_costume_vote : S.state.my_drink_vote) || [];
+  var same = saved.length === ballot.length && saved.every(function(v, i){ return v === ballot[i]; });
+  if (!items.length) return '<div class="notice">No entries yet.</div>';
+  var out = '<div class="masonry">' + items.map(function(it, i){
+    var own = ownIds.indexOf(it.id) > -1, pos = ballot.indexOf(it.id);
+    var pic = it.img ? '<span class="pimg">' + it.img
+      : '<span class="pimg mood tall">' + moodImg(MOOD.empty[i % MOOD.empty.length], 600) + '<span class="empty-name">' + esc(it.name) + '</span>';
+    var tag = own ? '<span class="rk own">' + (kind === 'costume' ? 'You' : 'Your team') + '</span>' : pos > -1 ? '<span class="rk">' + ['1st', '2nd', '3rd'][pos] + '</span>' : '';
+    return '<button class="pin' + (own ? ' own' : '') + (pos > -1 ? ' picked' : '') + '" data-act="rank" data-kind="' + kind + '" data-id="' + it.id + '"' + (own || !open ? ' disabled' : '') + ' aria-pressed="' + (pos > -1) + '" aria-label="' + esc(it.name + (it.sub ? ', ' + it.sub : '')) + '">' +
+      pic + tag + '</span><span class="cap">' + esc(it.name) + '</span>' + (it.sub ? '<span class="psub">' + esc(it.sub) + '</span>' : '') + '</button>';
+  }).join('') + '</div>';
+  if (open) {
+    var names = ballot.map(function(id, i){ var it = items.find(function(x){ return x.id === id; }); return '<b>' + ['1st', '2nd', '3rd'][i] + '</b> ' + esc(it ? it.name : '?'); });
+    out += '<div class="ballot-bar"><span class="picks">' + (names.length ? names.join(' · ') : 'Tap up to three, in order: your favourite first.') + '</span>' +
+      '<button class="btn primary" data-act="cast" data-kind="' + kind + '"' + (!ballot.length || same || S.busy['cast-' + kind] ? ' disabled' : '') + '>' +
+      (same && saved.length ? 'Your vote is in. Tap entries to change it.' : saved.length ? 'Update my vote' : 'Cast my vote') + '</button></div>';
+  }
+  return out;
+}
+
+/* ----- costumes ----- */
+function costumesView(){
+  var me = S.state.me, gm = guestsById(), open = cfg('costume_voting') === 'open' && !ended();
+  var partner = me.partner_id ? gm[me.partner_id] : null;
+  var pairable = S.state.guests.filter(function(g){ return g.id !== me.id && !g.partner_id; });
+  var out = banner('costumes', '<div class="row">' + fitTitle('h2', ['Costume', 'Contest']) + '<span class="chip' + (open ? ' gold' : '') + '">Voting ' + (open ? 'open' : 'closed') + '</span></div>') + '<section class="block">';
+  out += '<div class="card"><span class="eyebrow">Your entry</span><div class="me-entry"><span class="avatar">' + imgHTML('costume', me.id, me.photo_v, 'thumb', 'Your costume photo', me.name) + '</span>' +
+    '<div style="display:grid;gap:8px;min-width:0"><b>' + esc(fullName(me)) + '</b>' +
+    '<label class="btn small ghost">' + (me.photo_v ? 'Change photo' : 'Add a photo') + '<input type="file" accept="image/*" data-file="costume" hidden></label>' +
+    (me.photo_v ? '<button class="linkbtn small" data-act="rm-costume-photo" style="justify-self:start">Remove photo</button>' : '') + '</div></div>' +
+    '<form data-form="me" class="row2" style="align-items:end"><label class="fld"><span>Costume title</span><input type="text" id="f-title" maxlength="80" value="' + esc(me.costume_title || '') + '" placeholder="e.g. The Last Sunset"></label>' +
+    '<label class="fld"><span>Nickname</span><input type="text" id="f-nick2" maxlength="40" value="' + esc(me.nickname || '') + '"></label>' +
+    '<button class="btn primary" type="submit">Save</button></form>' +
+    '<div style="display:grid;gap:8px;border-top:1px solid var(--line);padding-top:12px"><span class="eyebrow">Couple or group costume</span>' +
+    (partner ? '<p>You’re entered together with <b>' + esc(fullName(partner)) + '</b>.</p><button class="btn small ghost" data-act="unpair" style="justify-self:start">Enter separately</button>'
+      : '<p class="muted small">Link up with someone who’s joined and you’ll appear as one entry. Neither of you can vote for it.</p>' +
+        (pairable.length ? '<div class="row2"><select id="f-partner" aria-label="Costume partner"><option value="">Choose a person</option>' + pairable.map(function(g){ return '<option value="' + g.id + '">' + esc(fullName(g)) + '</option>'; }).join('') + '</select><button class="btn" data-act="pair">Pair up</button></div>'
+          : '<p class="muted small">No one else is free to pair with yet.</p>')) + '</div></div></section>';
+
+  var items = entries().map(function(e){
+    return {id: e.id, name: e.names, sub: e.title || 'Untitled costume', img: e.photo ? imgHTML('costume', e.photo.id, e.photo.photo_v, 'thumb', e.names, e.names) : null};
+  });
+  out += '<section class="block"><div class="block-head"><h2>Vote</h2><span class="muted small">' + plural(S.state.ballots.costume, 'ballot') + ' cast</span></div>' +
+    (open ? '<p class="muted">Tap your three favourites in order. 1st gets 3 points, 2nd gets 2, 3rd gets 1. You can change your vote until voting closes.</p>' : '<div class="notice">' + (ended() ? 'Voting has closed. See the winners on the Home tab.' : 'Voting isn’t open right now. ' + esc(HOST) + ' will open it during the costume procession.') + '</div>') +
+    rankerHTML('costume', items, open ? myEntryIds() : [], open) + '</section>';
+  return out;
+}
+
+/* ----- drinks ----- */
+function drinksView(){
+  var me = S.state.me, gm = guestsById(), tm = teamsById(), open = cfg('drink_voting') === 'open' && !ended();
+  var team = me.team_id ? tm[me.team_id] : null;
+  var members = function(tid){ return S.state.guests.filter(function(g){ return g.team_id === tid; }); };
+  var out = banner('drinks', '<div class="row">' + fitTitle('h2', ['Drink', 'Contest']) + '<span class="chip' + (open ? ' gold' : '') + '">Voting ' + (open ? 'open' : 'closed') + '</span></div>') + '<section class="block">';
+  if (team) {
+    out += '<div class="card"><span class="eyebrow">Your team</span><div class="me-entry"><span class="avatar">' + imgHTML('team', team.id, team.photo_v, 'thumb', 'Your drink', team.name) + '</span>' +
+      '<div style="display:grid;gap:8px;min-width:0"><b>' + esc(team.name) + '</b><span class="muted small">' + members(team.id).map(function(g){ return esc(shortName(g)); }).join(', ') + '</span>' +
+      '<label class="btn small ghost">' + (team.photo_v ? 'Change drink photo' : 'Add a drink photo') + '<input type="file" accept="image/*" data-file="team" hidden></label></div></div>' +
+      '<form data-form="team" class="row2" style="align-items:end"><label class="fld"><span>Team name</span><input type="text" id="f-tname" maxlength="40" value="' + esc(team.name) + '" required></label>' +
+      '<label class="fld"><span>Drink name</span><input type="text" id="f-dname" maxlength="60" value="' + esc(team.drink_name || '') + '" placeholder="e.g. The Fall Back Fizz"></label>' +
+      '<button class="btn primary" type="submit">Save</button></form>' +
+      '<button class="btn small ghost" data-act="leave-team" style="justify-self:start">' + (armed('leave') ? 'Tap again to leave' : 'Leave this team') + '</button></div>';
+  } else {
+    out += '<div class="card"><span class="eyebrow">Join a team</span>' +
+      (S.state.teams.length ? '<div>' + S.state.teams.map(function(t){
+        var ms = members(t.id);
+        return '<div class="team-row"><span><span class="nm">' + esc(t.name) + '</span><br><span class="muted small">' + (ms.length ? ms.map(function(g){ return esc(shortName(g)); }).join(', ') : 'No one yet') + '</span></span><button class="btn small" data-act="join-team" data-id="' + t.id + '">Join</button></div>';
+      }).join('') + '</div>' : '<p class="muted small">No teams yet. Start the first one.</p>') +
+      '<form data-form="newteam" class="row2" style="align-items:end;border-top:1px solid var(--line);padding-top:12px"><label class="fld"><span>Or start a new team</span><input type="text" id="f-newteam" maxlength="40" placeholder="Team name" required></label><button class="btn" type="submit">Start team</button></form></div>';
+  }
+  out += '</section>';
+  var items = S.state.teams.map(function(t){ return {id: t.id, name: t.name, sub: t.drink_name || 'Drink not named yet', img: t.photo_v ? imgHTML('team', t.id, t.photo_v, 'thumb', t.name, t.name) : null}; });
+  out += '<section class="block"><div class="block-head"><h2>Vote</h2><span class="muted small">' + plural(S.state.ballots.drink, 'ballot') + ' cast</span></div>' +
+    (open ? '<p class="muted">Rank your top three drinks. You can’t vote for your own team.</p>' : '<div class="notice">' + (ended() ? 'Voting has closed. See the winners on the Home tab.' : 'Drink voting isn’t open right now.') + '</div>') +
+    rankerHTML('drink', items, open && me.team_id ? [me.team_id] : [], open) + '</section>';
+  return out;
+}
+
+/* ----- hunt ----- */
+function huntView(){
+  var h = S.state.hunt, me = S.state.me, gm = guestsById(), open = cfg('hunt') === 'open' && !ended();
+  var left = h.total - h.found, pips = '';
+  for (var i = 0; i < h.total; i++) pips += '<i class="' + (i < h.found ? 'found' : '') + '"></i>';
+  var out = banner('hunt', '<div class="row">' + fitTitle('h2', ['Trick', 'or Treat']) + '<span class="chip' + (open ? ' gold' : '') + '">' + (open ? 'Hunt is on' : ended() ? 'Hunt over' : 'Not started') + '</span></div>') + '<section class="block">';
+  if (!open && !ended()) out += '<div class="notice">The hunt hasn’t started. Codes scanned before it opens won’t count, so keep your eyes open and your camera ready.</div>';
+  out += '<div class="hunt-count"><span class="big">' + left + '</span><span class="muted">of ' + h.total + ' codes still hidden</span><div class="pips" aria-hidden="true">' + pips + '</div></div>';
+  if (h.grand_found_by) out += '<div class="notice gold"><b>The grand code has been claimed</b> by ' + esc(fullName(gm[h.grand_found_by])) + '.</div>';
+  else if (h.grand_revealed) out += '<div class="card" style="border-color:var(--gold)"><span class="eyebrow">The grand code is awake</span><p style="font-size:20px">' + esc(h.grand_clue || '') + '</p><p class="muted small">First to scan it wins the big bonus.</p></div>';
+  else out += '<p class="muted small">When every code has been found, a clue to the grand code appears here.</p>';
+  out += '<div class="card"><div class="block-head"><h3>Your Haul</h3><span class="mono" style="font-size:22px;color:var(--gold)">' + myPoints() + ' pts</span></div>' +
+    (h.mine.length ? '<ul class="finds">' + h.mine.map(function(c){
+      return '<li><span class="pts ' + (c.points < 0 ? 'neg' : 'pos') + '">' + signed(c.points) + '</span><span>' + esc(c.message || (c.is_grand ? 'The grand code' : c.kind === 'trick' ? 'A trick' : 'A treat')) + '</span></li>';
+    }).join('') + '</ul>' : '<p class="muted small">Nothing yet. Find a code and scan it with your phone camera.</p>') + '</div>';
+  out += '<div class="card quiet"><h3>How It Works</h3><ul class="muted small" style="margin:0;padding-left:18px;display:grid;gap:4px">' +
+    '<li>QR codes are hidden around the house. Scan one with your normal camera app.</li>' +
+    '<li>Each code pays out only to the <b>first few people</b> who scan it (usually 3). After that it’s picked clean.</li>' +
+    '<li>Some codes are treats, some are tricks. You won’t know until you open the door.</li>' +
+    '<li>Find the last hidden code and the grand code’s clue appears for everyone.</li></ul>' +
+    '<form data-form="manual" class="row2" style="align-items:end"><label class="fld"><span>Camera not working? Type the code under the QR</span><input type="text" id="f-code" maxlength="20" autocapitalize="none" autocomplete="off" spellcheck="false"></label><button class="btn" type="submit">Open</button></form></div>';
+  out += '<section class="block"><h2>Leaderboard</h2>' + (h.leaderboard.length ? '<ol class="board">' + h.leaderboard.map(function(r){
+    return '<li class="' + (r.guest_id === me.id ? 'me' : '') + '"><span>' + esc(fullName(gm[r.guest_id])) + ' <span class="muted small">· ' + r.finds + ' found</span></span><span class="pts">' + r.points + '</span></li>';
+  }).join('') + '</ol>' : '<p class="muted small">No one has scored yet.</p>') + '</section></section>';
+  return out;
+}
+
+/* ----- photos ----- */
+function photosView(){
+  var gm = guestsById(), me = S.state.me, ph = S.state.photos;
+  var out = banner('photos', '<div class="row">' + fitTitle('h2', ['Photo', 'Album']) + '<span class="chip">' + plural(ph.length, 'photo') + '</span></div>') + '<section class="block">' +
+    '<div class="card"><label class="fld"><span>Caption (optional)</span><input type="text" id="f-caption" maxlength="120" placeholder="Applies to the photos you add next"></label>' +
+    '<div class="btns"><label class="btn primary"' + (S.busy.upload ? ' aria-disabled="true"' : '') + '>' + (S.busy.upload ? esc(S.uploadMsg) : 'Add photos') + '<input type="file" accept="image/*" multiple data-file="album" hidden' + (S.busy.upload ? ' disabled' : '') + '></label>' +
+    (ph.length ? '<button class="btn ghost" data-act="zip"' + (S.busy.zip ? ' disabled' : '') + '>' + (S.busy.zip ? esc(S.zipMsg) : 'Download all') + '</button>' : '') + '</div>' +
+    '<p class="muted small">Everyone at the party can see the album. You can remove any photo you added.</p></div>';
+  out += ph.length ? '<div class="masonry">' + ph.map(function(p){
+    return '<button class="pin" data-act="view" data-id="' + p.id + '" aria-label="Photo by ' + esc(shortName(gm[p.guest_id])) + '"><span class="pimg">' + imgHTML('photo', p.id, 'p', 'thumb', p.caption || 'Party photo', '?') + '</span>' +
+      (p.caption ? '<span class="cap">' + esc(p.caption) + '</span>' : '') + '<span class="psub">' + esc(shortName(gm[p.guest_id])) + '</span></button>';
+  }).join('') + '</div>' : '<div class="notice">No photos yet. Be the first to add one.</div>';
+  return out + '</section>';
+}
+
+function viewerView(){
+  var p = S.state.photos.find(function(x){ return x.id === S.viewer; });
+  if (!p) { S.viewer = null; return ''; }
+  var gm = guestsById(), mine = p.guest_id === S.state.me.id;
+  var k = imgKey('photo', p.id, 'p', 'full'), src = imgCache.get(k) || imgCache.get(imgKey('photo', p.id, 'p', 'thumb'));
+  if (!imgCache.get(k)) getFull(p.id).then(function(s){ if (s) document.querySelectorAll('img[data-full="' + p.id + '"]').forEach(function(el){ el.src = s; }); });
+  var idx = S.state.photos.indexOf(p);
+  return '<div class="viewer" role="dialog" aria-label="Photo"><div class="overlay-top"><button class="btn small ghost" data-act="close-viewer">Close</button><span class="muted small">' + (idx + 1) + ' of ' + S.state.photos.length + '</span>' +
+    '<span class="btns"><button class="btn small ghost" data-act="prev-photo" aria-label="Previous photo"' + (idx <= 0 ? ' disabled' : '') + '>‹</button><button class="btn small ghost" data-act="next-photo" aria-label="Next photo"' + (idx >= S.state.photos.length - 1 ? ' disabled' : '') + '>›</button></span></div>' +
+    '<div class="stage"><img data-full="' + p.id + '" alt="' + esc(p.caption || 'Party photo') + '"' + (src ? ' src="' + src + '"' : '') + '></div>' +
+    '<div class="meta">' + (p.caption ? '<p>' + esc(p.caption) + '</p>' : '') + '<p class="muted small">Added by ' + esc(fullName(gm[p.guest_id])) + ' at ' + fmtTime(Date.parse(p.at)) + '</p>' +
+    '<div class="btns"><button class="btn primary small" data-act="download" data-id="' + p.id + '">Download</button>' +
+    (mine ? '<button class="btn danger small" data-act="del-photo" data-id="' + p.id + '">' + (armed('del-' + p.id) ? 'Tap again to remove' : 'Remove my photo') + '</button>' : '') +
+    (S.isHost && !mine ? '<button class="btn danger small" data-act="host-del-photo" data-id="' + p.id + '">' + (armed('hdel-' + p.id) ? 'Tap again to remove' : 'Remove (host)') + '</button>' : '') + '</div></div></div>';
+}
+
+/* ----- scan reveal ----- */
+function revealView(){
+  var r = S.reveal;
+  if (r.phase === 'knock') return '<div class="reveal" role="dialog" aria-live="polite"><div class="box"><div class="door"></div><p class="msg">Knock, knock…</p></div></div>';
+  var x = r.result, body = '';
+  if (x.status === 'ok' || x.status === 'already') {
+    var word = x.is_grand ? 'Grand!' : x.kind === 'trick' ? 'Trick!' : 'Treat!';
+    var cls = x.kind === 'trick' ? 'trick' : 'treat';
+    body = (x.status === 'already' ? '<span class="eyebrow">You already opened this one</span>' : '') +
+      '<div class="word ' + cls + ' pop">' + word + '</div><div class="pts ' + (x.points < 0 ? 'neg' : 'pos') + '">' + signed(x.points) + (Math.abs(x.points) === 1 ? ' point' : ' points') + '</div>' +
+      (x.message ? '<p class="msg">' + esc(x.message) + '</p>' : '') +
+      (x.status === 'ok' && !x.is_grand ? '<p class="muted small">You were finder ' + x.finder + ' of ' + x.max_claims + '. ' + x.codes_left + ' codes still hidden.</p>' : '') +
+      (x.unlocked_grand ? '<div class="notice gold">You found the last hidden code. The grand code’s clue is now on the Hunt page for everyone.</div>' : '');
+  } else {
+    var msgs = {
+      empty: ['Picked clean', x.is_grand ? 'Someone already claimed the grand code.' : 'Three mourners got here first. Keep looking.'],
+      closed: ['Not yet', 'The hunt hasn’t started. Remember where this one is.'],
+      grand_locked: ['Still sleeping', 'The grand code wakes once every other code has been found.'],
+      unknown: ['Hmm', 'That code doesn’t belong to this party.']
+    }[x.status] || ['Hmm', 'Something odd happened. Try again.'];
+    body = '<div class="word pop" style="font-size:52px">' + msgs[0] + '</div><p class="msg">' + msgs[1] + '</p>';
+  }
+  return '<div class="reveal" role="dialog" aria-live="polite"><div class="box">' + body + '<div class="btns" style="justify-content:center"><button class="btn primary" data-act="close-reveal">Back to the party</button><button class="btn ghost" data-act="close-reveal" data-tab="hunt">See the hunt</button></div></div></div>';
+}
+
+/* ----- party info ----- */
+function infoView(){
+  var c = S.state.config, evs = events(), t = now();
+  var nextEv = evs.find(function(e){ return e.at > t; });
+  var first = evs[0];
+  var where = c.location ? esc(c.location) : 'Ask ' + esc(HOST) + ' for the address.';
+  return '<div class="overlay"><main class="page"><div class="overlay-top"><span class="eyebrow">Info</span><button class="btn small ghost" data-act="close-overlay">Close</button></div>' +
+    '<h1 style="font-size:44px">A Wake All Night</h1>' +
+    '<div class="card"><h3>When</h3><p>Saturday, October 31' + (first ? ', from ' + fmtTime(first.at) : '') + ' until the clocks fall back at 2:00 a.m. (and through the extra hour).</p></div>' +
+    '<div class="card"><h3>Where</h3><p>' + where + '</p></div>' +
+    (c.info_notes ? '<div class="card"><h3>Good to Know</h3><p style="white-space:pre-line">' + esc(c.info_notes) + '</p></div>' : '') +
+    '<section class="card"><h3>Order of Service</h3><ol class="sched">' + evs.map(function(e, i){
+      var nxt = evs[i + 1], cls = e.at <= t && (!nxt || nxt.at > t) ? 'now' : (e.at < t ? 'past' : '');
+      return '<li class="' + cls + '"><span class="t">' + fmtTime(e.at) + '</span><span class="what">' + esc(e.title) +
+        (e === nextEv ? '<br><span class="muted small">in <span data-cd="' + e.at + '" data-done="now">' + fmtDur(e.at - t) + '</span></span>' : '') + '</span></li>';
+    }).join('') + '</ol></section>' +
+    (c.playlist_url && /^https?:\/\//.test(c.playlist_url) ? '<div class="card"><h3>Playlist</h3><p><a href="' + esc(c.playlist_url) + '" target="_blank" rel="noopener">Open the playlist</a></p></div>' : '') +
+    '<div class="btns"><button class="btn ghost small" data-act="about">How your info is kept private</button></div>' +
+    '</main></div>';
+}
+
+/* ----- about ----- */
+function aboutView(){
+  return '<div class="overlay"><main class="page"><div class="overlay-top"><span class="eyebrow">About this site</span><button class="btn small ghost" data-act="close-overlay">Close</button></div>' +
+    '<h1 style="font-size:40px">Your Info Is Kept Private</h1>' +
+    '<div class="card"><h3>Locked Behind the Passcode</h3><p class="muted">Everything lives in a private database. Nothing can be read, not names, photos, votes or scores, without the party passcode. The check happens on the database itself, so knowing the link isn’t enough.</p></div>' +
+    '<div class="card"><h3>Only the Party Can See It</h3><p class="muted">Guests at the party see names, nicknames, costumes, drink teams, photos and hunt scores. Nobody else does. The site is hidden from search engines.</p></div>' +
+    '<div class="card"><h3>Your PIN Stays Secret</h3><p class="muted">Your 4-digit PIN is stored scrambled (hashed), so no one can read it, including ' + esc(HOST) + '.</p></div>' +
+    '<div class="card"><h3>No Accounts, Ads or Tracking</h3><p class="muted">No email, phone number or social login. Your phone only remembers which guest you are so you stay signed in.</p></div>' +
+    '<div class="card"><h3>Mood Photos</h3><p class="muted">The atmosphere photos come from Unsplash and load straight from their site. Only party photos are stored in the party database.</p></div>' +
+    '<div class="card"><h3>You Control Your Photos</h3><p class="muted">You can remove any photo you added, any time. After the party, ' + esc(HOST) + ' will save the album and then delete all of the party’s data.</p></div>' +
+    '</main></div>';
+}
+
+/* ----- host panel ----- */
+function hostView(){
+  var tabs = [['controls','Controls'],['codes','Hunt codes'],['schedule','Info & Schedule'],['guests','Guests'],['results','Results']];
+  var out = '<div class="overlay"><main class="page"><div class="overlay-top"><span class="eyebrow">Host panel</span><button class="btn small ghost" data-act="close-overlay">Back to the party</button></div>' +
+    '<div class="htabs">' + tabs.map(function(t){ return '<button data-act="htab" data-tab="' + t[0] + '" aria-pressed="' + (S.hostTab === t[0]) + '">' + t[1] + '</button>'; }).join('') + '</div>';
+  if (!S.host) return out + '<p class="muted">Loading…</p></main></div>';
+  var f = {controls: hostControls, codes: hostCodes, schedule: hostSchedule, guests: hostGuests, results: hostResults}[S.hostTab];
+  return out + f() + '</main></div>';
+}
+function seg(key, opts){
+  var val = S.host.config[key];
+  return '<span class="seg">' + opts.map(function(o){ return '<button data-act="cfg" data-key="' + key + '" data-val="' + esc(JSON.stringify(o[0])) + '" aria-pressed="' + (val === o[0]) + '">' + o[1] + '</button>'; }).join('') + '</span>';
+}
+function hostControls(){
+  var c = S.host.config, h = S.host.hunt;
+  return '<div class="card">' +
+    '<div class="ctl"><span><b>Costume voting</b><br><span class="muted small">' + plural(S.host.ballots.costume, 'ballot') + '</span></span>' + seg('costume_voting', [['open','Open'],['closed','Closed']]) + '</div>' +
+    '<div class="ctl"><span><b>Drink voting</b><br><span class="muted small">' + plural(S.host.ballots.drink, 'ballot') + '</span></span>' + seg('drink_voting', [['open','Open'],['closed','Closed']]) + '</div>' +
+    '<div class="ctl"><span><b>Trick-or-treat hunt</b><br><span class="muted small">' + h.found + ' of ' + h.total + ' codes found</span></span>' + seg('hunt', [['open','Open'],['closed','Closed']]) + '</div>' +
+    '<div class="ctl"><span><b>Show winners to guests</b><br><span class="muted small">Adds the winners to everyone’s home page</span></span>' + seg('results_visible', [[true,'Show'],[false,'Hide']]) + '</div>' +
+    '<div class="ctl"><span><b>Reveal the grand clue now</b><br><span class="muted small">' + (h.grand_revealed && !c.force_grand ? 'Already revealed: every code was found' : 'Use this if a code gets lost') + '</span></span>' + seg('force_grand', [[true,'Reveal'],[false,'Auto']]) + '</div></div>' +
+    '<div class="card"><h3>End of the Night</h3><p class="muted small">Switches everyone’s home page to “Happy Halloween, thanks for coming” with the winners and the photo album. Voting and the hunt stop.</p>' +
+    (c.phase === 'ended' ? '<button class="btn" data-act="phase" data-val="party">Reopen the party</button>' : '<button class="btn primary" data-act="phase" data-val="ended">' + (armed('end') ? 'Tap again to end the night' : 'End the night') + '</button>') + '</div>' +
+    '<div class="card"><h3>Clean-up</h3><p class="muted small">Download the photo album first. These can’t be undone.</p><div class="btns">' +
+    '<button class="btn danger small" data-act="reset" data-what="hunt">' + (armed('reset-hunt') ? 'Tap again: clear all hunt scans' : 'Clear hunt scans') + '</button>' +
+    '<button class="btn danger small" data-act="reset" data-what="costume_votes">' + (armed('reset-costume_votes') ? 'Tap again: clear costume votes' : 'Clear costume votes') + '</button>' +
+    '<button class="btn danger small" data-act="reset" data-what="drink_votes">' + (armed('reset-drink_votes') ? 'Tap again: clear drink votes' : 'Clear drink votes') + '</button></div>' +
+    '<form data-form="wipe" class="row2" style="align-items:end;border-top:1px solid var(--line);padding-top:12px"><label class="fld"><span>Delete every guest, photo, vote and scan. Type DELETE</span><input type="text" id="f-wipe" autocomplete="off"></label><button class="btn danger" type="submit">Delete everything</button></form></div>';
+}
+function hostCodes(){
+  var codes = S.host.codes, grand = codes.find(function(k){ return k.is_grand; });
+  var out = '<div class="card"><h3>The Grand Code’s Clue</h3><p class="muted small">Guests see this once every regular code has been found at least once.</p>' +
+    '<form data-form="clue" style="display:grid;gap:8px"><textarea id="f-clue" maxlength="400">' + esc(S.host.config.grand_clue || '') + '</textarea><button class="btn primary" type="submit" style="justify-self:start">Save clue</button></form></div>' +
+    '<div class="btns"><button class="btn primary" data-act="print">Print the QR codes</button><button class="btn" data-act="add-code">Add a code</button></div>' +
+    '<p class="muted small">Write each trick or treat below. Points can be negative for tricks. “Where hidden” is just for you; guests never see it.</p>';
+  out += codes.map(function(k, i){
+    var n = k.is_grand ? 'Grand code' : '#' + (codes.filter(function(x){ return !x.is_grand; }).indexOf(k) + 1);
+    return '<form class="code-row' + (k.is_grand ? ' grand' : '') + '" data-form="code" data-id="' + k.id + '">' +
+      '<div class="head"><b>' + n + '</b><span class="muted small mono">' + esc(k.secret) + ' · ' + k.claims + '/' + k.max_claims + ' found</span></div>' +
+      '<div class="grid4"><label class="fld"><span>Where hidden</span><input type="text" name="label" maxlength="60" value="' + esc(k.label) + '"></label>' +
+      '<label class="fld"><span>Type</span><select name="kind"><option value="treat"' + (k.kind === 'treat' ? ' selected' : '') + '>Treat</option><option value="trick"' + (k.kind === 'trick' ? ' selected' : '') + '>Trick</option></select></label>' +
+      '<label class="fld"><span>Points</span><input type="number" name="points" step="1" value="' + k.points + '"></label></div>' +
+      '<label class="fld"><span>What they see</span><input type="text" name="message" maxlength="280" value="' + esc(k.message) + '"></label>' +
+      '<div class="head"><label class="fld" style="grid-template-columns:auto 5rem;align-items:center;gap:8px"><span>Finders who score</span><input type="number" name="max_claims" min="1" step="1" value="' + k.max_claims + '"></label>' +
+      '<span class="btns"><button class="btn small primary" type="submit">Save</button>' + (k.is_grand ? '' : '<button class="btn small danger" type="button" data-act="del-code" data-id="' + k.id + '">' + (armed('code-' + k.id) ? 'Tap again' : 'Delete') + '</button>') + '</span></div></form>';
+  }).join('');
+  return out;
+}
+function hostSchedule(){
+  if (!S.hostSchedule) S.hostSchedule = (S.host.config.schedule || []).map(function(r){ return {at: r.at, title: r.title}; });
+  var rows = S.hostSchedule;
+  var c = S.host.config;
+  return '<div class="card"><h3>Party Info</h3><p class="muted small">Shown on the Info tile. The playlist link opens from the Playlist tile.</p>' +
+    '<form data-form="info" style="display:grid;gap:10px"><label class="fld"><span>Address or location</span><input type="text" id="f-loc" maxlength="200" value="' + esc(c.location || '') + '"></label>' +
+    '<label class="fld"><span>Good to know (parking, what to bring, etc.)</span><textarea id="f-notes" maxlength="1000">' + esc(c.info_notes || '') + '</textarea></label>' +
+    '<label class="fld"><span>Playlist link (Spotify, Apple Music, YouTube)</span><input type="text" id="f-playlist" maxlength="400" value="' + esc(c.playlist_url || '') + '" placeholder="https://open.spotify.com/playlist/..."></label>' +
+    '<button class="btn primary" type="submit" style="justify-self:start">Save info</button></form></div>' +
+    '<div class="card"><h3>Schedule</h3><p class="muted small">Times are in your phone’s time zone. The countdowns follow this list.</p>' +
+    '<form data-form="schedule" style="display:grid;gap:10px">' + rows.map(function(r, i){
+      return '<div class="sch-row"><input type="datetime-local" data-sch="' + i + '" data-field="at" value="' + esc(toLocalInput(r.at)) + '" aria-label="Time"><input type="text" data-sch="' + i + '" data-field="title" value="' + esc(r.title) + '" maxlength="80" aria-label="What happens"><button class="x" type="button" data-act="sch-del" data-i="' + i + '" aria-label="Remove">×</button></div>';
+    }).join('') + '<div class="btns"><button class="btn" type="button" data-act="sch-add">Add an event</button><button class="btn primary" type="submit">Save schedule</button></div></form></div>';
+}
+function hostGuests(){
+  var pts = {}; S.host.results.hunt.forEach(function(r){ pts[r.guest_id] = r.points; });
+  var tm = teamsById();
+  return '<div class="card"><h3>' + S.state.guests.length + ' Guests</h3><p class="muted small">Remove duplicates or reset a forgotten PIN.</p><div>' + S.state.guests.map(function(g){
+    return '<div class="team-row"><span><span class="nm">' + esc(fullName(g)) + '</span><br><span class="muted small">' + esc(g.costume_title || 'No costume title') + (g.team_id && tm[g.team_id] ? ' · ' + esc(tm[g.team_id].name) : '') + ' · ' + (pts[g.id] || 0) + ' pts</span></span>' +
+      '<span class="btns"><button class="btn small ghost" data-act="reset-pin" data-id="' + g.id + '">New PIN</button><button class="btn small danger" data-act="del-guest" data-id="' + g.id + '">' + (armed('guest-' + g.id) ? 'Tap again' : 'Remove') + '</button></span></div>';
+  }).join('') + '</div></div>' +
+  (S.state.teams.length ? '<div class="card"><h3>Teams</h3>' + S.state.teams.map(function(t){
+    return '<div class="team-row"><span class="nm">' + esc(t.name) + '</span><button class="btn small danger" data-act="del-team" data-id="' + t.id + '">' + (armed('team-' + t.id) ? 'Tap again' : 'Remove') + '</button></div>';
+  }).join('') + '</div>' : '');
+}
+function hostResults(){
+  var saved = S.state.results; S.state.results = S.host.results;
+  var html = '<p class="muted small">Live tallies, visible only to you until you show them.</p>' + winnersHTML();
+  S.state.results = saved;
+  var gm = guestsById();
+  html += '<div class="card"><h3>Full Hunt Standings</h3><ol class="board">' + S.host.results.hunt.map(function(r){ return '<li><span>' + esc(fullName(gm[r.guest_id])) + '</span><span class="pts">' + r.points + '</span></li>'; }).join('') + '</ol></div>';
+  return html;
+}
+
+function printView(){
+  var codes = S.host ? S.host.codes : [];
+  var base = location.origin + location.pathname;
+  var regular = codes.filter(function(k){ return !k.is_grand; });
+  var sheet = codes.map(function(k){
+    var n = k.is_grand ? 'Grand' : '#' + (regular.indexOf(k) + 1), svg = '';
+    try { var q = qrcode(0, 'M'); q.addData(base + '#c=' + k.secret); q.make(); svg = q.createSvgTag({cellSize: 4, margin: 2, scalable: true}); } catch(e){ svg = '<p>QR library didn’t load</p>'; }
+    return '<div class="qr-card' + (k.is_grand ? ' grand' : '') + '">' + svg + '<div class="q1">' + (k.is_grand ? 'The Grand Code' : 'Trick or treat?') + '</div><div class="q2">' + n + ' · ' + esc(k.secret) + '</div></div>';
+  }).join('');
+  var joinSvg = '';
+  try { var jq = qrcode(0, 'M'); jq.addData(base); jq.make(); joinSvg = jq.createSvgTag({cellSize: 4, margin: 2, scalable: true}); } catch(e){}
+  sheet = '<div class="qr-card grand">' + joinSvg + '<div class="q1">Scan to join the wake</div><div class="q2">Passcode: ____________</div></div>' + sheet;
+  document.getElementById('print-sheet').innerHTML = sheet;
+  return '<div class="overlay"><main class="page"><div class="overlay-top"><span class="eyebrow">QR sheet</span><button class="btn small ghost" data-act="open-host">Back</button></div>' +
+    '<h2>' + codes.length + ' codes ready to print</h2><p class="muted">The first card on the printed sheet is a “Scan to join” sign for the door; write the passcode on it by hand. Each hunt card links to this site, and the small code under it is what guests can type if their camera won’t scan. Hide the grand code last.</p>' +
+    '<p class="muted small">Links point to <span class="mono">' + esc(base) + '</span>. Print from the live site so this address is right.</p>' +
+    '<button class="btn primary" data-act="do-print">Print</button>' +
+    '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px">' + codes.map(function(k){
+      return '<div class="card" style="padding:10px;text-align:center;background:#fff;color:#000">' + (function(){ try { var q = qrcode(0, 'M'); q.addData(base + '#c=' + k.secret); q.make(); return q.createSvgTag({cellSize: 3, margin: 1, scalable: true}); } catch(e){ return ''; } })() + '<span class="mono" style="font-size:11px">' + (k.is_grand ? 'Grand' : '#' + (regular.indexOf(k) + 1)) + (k.label ? ' · ' + esc(k.label) : '') + '</span></div>';
+    }).join('') + '</div></main></div>';
+}
+
+/* ---------- countdown ticker ---------- */
+function tick(){
+  var t = now();
+  document.querySelectorAll('[data-cdp]').forEach(function(el){
+    var html = dstParts(+el.getAttribute('data-cdp') - t);
+    if (el.innerHTML !== html) el.innerHTML = html;
+  });
+  document.querySelectorAll('[data-cd]').forEach(function(el){
+    var target = +el.getAttribute('data-cd'), d = target - t;
+    el.textContent = d > 0 ? fmtDur(d, el.hasAttribute('data-secs')) : (el.getAttribute('data-done') || '');
+  });
+}
+setInterval(tick, 1000);
+
+/* ---------- actions ---------- */
+function busy(key, on){ S.busy[key] = on; }
+function act(key, promise, okMsg){
+  busy(key, true); render(true);
+  return promise.then(function(r){ if (okMsg) toast(okMsg); return refresh().then(function(){ return r; }); })
+    .catch(function(e){ toast(e.message, true); })
+    .then(function(r){ busy(key, false); render(true); return r; });
+}
+function val(id){ var el = document.getElementById(id); return el ? el.value : ''; }
+
+app.addEventListener('submit', function(e){
+  var form = e.target.closest('form'); if (!form) return;
+  e.preventDefault();
+  var kind = form.getAttribute('data-form');
+  if (kind === 'gate') {
+    var pass = val('f-pass').trim(); if (!pass) return;
+    busy('gate', true); render(true);
+    sb && rpc('party_check', {p_pass: pass}).then(function(r){
+      S.pass = pass; S.isHost = !!r.host; store.set('wake-pass', pass);
+      return refresh();
+    }).catch(function(err){ toast(err.message, true); }).then(function(){ busy('gate', false); render(true); });
+  }
+  if (kind === 'join' || kind === 'signin') {
+    var name = val('f-name').trim(), pin = val('f-pin').trim();
+    if (!/^\d{4}$/.test(pin)) { toast(ERR.bad_pin, true); return; }
+    busy('join', true); render(true);
+    var p = kind === 'join' ? rpc('party_join', {p_pass: S.pass, p_name: name, p_nickname: val('f-nick').trim() || null, p_pin: pin})
+                           : rpc('party_signin', {p_pass: S.pass, p_name: name, p_pin: pin});
+    p.then(function(r){ S.token = r.token; store.set('wake-token', r.token); S.ballots = {costume: null, drink: null}; S.tab = 'home'; return refresh(); })
+     .catch(function(err){ toast(err.message, true); }).then(function(){ busy('join', false); render(true); });
+  }
+  if (kind === 'me') act('me', rpc('party_update_me', {p_pass: S.pass, p_token: S.token, p_nickname: val('f-nick2').trim() || null, p_costume_title: val('f-title').trim() || null}), 'Saved');
+  if (kind === 'team') act('team', rpc('party_update_team', {p_pass: S.pass, p_token: S.token, p_name: val('f-tname').trim(), p_drink_name: val('f-dname').trim() || null}), 'Team saved');
+  if (kind === 'newteam') { var tn = val('f-newteam').trim(); if (tn) act('team', rpc('party_create_team', {p_pass: S.pass, p_token: S.token, p_name: tn}), 'Team started'); }
+  if (kind === 'manual') {
+    var code = val('f-code').trim().toLowerCase().replace(/[^0-9a-z]/g, '');
+    if (code) { var fc = document.getElementById('f-code'); fc.value = ''; fc.blur(); claimCode(code); }
+  }
+  if (kind === 'clue') act('host', rpc('host_update_config', {p_pass: S.pass, p_patch: {grand_clue: val('f-clue').trim()}}).then(refreshHost), 'Clue saved');
+  if (kind === 'code') {
+    var fd = new FormData(form);
+    act('host', rpc('host_save_code', {p_pass: S.pass, p_id: +form.getAttribute('data-id'), p_label: fd.get('label'), p_kind: fd.get('kind'),
+      p_points: parseInt(fd.get('points'), 10) || 0, p_message: fd.get('message'), p_max_claims: Math.max(1, parseInt(fd.get('max_claims'), 10) || 1)}).then(refreshHost), 'Code saved');
+  }
+  if (kind === 'schedule') {
+    var rows = S.hostSchedule.map(function(r){ return {at: r.at, title: r.title}; }).filter(function(r){ return r.title && !isNaN(Date.parse(r.at)); });
+    rows.sort(function(a, b){ return Date.parse(a.at) - Date.parse(b.at); });
+    act('host', rpc('host_update_config', {p_pass: S.pass, p_patch: {schedule: rows}}).then(function(){ S.hostSchedule = null; return refreshHost(); }), 'Schedule saved');
+  }
+  if (kind === 'info') {
+    var pl = val('f-playlist').trim();
+    if (pl && !/^https?:\/\//.test(pl)) { toast('The playlist link should start with https://', true); return; }
+    act('host', rpc('host_update_config', {p_pass: S.pass, p_patch: {location: val('f-loc').trim(), info_notes: val('f-notes').trim(), playlist_url: pl}}).then(refreshHost), 'Info saved');
+  }
+  if (kind === 'wipe') {
+    if (val('f-wipe').trim() !== 'DELETE') { toast('Type DELETE in capitals to confirm.', true); return; }
+    act('host', rpc('host_reset', {p_pass: S.pass, p_what: 'everything'}).then(refreshHost), 'Everything deleted');
+  }
+});
+
+app.addEventListener('input', function(e){
+  var t = e.target;
+  if (t.hasAttribute('data-sch')) {
+    var row = S.hostSchedule[+t.getAttribute('data-sch')], f = t.getAttribute('data-field');
+    if (f === 'at') { var d = new Date(t.value); if (!isNaN(d)) row.at = d.toISOString(); }
+    else row.title = t.value;
+  }
+});
+
+app.addEventListener('change', function(e){
+  var t = e.target, which = t.getAttribute('data-file');
+  if (!which || !t.files || !t.files.length) return;
+  var files = Array.prototype.slice.call(t.files);
+  t.value = '';
+  if (which === 'costume' || which === 'team') {
+    toast('Uploading…');
+    shrink(files[0], 720, 0.8, 380000).then(function(d){
+      return act('photo', rpc(which === 'costume' ? 'party_set_costume_photo' : 'party_set_team_photo', {p_pass: S.pass, p_token: S.token, p_photo: d}), 'Photo saved');
+    }).catch(function(err){ toast(err.message || ERR.bad_image, true); });
+  }
+  if (which === 'album') {
+    var caption = val('f-caption').trim() || null, done = 0;
+    busy('upload', true);
+    var next = function(i){
+      if (i >= files.length) return Promise.resolve();
+      S.uploadMsg = 'Uploading ' + (i + 1) + ' of ' + files.length + '…'; render(true);
+      return Promise.all([shrink(files[i], 1600, 0.82, 1100000), shrink(files[i], 420, 0.72, 150000)]).then(function(r){
+        return rpc('party_add_photo', {p_pass: S.pass, p_token: S.token, p_caption: caption, p_thumb: r[1], p_full: r[0]}).then(function(id){
+          imgCache.set(imgKey('photo', id, 'p', 'thumb'), r[1]); imgCache.set(imgKey('photo', id, 'p', 'full'), r[0]); done++;
+        });
+      }).catch(function(err){ toast(err.message, true); if (err.code === 'photo_limit' || err.code === 'network') throw err; }).then(function(){ return next(i + 1); });
+    };
+    next(0).catch(function(){}).then(function(){
+      busy('upload', false);
+      var c = document.getElementById('f-caption'); if (c) c.value = '';
+      if (done) toast(done === 1 ? 'Photo added' : done + ' photos added');
+      return refresh();
+    }).then(function(){ render(true); });
+  }
+});
+
+app.addEventListener('click', function(e){
+  var b = e.target.closest('[data-act]'); if (!b || b.disabled) return;
+  var a = b.getAttribute('data-act'), id = +b.getAttribute('data-id');
+  switch (a) {
+    case 'retry': S.fatal = null; init(); break;
+    case 'about': S.overlay = 'about'; render(true); window.scrollTo(0, 0); break;
+    case 'info': S.overlay = 'info'; render(true); window.scrollTo(0, 0); break;
+    case 'no-playlist': toast('The playlist isn\u2019t up yet. Check back soon.'); break;
+    case 'close-overlay': S.overlay = null; S.hostSchedule = null; render(true); window.scrollTo(0, 0); break;
+    case 'authmode': S.authMode = S.authMode === 'join' ? 'signin' : 'join'; render(true); break;
+    case 'tab': S.tab = b.getAttribute('data-tab'); render(true); window.scrollTo(0, 0); break;
+    case 'signout': if (!armed('signout')) { arm('signout'); break; } S.confirm = null; forgetMe(); S.state = null; refresh(); render(true); break;
+    case 'rank': {
+      var kind = b.getAttribute('data-kind'), bal = S.ballots[kind] = (S.ballots[kind] || []).slice(), pos = bal.indexOf(id);
+      if (pos > -1) bal.splice(pos, 1);
+      else if (bal.length >= 3) { toast('You’ve picked three. Tap one to remove it first.'); break; }
+      else bal.push(id);
+      S.ballots[kind] = bal; S.keepScroll = true; render(true); break;
+    }
+    case 'cast': {
+      var k2 = b.getAttribute('data-kind');
+      act('cast-' + k2, rpc(k2 === 'costume' ? 'party_vote_costume' : 'party_vote_drink', {p_pass: S.pass, p_token: S.token, p_picks: S.ballots[k2]}), 'Vote counted');
+      break;
+    }
+    case 'pair': { var pid = +val('f-partner'); if (!pid) { toast('Choose someone first.', true); break; } act('pair', rpc('party_set_partner', {p_pass: S.pass, p_token: S.token, p_partner: pid}), 'You’re entered together'); break; }
+    case 'unpair': act('pair', rpc('party_set_partner', {p_pass: S.pass, p_token: S.token, p_partner: null}), 'You’re entered on your own'); break;
+    case 'rm-costume-photo': act('photo', rpc('party_set_costume_photo', {p_pass: S.pass, p_token: S.token, p_photo: null}), 'Photo removed'); break;
+    case 'join-team': act('team', rpc('party_join_team', {p_pass: S.pass, p_token: S.token, p_team: id}).then(function(){ S.ballots.drink = null; }), 'Welcome to the team'); break;
+    case 'leave-team': if (!armed('leave')) { arm('leave'); break; } S.confirm = null; act('team', rpc('party_join_team', {p_pass: S.pass, p_token: S.token, p_team: null}), 'You left the team'); break;
+    case 'view': S.viewer = id; render(true); break;
+    case 'close-viewer': S.viewer = null; render(true); break;
+    case 'prev-photo': case 'next-photo': {
+      var ph = S.state.photos, i = ph.findIndex(function(x){ return x.id === S.viewer; }) + (a === 'next-photo' ? 1 : -1);
+      if (ph[i]) { S.viewer = ph[i].id; render(true); } break;
+    }
+    case 'download': getFull(id).then(function(s){ if (s) saveBlob(dataUrlToBlob(s), 'wake-all-night-' + id + '.jpg'); }).catch(function(err){ toast(err.message, true); }); break;
+    case 'del-photo': if (!armed('del-' + id)) { arm('del-' + id); break; } S.confirm = null; S.viewer = null; act('photo', rpc('party_delete_photo', {p_pass: S.pass, p_token: S.token, p_id: id}), 'Photo removed'); break;
+    case 'host-del-photo': if (!armed('hdel-' + id)) { arm('hdel-' + id); break; } S.confirm = null; S.viewer = null; act('photo', rpc('host_delete_photo', {p_pass: S.pass, p_id: id}), 'Photo removed'); break;
+    case 'zip': downloadAll(); break;
+    case 'close-reveal': S.reveal = null; if (b.getAttribute('data-tab')) S.tab = b.getAttribute('data-tab'); render(true); window.scrollTo(0, 0); break;
+    case 'open-host': S.overlay = 'host'; render(true); window.scrollTo(0, 0); refreshHost(); break;
+    case 'htab': S.hostTab = b.getAttribute('data-tab'); S.hostSchedule = null; render(true); break;
+    case 'cfg': {
+      var patch = {}; patch[b.getAttribute('data-key')] = JSON.parse(b.getAttribute('data-val'));
+      act('host', rpc('host_update_config', {p_pass: S.pass, p_patch: patch}).then(refreshHost)); break;
+    }
+    case 'phase': {
+      var v = b.getAttribute('data-val');
+      if (v === 'ended' && !armed('end')) { arm('end'); break; }
+      S.confirm = null;
+      var pt = {phase: v}; if (v === 'ended') { pt.costume_voting = 'closed'; pt.drink_voting = 'closed'; pt.hunt = 'closed'; }
+      act('host', rpc('host_update_config', {p_pass: S.pass, p_patch: pt}).then(refreshHost), v === 'ended' ? 'The night has ended' : 'Party reopened'); break;
+    }
+    case 'reset': { var w = b.getAttribute('data-what'); if (!armed('reset-' + w)) { arm('reset-' + w); break; } S.confirm = null; act('host', rpc('host_reset', {p_pass: S.pass, p_what: w}).then(refreshHost), 'Cleared'); break; }
+    case 'add-code': act('host', rpc('host_add_code', {p_pass: S.pass}).then(refreshHost), 'Code added'); break;
+    case 'del-code': if (!armed('code-' + id)) { arm('code-' + id); break; } S.confirm = null; act('host', rpc('host_delete_code', {p_pass: S.pass, p_id: id}).then(refreshHost), 'Code deleted'); break;
+    case 'print': S.overlay = 'print'; render(true); window.scrollTo(0, 0); break;
+    case 'do-print': window.print(); break;
+    case 'sch-add': { var last = S.hostSchedule[S.hostSchedule.length - 1]; S.hostSchedule.push({at: last ? new Date(Date.parse(last.at) + 1800000).toISOString() : new Date().toISOString(), title: ''}); render(true); break; }
+    case 'sch-del': S.hostSchedule.splice(+b.getAttribute('data-i'), 1); render(true); break;
+    case 'del-guest': if (!armed('guest-' + id)) { arm('guest-' + id); break; } S.confirm = null; act('host', rpc('host_delete_guest', {p_pass: S.pass, p_id: id}).then(refreshHost), 'Guest removed'); break;
+    case 'del-team': if (!armed('team-' + id)) { arm('team-' + id); break; } S.confirm = null; act('host', rpc('host_delete_team', {p_pass: S.pass, p_id: id}).then(refreshHost), 'Team removed'); break;
+    case 'reset-pin': {
+      var pin = String(Math.floor(1000 + Math.random() * 9000));
+      act('host', rpc('host_reset_pin', {p_pass: S.pass, p_id: id, p_pin: pin}).then(function(){ toast('New PIN for ' + shortName(guestsById()[id]) + ': ' + pin, false, 12000); }));
+      break;
+    }
+  }
+});
+
+function downloadAll(){
+  if (!window.JSZip) { toast('The download tool didn’t load. Check your connection.', true); return; }
+  var ph = S.state.photos.slice().reverse(), gm = guestsById(), zip = new JSZip(), i = 0;
+  busy('zip', true);
+  var step = function(){
+    if (i >= ph.length) return Promise.resolve();
+    var chunk = ph.slice(i, i + 4); i += chunk.length;
+    S.zipMsg = 'Gathering ' + Math.min(i, ph.length) + ' of ' + ph.length + '…'; render(true);
+    return rpc('party_images', {p_pass: S.pass, p_kind: 'photo', p_ids: chunk.map(function(p){ return p.id; }), p_size: 'full'}).then(function(m){
+      chunk.forEach(function(p, j){
+        var src = m[String(p.id)]; if (!src) return;
+        var d = new Date(Date.parse(p.at)), who = shortName(gm[p.guest_id]).replace(/[^a-z0-9]+/gi, '-').toLowerCase();
+        zip.file(String(i - chunk.length + j + 1).padStart(3, '0') + '-' + pad(d.getHours()) + pad(d.getMinutes()) + '-' + who + '.jpg', src.split(',')[1], {base64: true});
+      });
+      return step();
+    });
+  };
+  step().then(function(){ S.zipMsg = 'Zipping…'; render(true); return zip.generateAsync({type: 'blob'}); })
+    .then(function(blob){ saveBlob(blob, 'a-wake-all-night-photos.zip'); toast('Download started'); })
+    .catch(function(err){ toast(err.message || 'Download failed. Try again.', true); })
+    .then(function(){ busy('zip', false); render(true); });
+}
+
+/* ---------- start ---------- */
+function init(){
+  if (!configured()) { render(true); return; }
+  if (!window.supabase || !window.supabase.createClient) { S.fatal = 'The page couldn’t load everything it needs. Check your connection and reload.'; render(true); return; }
+  sb = window.supabase.createClient(CFG.supabaseUrl, CFG.supabaseKey, {auth: {persistSession: false, autoRefreshToken: false, detectSessionInUrl: false}});
+  if (!S.pass) { render(true); return; }
+  render(true);
+  rpc('party_check', {p_pass: S.pass}).then(function(r){ S.isHost = !!r.host; S.fatal = null; return refresh(); })
+    .catch(function(e){ if (e.code === 'network') S.fatal = ERR.network; render(true); });
+}
+setInterval(function(){
+  if (document.visibilityState !== 'visible' || !S.pass || !S.state) return;
+  refresh();
+  if (S.overlay === 'host') refreshHost();
+}, 8000);
+document.addEventListener('visibilitychange', function(){ if (document.visibilityState === 'visible' && S.pass && S.state) refresh(); });
+window.addEventListener('hashchange', function(){
+  var m = location.hash.match(/^#c=([0-9a-zA-Z]+)$/);
+  if (m) { try { history.replaceState(null, '', location.pathname); } catch(e){} if (S.state && S.state.me) claimCode(m[1].toLowerCase()); else { try { sessionStorage.setItem('wake-pending', m[1].toLowerCase()); } catch(e){} } }
+});
+init();
+})();
+</script>
+</body>
+</html>
