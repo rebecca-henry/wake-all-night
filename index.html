@@ -6,35 +6,39 @@
 <meta name="robots" content="noindex, nofollow">
 <meta name="theme-color" content="#110c15">
 <title>A Wake All Night</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Grenze+Gotisch:wght@400;500;600&family=Grenze:wght@500;600&family=Spectral:wght@400;500;600&family=Courier+Prime:wght@400;700&display=swap">
 <style>
+/* "Halloween Spooky" (free for personal use), served from halloween-spooky.otf next to index.html. */
+@font-face{font-family:"Halloween Spooky";src:url("fonts/halloween-spooky.otf") format("opentype");font-display:swap}
+/* "Aveline Eleganza" (demo font, personal use) for all the details. The demo version has no real numbers,
+   so digits are left out here and come from Halloween Spooky instead. */
+@font-face{font-family:"Aveline Eleganza";src:url("fonts/aveline-eleganza.otf") format("opentype");font-display:swap;
+  unicode-range:U+0000-002F, U+003A-00B2, U+00B4-00B8, U+00BA-00BB, U+00BF-DFFF, U+E001-E003, U+E005-E216, U+E218-FFFF}
 /* Candlelit mood board: one dark look by design (it's a party at night). Full-bleed photo banners, masonry pins, blackletter headings, book serif text. */
 :root{
   --bg:#110c15; --surface:#1b1420; --raised:#251c2c; --ink:#f0e7f1; --muted:#a596ad; --line:#382c41;
   --gold:#e3b55f; --gold-ink:#1d1409; --plum:#c58fbe; --trick:#ec8296; --ok:#83c99a;
-  --display:"Grenze Gotisch", "Old English Text MT", Georgia, serif;
-  --body:"Spectral", "Iowan Old Style", Georgia, serif;
-  --mono:"Courier Prime", "Courier New", Courier, monospace;
+  --display:"Halloween Spooky", Georgia, serif;
+  --title:"Halloween Spooky", Georgia, serif;
+  --body:"Aveline Eleganza", "Halloween Spooky", Georgia, serif;
+  --mono:"Halloween Spooky", Georgia, serif;
   --nav-h:64px;
   color-scheme:dark;
 }
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
-body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.55 var(--body);min-height:100vh}
+body{margin:0;background:var(--bg);color:var(--ink);font:19px/1.45 var(--body);letter-spacing:.015em;min-height:100vh}
 /* Backdrop: big, soft, out-of-focus purple and orange lights drifting slowly. */
-#bokeh{position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none;background:var(--bg)}
-#bokeh i{position:absolute;border-radius:50%;animation:drift 28s ease-in-out infinite alternate}
-#bokeh i:nth-child(1){width:95vmax;height:95vmax;left:-35vmax;top:-30vmax;background:radial-gradient(circle, rgba(138,62,196,.55) 0%, rgba(138,62,196,0) 62%)}
-#bokeh i:nth-child(2){width:80vmax;height:80vmax;right:-30vmax;top:-10vmax;background:radial-gradient(circle, rgba(232,122,44,.42) 0%, rgba(232,122,44,0) 62%);animation-duration:34s;animation-delay:-8s}
-#bokeh i:nth-child(3){width:70vmax;height:70vmax;left:-15vmax;top:45vh;background:radial-gradient(circle, rgba(214,104,58,.34) 0%, rgba(214,104,58,0) 62%);animation-duration:31s;animation-delay:-15s}
-#bokeh i:nth-child(4){width:85vmax;height:85vmax;right:-35vmax;top:60vh;background:radial-gradient(circle, rgba(118,52,178,.5) 0%, rgba(118,52,178,0) 62%);animation-duration:37s;animation-delay:-4s}
-#bokeh i:nth-child(5){width:40vmax;height:40vmax;left:30vw;top:28vh;background:radial-gradient(circle, rgba(246,160,80,.28) 0%, rgba(246,160,80,0) 62%);animation-duration:24s;animation-delay:-11s}
-#bokeh i:nth-child(6){width:45vmax;height:45vmax;left:-10vmax;top:85vh;background:radial-gradient(circle, rgba(170,80,190,.35) 0%, rgba(170,80,190,0) 62%);animation-duration:29s}
-@keyframes drift{0%{transform:translate(0,0) scale(1)}50%{transform:translate(4vmax,-3vmax) scale(1.08)}100%{transform:translate(-3vmax,4vmax) scale(.95)}}
+#bokeh{display:none;position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none;background:var(--bg)}
+#bokeh i{position:absolute;border-radius:50%;filter:blur(30px);animation:drift 60s ease-in-out infinite alternate}
+#bokeh i:nth-child(1){width:130vmax;height:130vmax;left:-55vmax;top:-45vmax;background:radial-gradient(circle, rgba(52,40,140,.55) 0%, rgba(52,40,140,0) 65%)}
+#bokeh i:nth-child(2){width:110vmax;height:110vmax;right:-55vmax;top:5vh;background:radial-gradient(circle, rgba(34,46,120,.5) 0%, rgba(34,46,120,0) 65%);animation-duration:75s;animation-delay:-20s}
+#bokeh i:nth-child(3){width:90vmax;height:90vmax;left:-40vmax;top:55vh;background:radial-gradient(circle, rgba(70,36,120,.45) 0%, rgba(70,36,120,0) 65%);animation-duration:68s;animation-delay:-35s}
+#bokeh i:nth-child(4){width:70vmax;height:70vmax;right:-30vmax;top:70vh;background:radial-gradient(circle, rgba(150,72,30,.22) 0%, rgba(150,72,30,0) 65%);animation-duration:82s;animation-delay:-10s}
+#bokeh i:nth-child(5),#bokeh i:nth-child(6){display:none}
+body.glow #bokeh{display:block}
+@keyframes drift{0%{transform:translate(0,0) scale(1)}50%{transform:translate(3vmax,-2vmax) scale(1.04)}100%{transform:translate(-2vmax,3vmax) scale(.98)}}
 @media (prefers-reduced-motion:reduce){#bokeh i{animation:none}}
-h1,h2,h3{font-family:var(--display);font-weight:500;margin:0;text-wrap:balance;line-height:1.05;letter-spacing:.01em}
+h1,h2,h3{font-family:var(--title);font-weight:500;margin:0;text-wrap:balance;line-height:1.05;letter-spacing:.01em}
 p{margin:0}
 button,input,select,textarea{font:inherit;color:inherit}
 img{max-width:100%;display:block}
@@ -45,12 +49,13 @@ a{color:var(--gold)}
 .page.bare{padding-bottom:40px}
 .eyebrow{font-family:var(--body);font-size:15px;font-weight:500;color:var(--gold)}
 .muted{color:var(--muted)}
-.small{font-size:14px}
+.small{font-size:16px}
 .topbar{display:flex;justify-content:space-between;align-items:center;gap:10px;position:relative;z-index:4;height:38px}
-.topbar .brand{font-family:var(--display);font-size:24px}
+.topbar .brand{font-family:var(--title);font-size:24px}
 .chip{font-family:var(--body);font-size:13px;font-weight:600;border:0;border-bottom:1px solid currentColor;border-radius:0;padding:0 0 1px;color:var(--muted);white-space:nowrap}
 .chip.gold{color:var(--gold)}
 .chip.trick{color:var(--trick)}
+.chip:empty{display:none}
 
 section.block{display:grid;gap:12px}
 .block > h2{font-size:34px}
@@ -216,19 +221,19 @@ nav.tabbar button[aria-current="page"]{color:var(--gold);border-top-color:var(--
    As the page scrolls, --p goes 0 to 1: the title lifts and fades while the photo drifts and swells. */
 .banner{--p:0;position:relative;margin-inline:-20px;margin-top:calc(-84px - env(safe-area-inset-top,0px));min-height:max(300px, 37.5vh);min-height:max(300px, 37.5svh);display:flex;flex-direction:column;overflow:hidden;background:var(--surface)}
 .banner::before{content:"";position:absolute;inset:0 0 auto;height:140px;background:linear-gradient(180deg, rgba(10,6,12,.7), transparent);z-index:1;pointer-events:none}
-.banner > img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:saturate(.8) brightness(.72);transform-origin:50% 0;transform:translateY(calc(var(--p) * 18%)) scale(calc(1 + var(--p) * .14));opacity:calc(1 - var(--p) * .55);will-change:transform}
+.banner > img,.banner > video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:saturate(.8) brightness(.72);transform-origin:50% 0;transform:translateY(calc(var(--p) * 18%)) scale(calc(1 + var(--p) * .14));opacity:calc(1 - var(--p) * .55);will-change:transform}
 .banner::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg, rgba(17,12,21,0) 40%, rgba(17,12,21,.5) 75%, var(--bg) 100%);pointer-events:none}
-.banner .over{position:relative;flex:1;padding:calc(84px + env(safe-area-inset-top,0px)) 20px 24px;z-index:2;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;text-align:center;
+.banner .over{position:relative;flex:1;padding:calc(102px + env(safe-area-inset-top,0px)) 20px 18px;z-index:2;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;text-align:center;
   transform:translateY(calc(var(--p) * -90px)) scale(calc(1 - var(--p) * .1));opacity:calc(1 - var(--p) * 1.6);will-change:transform,opacity}
 .banner h1{font-size:clamp(54px,16vw,96px);font-weight:600;line-height:.92}
 /* Header titles: stretched wide, worn and rough like old letterpress, slightly see-through so the photo shows in the ink. */
-.banner .fit{width:100%;font-weight:600;line-height:1.02;letter-spacing:.01em;padding-block:.12em .14em;color:#efe6e2;opacity:.9;filter:url(#grit)}
-.banner .fit .ln{display:block;white-space:nowrap;width:max-content;margin-inline:auto;transform:scaleY(1.32);transform-origin:50% 62%}
+.banner .fit{font-family:var(--title);font-style:italic;width:100%;font-weight:600;line-height:1.02;letter-spacing:.01em;padding-block:.12em .14em;color:#efe6e2;opacity:.9;filter:url(#grit)}
+.banner .fit .ln{display:block;white-space:nowrap;width:max-content;margin-inline:auto;padding-inline:.1em;transform:scaleY(1.32);transform-origin:50% 62%}
 .banner h2{font-size:clamp(52px,15vw,84px);font-weight:600;line-height:.95}
 .banner .sub{font-size:18px;color:var(--ink);opacity:.85}
 .banner .row{display:flex;flex-direction:column;align-items:center;gap:10px;width:100%}
 .banner.home .over{justify-content:center}
-.banner.home .over > .eyebrow{position:absolute;top:calc(84px + env(safe-area-inset-top,0px));left:0;right:0}
+.banner.home .over > .eyebrow{position:static;margin-bottom:10px}
 @media (prefers-reduced-motion:reduce){.banner > img,.banner .over{transform:none!important;opacity:1!important}}
 
 
@@ -243,10 +248,11 @@ a.pin{text-decoration:none;color:var(--ink)}
 .pin .pimg.tall img{aspect-ratio:3/4;object-fit:cover}
 .pin .pimg.sq img{aspect-ratio:1;object-fit:cover}
 .pin .pimg.wide img{aspect-ratio:4/3;object-fit:cover}
-.pin .pimg.mood img{filter:saturate(.8) brightness(.8)}
-.pin .ov{position:absolute;left:0;right:0;bottom:0;padding:40px 12px 12px;background:linear-gradient(180deg, transparent, rgba(10,6,12,.85));display:grid;gap:2px}
-.pin .ov .k{font-size:16px;color:var(--gold)}
-.pin .ov .v{font-family:var(--display);font-size:31px;line-height:1;font-weight:500}
+.pin .pimg.mood img{filter:brightness(.9)}
+.pin.mood-act .pimg img{filter:brightness(.72)}
+.pin .ov{position:absolute;left:0;right:0;bottom:0;grid-template-columns:minmax(0,1fr);padding:40px 12px 12px;background:linear-gradient(180deg, transparent, rgba(10,6,12,.85));display:grid;gap:2px}
+.pin .ov .k{font-size:18px;color:var(--gold)}
+.pin .ov .v{display:block;font-family:var(--display);font-size:31px;line-height:1;font-weight:500}
 .pin .ov .v.num{font-size:56px}
 .pin .cap{display:block;margin-top:7px;font-size:15px;font-weight:600;line-height:1.3;overflow-wrap:anywhere}
 .pin .psub{display:block;font-size:14px;color:var(--muted);line-height:1.3;overflow-wrap:anywhere}
@@ -271,12 +277,13 @@ button.pin.mood-act:hover .pimg img{filter:saturate(.8) brightness(.95)}
 
 .stagger{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;align-items:start}
 .stagger .col{display:grid;gap:12px;min-width:0}
-.stagger .col + .col{padding-top:calc(66.67% - 6px)}
+.stagger .col > .fit{width:100%;margin:-.06em 0 -.04em;line-height:.9}
+.stagger .col > .fit .ln{display:block;white-space:nowrap;width:max-content}
 .stagger .pin{margin:0}
 .stagger .pin .pimg img{aspect-ratio:3/4;height:auto;object-fit:cover}
 .stagger .pin .pimg img:not([src]){aspect-ratio:3/4}
-.stagger .pin .ov .v{font-size:31px}
-.stagger .pin .ov .v.num{font-size:56px}
+.stagger .pin .ov .v{font-size:42px;line-height:.95}
+.stagger .pin .ov .v.num{font-size:72px}
 
 .stagger .pin.mood-only .pimg{position:relative}
 .stagger .pin.mood-only .rot-in{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 1.2s ease}
@@ -285,6 +292,11 @@ button.pin.mood-act:hover .pimg img{filter:saturate(.8) brightness(.95)}
   background:radial-gradient(120% 90% at 30% 15%, rgba(150,70,200,.55), transparent 60%), radial-gradient(110% 80% at 80% 100%, rgba(230,120,45,.45), transparent 60%), #1c1222}
 .noteface .nq{font-family:var(--body);font-weight:600;font-size:20px;line-height:1.2;color:var(--ink);overflow-wrap:anywhere}
 .noteface .nw{font-size:14px;color:var(--gold)}
+.won{display:grid;gap:10px;justify-items:center;text-align:center;padding:22px 0 26px;border-bottom:1px solid var(--line)}
+.won h2{font-size:clamp(34px,10vw,48px);line-height:1}
+.won-img{width:min(72%,320px);border-radius:6px;overflow:hidden;outline:2px solid var(--gold);outline-offset:4px;background:var(--surface)}
+.won-img img{display:block;width:100%;aspect-ratio:4/5;object-fit:cover}
+.won .muted{font-size:17px}
 .alert{display:grid;gap:6px;padding:16px 18px;border:1px solid var(--gold);border-radius:6px;background:rgba(20,12,24,.72)}
 .alert-top{display:flex;justify-content:space-between;align-items:center;gap:10px}
 .alert-top .x{min-height:auto;padding:0 4px;font-size:24px;line-height:1}
@@ -316,7 +328,33 @@ label.fld > span #msg-count{float:right;font-size:13px}
 
 .banner.home{background:transparent}
 .banner.home::before,.banner.home::after{display:none}
-.cn{font-family:"Grenze", var(--display)}
+.cn{font-family:inherit}
+.card-head{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.flips{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-top:4px}
+.flip{position:relative;aspect-ratio:3/4;perspective:700px;background:none;border:0;padding:0;color:var(--ink);font:inherit}
+.flip .face{position:absolute;inset:0;display:grid;align-content:center;justify-items:center;gap:4px;padding:6px;border-radius:6px;text-align:center;
+  backface-visibility:hidden;-webkit-backface-visibility:hidden;transition:transform .6s cubic-bezier(.3,.7,.3,1)}
+.flip .face b{font-family:var(--display);font-weight:400;font-size:26px;line-height:1}
+.flip .back b{font-size:21px}
+.flip .face em{font-style:normal;font-family:var(--display);font-size:16px;color:var(--ink)}
+.flip .face small{font-size:12px;line-height:1.2;color:var(--muted);overflow:hidden;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical}
+.flip.locked .face{border:1px dashed var(--line);color:var(--muted)}
+.flip.locked .face b{color:var(--line)}
+.flip.found{cursor:pointer}
+.flip.found .front{background:#1d1430;border:1px solid var(--gold)}
+.flip.found .front b{color:var(--gold)}
+.flip.found .back{transform:rotateY(180deg);background:#24183a;border:1px solid var(--gold)}
+.flip.found.trick .back{border-color:var(--trick)}
+.flip.found.trick .back b{color:var(--trick)}
+.flip.found.treat .back b{color:var(--gold)}
+.flip.found .back small{color:var(--ink)}
+.flip.found.open .front{transform:rotateY(-180deg)}
+.flip.found.open .back{transform:rotateY(0)}
+@media (prefers-reduced-motion:reduce){.flip .face{transition:none}}
+.pin.sign .signbox{display:grid;align-content:center;gap:12px;aspect-ratio:3/4;padding:16px 14px;border-radius:6px;text-align:center;border:1px solid var(--gold);
+  background:radial-gradient(120% 90% at 30% 10%, rgba(52,40,140,.6), transparent 65%), radial-gradient(110% 80% at 80% 100%, rgba(150,72,30,.35), transparent 60%), #140f22}
+.pin.sign .sv{font-family:var(--display);font-size:38px;line-height:.95;color:var(--ink)}
+.pin.sign .sk{font-size:15px;line-height:1.3;color:var(--gold)}
 #print-sheet{display:none}
 @media print{
   body{background:#fff;color:#000}
@@ -404,7 +442,7 @@ function fmtDur(ms, withSecs){
 function plural(n, one, many){ return n + ' ' + (n === 1 ? one : (many || one + 's')); }
 function pad(n){ return String(n).padStart(2, '0'); }
 function toLocalInput(iso){ var d = new Date(iso); if (isNaN(d)) return ''; return d.getFullYear() + '-' + pad(d.getMonth()+1) + '-' + pad(d.getDate()) + 'T' + pad(d.getHours()) + ':' + pad(d.getMinutes()); }
-function signed(n){ return n > 0 ? '+' + n : n < 0 ? '−' + Math.abs(n) : '0'; }
+function signed(n){ return n > 0 ? '+' + n : n < 0 ? '\u2013' + Math.abs(n) : '0'; }
 
 /* ---------- state ---------- */
 var S = {
@@ -453,6 +491,7 @@ var ERR = {
   bad_team: 'That team no longer exists.',
   no_team: 'Join a team first.',
   bad_image: 'That photo couldn’t be used. Try a different one.',
+  gif_too_big: 'That GIF is too big. Try one under 1 MB.',
   photo_limit: 'You’ve reached the 80 photo limit.',
   not_yours: 'You can only remove photos you uploaded.',
   too_many: 'Too many photos at once. Try again.',
@@ -487,6 +526,8 @@ function refresh(){
   if (!S.pass || refreshing) return Promise.resolve();
   refreshing = true;
   return rpc('party_state', {p_pass: S.pass, p_token: S.token || null}).then(function(st){
+    var sig = JSON.stringify(st, function(k, v){ return k === 'now' ? undefined : v; });
+    var same = sig === S.lastSig; S.lastSig = sig;
     S.state = st;
     S.clockOffset = Date.parse(st.now) - Date.now();
     if (S.token && !st.me) forgetMe();
@@ -494,7 +535,7 @@ function refresh(){
       if (S.ballots.costume === null) S.ballots.costume = (st.my_costume_vote || []).slice();
       if (S.ballots.drink === null) S.ballots.drink = (st.my_drink_vote || []).slice();
     }
-    render();
+    if (!same) render();
     processPending();
   }).catch(function(e){
     if (e.code === 'network' && !S.state) S.fatal = ERR.network;
@@ -580,25 +621,51 @@ function saveBlob(blob, name){
 /* ---------- mood photos (Unsplash, free to use) ---------- */
 var MOOD = {
   hero: '1740825719364-6a2110b0be21',      /* bare autumn trees against the last sunset */
-  costumes: '1646657402425-ecd35e893746',  /* dark flowers */
-  drinks: '1500217052183-bc01eee1a74e',    /* dark cocktail */
-  hunt: '1477516561410-f0b5dd8319e4',      /* jack-o-lanterns at night */
+  costumes: 'gifs/fairy-skeleton.gif',
+  drinks: 'gifs/pouring-skeleton.mp4',
+  hunt: 'gifs/walking-skeleton.mp4',
   photos: '1476900164809-ff19b8ae5968',    /* candles */
-  pinCostume: '1638129640863-d1f283b8ffdb',
-  pinDrink: '1723691802828-707ecdf3ee25',
-  pinHunt: '1572860177022-8fda92a90c95',
-  pinBoard: '1619854815806-a118bc521451',
-  pinInfo: '1530049080396-450947c04fcd',
-  pinPlaylist: '1637870793159-53329ad6b958',
-  board: ['1601922046210-41e129a3e64a', '1584204159455-11ad2b12ebf8', '1746913620906-ac39272aa9d1',
-          '1640085461451-e3dc47415dd1', '1763960091036-813259b59775', '1509558567730-6c838437b06b',
-          '1647633783533-de8d1722888e', '1619378352777-1742dc62b564', '1437435409766-a478cc6da81a'],
-  empty: ['1637870793159-53329ad6b958', '1646657402425-ecd35e893746', '1530049080396-450947c04fcd', '1589378938275-947b7adf8665']
+  /* Home tiles: your GIFs (files in the gifs folder). */
+  pinCostume: 'gifs/skeleton-dance.gif',
+  pinDrink: 'gifs/skeleton-cheers.gif',
+  pinHunt: 'gifs/spooky-scary.gif',
+  pinBoard: 'gifs/skeleton-line.gif',
+  pinInfo: 'gifs/top-hat-trio.jpg',
+  pinPlaylist: 'gifs/skeleton-squat.gif',
+  board: ['gifs/skeleton-strut.gif', 'gifs/skeleton-squat.gif', 'gifs/skeleton-dance.gif', 'gifs/spooky-scary.gif',
+          'gifs/skeleton-cheers.gif', 'gifs/top-hat-trio.jpg', 'gifs/skeleton-line.gif'],
+  empty: ['gifs/skeleton-dance.gif', 'gifs/skeleton-strut.gif', 'gifs/spooky-scary.gif', 'gifs/skeleton-squat.gif',
+          'gifs/skeleton-cheers.gif', 'gifs/skeleton-line.gif', 'gifs/top-hat-trio.jpg']
 };
 Object.keys(CFG.mood || {}).forEach(function(k){ MOOD[k] = CFG.mood[k]; });
+/* On GitHub Pages, look in the repository's gifs folder and add any new GIFs or pictures to the tile rotation.
+   The list is remembered for an hour so the whole party doesn't hit GitHub's hourly limit. */
+(function findGifs(){
+  var host = location.hostname, m = host.match(/^([^.]+)\.github\.io$/i);
+  if (!m) return;
+  var seg = location.pathname.split('/').filter(Boolean)[0];
+  var repo = seg && !/\.html?$/i.test(seg) ? seg : host;
+  var key = 'wake-gifs-' + repo, cached = null;
+  try { cached = JSON.parse(store.get(key) || 'null'); } catch(e){}
+  var headers = [MOOD.costumes, MOOD.drinks, MOOD.hunt, MOOD.photos, MOOD.hero];
+  function use(list){
+    var extra = list.filter(function(p){ return MOOD.board.indexOf(p) === -1 && headers.indexOf(p) === -1; });
+    if (!extra.length) return;
+    MOOD.board = MOOD.board.concat(extra);
+    MOOD.empty = MOOD.empty.concat(extra);
+  }
+  if (cached && Date.now() - cached.at < 3600000) { use(cached.list); return; }
+  if (!window.fetch) return;
+  fetch('https://api.github.com/repos/' + m[1] + '/' + repo + '/contents/gifs').then(function(r){ return r.ok ? r.json() : []; }).then(function(items){
+    if (!Array.isArray(items)) return;
+    var list = items.filter(function(it){ return it.type === 'file' && /\.(gif|jpe?g|png|webp)$/i.test(it.name); }).map(function(it){ return 'gifs/' + it.name; });
+    store.set(key, JSON.stringify({at: Date.now(), list: list}));
+    use(list);
+  }).catch(function(){});
+})();
 function moodUrl(v, w){
   if (!v) return '';
-  if (/^(https?:|\.|\/)/.test(v) || /\.(jpe?g|png|webp|avif)$/i.test(v)) return v;
+  if (/^(https?:|\.|\/)/.test(v) || /\.(jpe?g|png|webp|avif|gif|mp4|webm)$/i.test(v)) return v;
   return 'https://images.unsplash.com/photo-' + v + '?auto=format&fit=crop&w=' + (w || 800) + '&q=70';
 }
 function moodImg(v, w){ return '<img data-mood src="' + esc(moodUrl(v, w)) + '" alt="" loading="lazy" decoding="async">'; }
@@ -612,6 +679,22 @@ document.addEventListener('error', function(e){
 function fitTitle(tag, lines){
   return '<' + tag + ' class="fit" aria-label="' + esc(lines.join(' ')) + '">' + lines.map(function(l){ return '<span class="ln" aria-hidden="true">' + esc(l).replace(/\bNight\b/, '<span class="cn">N</span>ight') + '</span>'; }).join('') + '</' + tag + '>';
 }
+function fitTileText(){
+  app.querySelectorAll('.stagger .pin .ov .v').forEach(function(v){
+    v.style.fontSize = '';
+    var size = parseFloat(getComputedStyle(v).fontSize), guard = 0;
+    var words = v.textContent.split(/\s+/), ov = v.parentElement, ocs = getComputedStyle(ov);
+    var room = ov.clientWidth - parseFloat(ocs.paddingLeft) - parseFloat(ocs.paddingRight);
+    while (guard++ < 30 && size > 16) {
+      var probe = document.createElement('span'); probe.style.cssText = 'position:absolute;visibility:hidden;white-space:nowrap;font:inherit';
+      v.appendChild(probe);
+      var tooWide = words.some(function(w){ probe.textContent = w; return probe.offsetWidth > room + 1; });
+      probe.remove();
+      if (!tooWide) break;
+      size -= 2; v.style.fontSize = size + 'px';
+    }
+  });
+}
 function fitTitles(){
   app.querySelectorAll('.fit').forEach(function(t){
     var lines = t.querySelectorAll('.ln'), par = t.parentElement, cs = getComputedStyle(par);
@@ -623,12 +706,23 @@ function fitTitles(){
     if (widest) t.style.fontSize = Math.min(200, Math.floor(100 * avail / widest * 0.98)) + 'px';
   });
 }
-window.addEventListener('resize', function(){ requestAnimationFrame(fitTitles); });
-if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitTitles);
+window.addEventListener('resize', function(){ requestAnimationFrame(function(){ fitTitles(); fitTileText(); }); });
+/* Once Halloween Spooky loads, its own capital N is used (the gothic-N swap was only for the backup font). */
+if (document.fonts && document.fonts.load) {
+  document.fonts.load('1em "Halloween Spooky"').then(function(r){
+    if (r.length) { document.documentElement.classList.add('hf'); fitTitles(); fitTileText(); }
+  }).catch(function(){});
+}
+if (document.fonts && document.fonts.ready) document.fonts.ready.then(function(){ fitTitles(); fitTileText(); });
 
 function banner(key, inner, cls){
   var plain = /\bhome\b/.test(cls || '');  /* the home header sits straight on the glowing backdrop */
-  return '<header class="banner' + (cls ? ' ' + cls : '') + '">' + (plain ? '' : moodImg(MOOD[key], 1200)) + '<div class="over">' + inner + '</div></header>';
+  var src = MOOD[key], media = '';
+  if (!plain) media = /\.(mp4|webm)$/i.test(src || '')
+    ? '<video data-bg="' + esc(src) + '" autoplay muted loop playsinline preload="auto" aria-hidden="true">' +
+        '<source src="' + esc(moodUrl(src)) + '" type="video/mp4"><source src="' + esc(moodUrl(src).replace(/\.mp4$/i, '.webm')) + '" type="video/webm"></video>'
+    : moodImg(src, 1200).replace('<img ', '<img data-bg="' + esc(src) + '" ');
+  return '<header class="banner' + (cls ? ' ' + cls : '') + '">' + media + '<div class="over">' + inner + '</div></header>';
 }
 
 /* ---------- derived data ---------- */
@@ -750,9 +844,16 @@ function render(force){
   if (!force && editing()) { renderQueued = true; return; }
   renderQueued = false;
   var y = window.scrollY, kept = snapshot();
+  var oldBg = app.querySelector('.banner > [data-bg]');
   app.innerHTML = view();
+  var newBg = app.querySelector('.banner > [data-bg]');
+  if (oldBg && newBg && oldBg.getAttribute('data-bg') === newBg.getAttribute('data-bg')) newBg.replaceWith(oldBg);
+  var vid = app.querySelector('.banner > video');
+  if (vid && vid.paused) { var pr = vid.play(); if (pr && pr.catch) pr.catch(function(){}); }
   restoreInputs(kept);
+  document.body.classList.toggle('glow', !!(S.state && S.state.me && S.tab === 'home' && !S.overlay));
   fitTitles();
+  fitTileText();
   window.scrollTo(0, y);
   applyScroll();
   tick();
@@ -867,9 +968,9 @@ function homeView(){
   var team = me.team_id ? teamsById()[me.team_id] : null;
   var h = S.state.hunt;
   var out = banner('hero', fitTitle('h1', ['A Wake', 'All Night']) + '<p class="sub">In Memory of Daylight Saving Time 2026</p>', 'home');
-  if (cfg('results_visible')) out += '<section class="block"><h2>The Winners</h2>' + winnersHTML() + '</section>';
+  if (S.state.results) out += '<section class="block"><h2>The Winners</h2>' + winnersHTML() + '</section>';
   out += alertHTML();
-  out += '<section class="block"><h2>Tonight</h2>' + boardHTML(me, team, h) + '</section>';
+  out += '<section class="block">' + boardHTML(me, team, h) + '</section>';
   out += dstHTML(dstLeft);
   out += '<div class="pair-btns"><button class="btn ghost small" data-act="about">How your info is kept private</button><button class="btn ghost small" data-act="signout">' + (armed('signout') ? 'Tap again to confirm' : 'Not ' + esc(shortName(me)) + '? Sign out') + '</button></div>';
   return out;
@@ -881,21 +982,54 @@ function podium(rows){
     return '<li><span class="place">' + ['1st', '2nd', '3rd'][i] + '</span><span class="who">' + r.who + '</span><span class="pts">' + r.pts + '</span></li>';
   }).join('') + '</ol>';
 }
+/* The winner of one contest (ties included), once the host has announced it. */
+function announced(kind){ return !!(S.state && S.state.results && S.state.results[kind]); }
+function winnerOf(kind){
+  var res = S.state.results, rows = res && res[kind];
+  if (!rows) return null;
+  if (!rows.length) return {none: true};
+  var top = rows.filter(function(r){ return r.points === rows[0].points && (r.firsts == null || r.firsts === rows[0].firsts); });
+  var gm = guestsById(), tm = teamsById();
+  if (kind === 'costume') {
+    var es = top.map(function(r){ return entryByKey(r.entry); }).filter(Boolean);
+    var ph = es.map(function(e){ return e.photo; }).filter(Boolean)[0];
+    var titles = es.map(function(e){ return e.title; }).filter(Boolean);
+    return {names: joinNames(es.map(function(e){ return e.names; })), sub: (titles.length ? 'as ' + titles.join(' / ') + ' \u00b7 ' : '') + plural(rows[0].points, 'point'),
+            img: ph ? imgHTML('costume', ph.id, ph.photo_v, 'thumb', 'Winning costume', '') : null};
+  }
+  if (kind === 'drinks') {
+    var ts = top.map(function(r){ return tm[r.team]; }).filter(Boolean);
+    var tp = ts.filter(function(t){ return t.photo_v; })[0];
+    var drinks = ts.map(function(t){ return t.drink_name; }).filter(Boolean);
+    return {names: joinNames(ts.map(function(t){ return t.name; })), sub: (drinks.length ? drinks.join(' / ') + ' \u00b7 ' : '') + plural(rows[0].points, 'point'),
+            img: tp ? imgHTML('team', tp.id, tp.photo_v, 'thumb', 'Winning drink', '') : null};
+  }
+  var gs = top.map(function(r){ return gm[r.guest_id]; }).filter(Boolean);
+  var gp = gs.filter(function(g){ return g.photo_v; })[0];
+  return {names: joinNames(gs.map(shortName)), sub: plural(rows[0].points, 'point') + ' \u00b7 ' + plural(top[0].finds, 'code') + ' found',
+          img: gp ? imgHTML('costume', gp.id, gp.photo_v, 'thumb', 'Winner', '') : null};
+}
+function closedHTML(kind){
+  var w = winnerOf(kind); if (!w) return '';
+  if (w.none) return '<section class="won"><span class="eyebrow">Contest closed</span><h2>No winner this time</h2><p class="muted">' + (kind === 'hunt' ? 'No one scored in the hunt.' : 'No votes were cast.') + '</p></section>';
+  return '<section class="won"><span class="eyebrow">Contest closed</span><h2>Congratulations ' + esc(w.names) + '!</h2>' +
+    (w.img ? '<div class="won-img">' + w.img + '</div>' : '') + '<p class="muted">' + esc(w.sub) + '</p></section>';
+}
 function winnersHTML(){
   var res = S.state.results; if (!res) return '';
   var gm = guestsById(), tm = teamsById();
-  var cost = res.costume.map(function(r){ var e = entryByKey(r.entry); return e ? {who: esc(e.names) + (e.title ? ' as ' + esc(e.title) : ''), pts: r.points + ' pts'} : null; }).filter(Boolean);
-  var dr = res.drinks.map(function(r){ var t = tm[r.team]; return t ? {who: esc(t.name) + (t.drink_name ? ' · ' + esc(t.drink_name) : ''), pts: r.points + ' pts'} : null; }).filter(Boolean);
-  var hu = res.hunt.map(function(r){ var g = gm[r.guest_id]; return g ? {who: esc(fullName(g)), pts: r.points + ' pts'} : null; }).filter(Boolean);
+  var cost = (res.costume || []).map(function(r){ var e = entryByKey(r.entry); return e ? {who: esc(e.names) + (e.title ? ' as ' + esc(e.title) : ''), pts: r.points + ' pts'} : null; }).filter(Boolean);
+  var dr = (res.drinks || []).map(function(r){ var t = tm[r.team]; return t ? {who: esc(t.name) + (t.drink_name ? ' · ' + esc(t.drink_name) : ''), pts: r.points + ' pts'} : null; }).filter(Boolean);
+  var hu = (res.hunt || []).map(function(r){ var g = gm[r.guest_id]; return g ? {who: esc(fullName(g)), pts: r.points + ' pts'} : null; }).filter(Boolean);
   var gf = S.state.hunt.grand_found_by ? gm[S.state.hunt.grand_found_by] : null;
   return '<div class="winners">' +
-    '<div class="card win"><h3>Best Costume</h3>' + podium(cost) + '</div>' +
-    '<div class="card win"><h3>Best Drink</h3>' + podium(dr) + '</div>' +
-    '<div class="card win"><h3>Trick-or-Treat Hunt</h3>' + podium(hu) + (gf ? '<p class="small">Grand code found by ' + esc(fullName(gf)) + '</p>' : '') + '</div></div>';
+    (res.costume ? '<div class="card win"><h3>Best Costume</h3>' + podium(cost) + '</div>' : '') +
+    (res.drinks ? '<div class="card win"><h3>Best Drink</h3>' + podium(dr) + '</div>' : '') +
+    (res.hunt ? '<div class="card win"><h3>Trick-or-Treat Hunt</h3>' + podium(hu) + (gf ? '<p class="small">Grand code found by ' + esc(fullName(gf)) + '</p>' : '') + '</div>' : '') + '</div>';
 }
 
 function endView(){
-  return banner('hero', '<span class="eyebrow">Daylight Saving Time 2026 · Rest in peace</span>' + fitTitle('h1', ['Happy', 'Halloween']) + '<p class="sub">Thank you for coming, ' + esc(shortName(S.state.me)) + '. The sun will be back tomorrow, a little earlier.</p>', 'home') +
+  return banner('hero', fitTitle('h1', ['Happy', 'Halloween']) + '<span class="eyebrow">Daylight Saving Time 2026 · Rest in peace</span><p class="sub">Thank you for coming, ' + esc(shortName(S.state.me)) + '. The sun will be back tomorrow, a little earlier.</p>', 'home') +
     '<section class="block"><h2>The Winners</h2>' + winnersHTML() + '</section>' +
     '<section class="card"><h3>The Photo Album</h3><p class="muted">' + S.state.photos.length + ' photos from the night. Add yours, or download them all.</p><button class="btn primary" data-act="tab" data-tab="photos">Open the album</button></section>' +
     '<button class="linkbtn" data-act="about">How your info is kept private</button>';
@@ -924,10 +1058,10 @@ function dstHTML(ms){
 
 /* The home mood board: action pins, guests' costumes and album photos, woven between mood photos. */
 /* Home board: every tile the same size, two columns, the right one starting half a tile lower. */
-function staggered(items){
+function staggered(items, head){
   var l = [], r = [];
   items.filter(Boolean).forEach(function(x, i){ (i % 2 ? r : l).push(x); });
-  return '<div class="stagger"><div class="col">' + l.join('') + '</div><div class="col">' + r.join('') + '</div></div>';
+  return '<div class="stagger"><div class="col">' + (head || '') + l.join('') + '</div><div class="col">' + r.join('') + '</div></div>';
 }
 function actionPin(tab, img, k, v, numeric, cls){
   return '<button class="pin mood-act" data-act="tab" data-tab="' + tab + '"><span class="pimg ' + (cls || 'tall') + '">' + img +
@@ -995,13 +1129,20 @@ function boardHTML(me, team, h){
     return '<div class="pin mood-only" aria-hidden="true" data-slot="' + slot + '"><span class="pimg mood ' + (cls || '') + '">' +
       (face || (/^data:/.test(cur) ? '<img data-mood src="' + cur + '" alt="">' : moodImg(cur, 700))) + '</span></div>';
   }
+  var cw = winnerOf('costume'), dw = winnerOf('drinks'), hw = winnerOf('hunt');
+  function winTile(tab, w, label, fallbackImg, cls){
+    return actionPin(tab, w.img || moodImg(fallbackImg, 700), label, w.none ? 'No winner' : w.names, false, w.img ? '' : cls);
+  }
   var acts = [
     actionPin('costumes', me.photo_v ? imgHTML('costume', me.id, me.photo_v, 'thumb', 'Your costume', me.name) : moodImg(MOOD.pinCostume, 700),
-              me.costume_title ? 'Your costume' : 'Costume contest', me.costume_title || 'Add your costume', false, me.photo_v ? '' : 'tall'),
+              'Costume Contest', (me.costume_title || me.photo_v) ? (cfg('costume_voting') === 'open' ? 'Vote' : (me.costume_title || 'Your costume')) : 'Add your costume', false, me.photo_v ? '' : 'tall'),
     actionPin('drinks', team && team.photo_v ? imgHTML('team', team.id, team.photo_v, 'thumb', team.name, team.name) : moodImg(MOOD.pinDrink, 700),
-              team ? 'Your drink team' : 'Drink Making Contest', team ? (team.drink_name || team.name) : 'Join a team', false, team && team.photo_v ? '' : 'sq'),
+              'Drink Making Contest', team ? (cfg('drink_voting') === 'open' ? 'Vote' : (team.drink_name || team.name)) : 'Join a team', false, team && team.photo_v ? '' : 'sq'),
     actionPin('hunt', moodImg(MOOD.pinHunt, 700), 'Codes still hidden', String(h.total - h.found), true, 'wide')
   ];
+  if (cw) acts[0] = winTile('costumes', cw, 'Costume Contest Winner', MOOD.pinCostume, 'tall');
+  if (dw) acts[1] = winTile('drinks', dw, 'Drink Making Contest Winner', MOOD.pinDrink, 'sq');
+  if (hw) acts[2] = winTile('hunt', hw, 'Scavenger Hunt Winner', MOOD.pinHunt, 'wide');
   var people = entries().filter(function(e){ return e.photo; }).slice(-6).reverse().map(function(e){
     return '<button class="pin" data-act="tab" data-tab="costumes"><span class="pimg">' + imgHTML('costume', e.photo.id, e.photo.photo_v, 'thumb', e.names, e.names) +
       '<span class="ov"><span class="k">' + esc(e.title || 'Costume') + '</span><span class="v">' + esc(e.names) + '</span></span></span></button>';
@@ -1016,11 +1157,12 @@ function boardHTML(me, team, h){
     ? linkPin('href="' + esc(playlist) + '" target="_blank" rel="noopener"', moodImg(MOOD.pinPlaylist, 700), 'Tonight\u2019s music', 'Playlist', 'tall')
     : linkPin('data-act="no-playlist"', moodImg(MOOD.pinPlaylist, 700), 'Tonight\u2019s music', 'Playlist', 'tall');
   var notes = linkPin('data-act="board"', moodImg(MOOD.pinBoard, 700), 'Leave a note', 'Message Board', 'tall');
-  var out = [acts[0], nextMood(), acts[1], info, nextMood(), notes, acts[2], nextMood(), music, nextMood()];
+  var pingpong = '<div class="pin sign"><span class="signbox"><span class="sv">Ping Pong Upstairs!</span><span class="sk">Must wear shoes.<br>No smoking or flames.</span></span></div>';
+  var out = [acts[0], nextMood(), acts[1], info, nextMood(), notes, acts[2], pingpong, music, nextMood(), nextMood()];
   var extra = people.concat(snaps);
   extra.forEach(function(x, i){ out.push(x); if (i % 3 === 2) out.push(nextMood()); });
   if (out.filter(Boolean).length % 2) out.push(nextMood());
-  return staggered(out);
+  return staggered(out, fitTitle('h2', ['Tonight']));
 }
 
 /* ----- ranking (shared by both contests) ----- */
@@ -1050,14 +1192,14 @@ function rankerHTML(kind, items, ownIds, open){
 function costumesView(){
   var me = S.state.me, gm = guestsById(), open = cfg('costume_voting') === 'open' && !ended();
   var group = groupOf(gm[me.id] || me).filter(function(g){ return g.id !== me.id; });
-  var out = banner('costumes', '<div class="row">' + fitTitle('h2', ['Costume', 'Contest']) + '<span class="chip' + (open ? ' gold' : '') + '">Voting ' + (open ? 'open' : 'closed') + '</span></div>') + '<section class="block">';
-  out += '<div class="card"><span class="eyebrow">Your entry</span><div class="me-entry"><span class="avatar">' + imgHTML('costume', me.id, me.photo_v, 'thumb', 'Your costume photo', me.name) + '</span>' +
+  var out = banner('costumes', '<div class="row">' + fitTitle('h2', ['Costume', 'Contest']) + '<span class="chip' + (open ? ' gold' : '') + '">' + (announced('costume') ? '' : 'Voting ' + (open ? 'open' : 'closed')) + '</span></div>') + closedHTML('costume') + '<section class="block">';
+  out += '<div class="card"><div class="card-head"><span class="eyebrow">Your entry</span><button class="btn primary small" type="submit" form="form-me">Save</button></div><div class="me-entry"><span class="avatar">' + imgHTML('costume', me.id, me.photo_v, 'thumb', 'Your costume photo', me.name) + '</span>' +
     '<div style="display:grid;gap:8px;min-width:0"><b>' + esc(fullName(me)) + '</b>' +
     '<button class="btn small ghost" data-act="pick" data-pick="costume">' + (me.photo_v ? 'Change photo' : 'Add a photo') + '</button>' +
     (me.photo_v ? '<button class="linkbtn small" data-act="rm-costume-photo" style="justify-self:start">Remove photo</button>' : '') + '</div></div>' +
-    '<form data-form="me" class="row2" style="align-items:end"><label class="fld"><span>Costume title</span><input type="text" id="f-title" maxlength="80" value="' + esc(me.costume_title || '') + '" placeholder="e.g. The Last Sunset"></label>' +
+    '<form data-form="me" id="form-me" class="row2" style="align-items:end"><label class="fld"><span>Costume title</span><input type="text" id="f-title" maxlength="80" value="' + esc(me.costume_title || '') + '" placeholder="e.g. The Last Sunset"></label>' +
     '<label class="fld"><span>Nickname</span><input type="text" id="f-nick2" maxlength="40" value="' + esc(me.nickname || '') + '"></label>' +
-    '<button class="btn primary" type="submit">Save</button></form>' +
+    '</form>' +
     '<div style="display:grid;gap:8px;border-top:1px solid var(--line);padding-top:12px">' +
     (group.length ? '<p>You’re entered together with <b>' + esc(joinNames(group.map(fullName))) + '</b>.</p>'
       : '<p class="muted small">Dressed up as a couple or a group? Add the others and you’ll appear as one entry. None of you can vote for it.</p>') +
@@ -1067,7 +1209,7 @@ function costumesView(){
     return {id: e.id, name: e.names, sub: e.title || 'Untitled costume', img: e.photo ? imgHTML('costume', e.photo.id, e.photo.photo_v, 'thumb', e.names, e.names) : null};
   });
   out += '<section class="block"><div class="block-head"><h2>Vote</h2><span class="muted small">' + plural(S.state.ballots.costume, 'ballot') + ' cast</span></div>' +
-    (open ? '<p class="muted">Tap up to three favourites, in order. Your 1 gets 3 points, 2 gets 2 and 3 gets 1. Voting for just one or two is fine. You can change your vote until voting closes.</p>' : '<div class="notice">' + (ended() ? 'Voting has closed. See the winners on the Home tab.' : 'Voting isn’t open right now. ' + esc(HOST) + ' will open it during the costume procession.') + '</div>') +
+    (open ? '<p class="muted">Tap up to three favourites, in order. Your 1 gets 3 points, 2 gets 2 and 3 gets 1. Voting for just one or two is fine. You can change your vote until voting closes.</p>' : '<div class="notice">' + (announced('costume') || ended() ? 'Voting has closed.' : 'Voting isn’t open right now. ' + esc(HOST) + ' will open it during the costume procession.') + '</div>') +
     rankerHTML('costume', items, open ? myEntryIds() : [], open) + '</section>';
   return out;
 }
@@ -1077,14 +1219,14 @@ function drinksView(){
   var me = S.state.me, gm = guestsById(), tm = teamsById(), open = cfg('drink_voting') === 'open' && !ended();
   var team = me.team_id ? tm[me.team_id] : null;
   var members = function(tid){ return S.state.guests.filter(function(g){ return g.team_id === tid; }); };
-  var out = banner('drinks', '<div class="row">' + fitTitle('h2', ['Drink Making', 'Contest']) + '<span class="chip' + (open ? ' gold' : '') + '">Voting ' + (open ? 'open' : 'closed') + '</span></div>') + '<section class="block">';
+  var out = banner('drinks', '<div class="row">' + fitTitle('h2', ['Drink Making', 'Contest']) + '<span class="chip' + (open ? ' gold' : '') + '">' + (announced('drinks') ? '' : 'Voting ' + (open ? 'open' : 'closed')) + '</span></div>') + closedHTML('drinks') + '<section class="block">';
   if (team) {
-    out += '<div class="card"><span class="eyebrow">Your team</span><div class="me-entry"><span class="avatar">' + imgHTML('team', team.id, team.photo_v, 'thumb', 'Your drink', team.name) + '</span>' +
+    out += '<div class="card"><div class="card-head"><span class="eyebrow">Your team</span><button class="btn primary small" type="submit" form="form-team">Save</button></div><div class="me-entry"><span class="avatar">' + imgHTML('team', team.id, team.photo_v, 'thumb', 'Your drink', team.name) + '</span>' +
       '<div style="display:grid;gap:8px;min-width:0"><b>' + esc(team.name) + '</b><span class="muted small">' + members(team.id).map(function(g){ return esc(shortName(g)); }).join(', ') + '</span>' +
       '<button class="btn small ghost" data-act="pick" data-pick="team">' + (team.photo_v ? 'Change drink photo' : 'Add a drink photo') + '</button></div></div>' +
-      '<form data-form="team" class="row2" style="align-items:end"><label class="fld"><span>Team name</span><input type="text" id="f-tname" maxlength="40" value="' + esc(team.name) + '" required></label>' +
+      '<form data-form="team" id="form-team" class="row2" style="align-items:end"><label class="fld"><span>Team name</span><input type="text" id="f-tname" maxlength="40" value="' + esc(team.name) + '" required></label>' +
       '<label class="fld"><span>Drink name</span><input type="text" id="f-dname" maxlength="60" value="' + esc(team.drink_name || '') + '" placeholder="e.g. The Fall Back Fizz"></label>' +
-      '<button class="btn primary" type="submit">Save</button></form>' +
+      '</form>' +
       '<div class="btns"><button class="btn" data-act="sheet" data-kind="team">Add Teammates</button>' +
       '<button class="btn small ghost" data-act="leave-team">' + (armed('leave') ? 'Tap again to confirm' : 'Leave this team') + '</button></div></div>';
   } else {
@@ -1098,7 +1240,7 @@ function drinksView(){
   out += '</section>';
   var items = S.state.teams.map(function(t){ return {id: t.id, name: t.name, sub: t.drink_name || 'Drink not named yet', img: t.photo_v ? imgHTML('team', t.id, t.photo_v, 'thumb', t.name, t.name) : null}; });
   out += '<section class="block"><div class="block-head"><h2>Vote</h2><span class="muted small">' + plural(S.state.ballots.drink, 'ballot') + ' cast</span></div>' +
-    (open ? '<p class="muted">Tap up to three favourite drinks, in order. Just one or two is fine. You can’t vote for your own team.</p>' : '<div class="notice">' + (ended() ? 'Voting has closed. See the winners on the Home tab.' : 'Drink voting isn’t open right now.') + '</div>') +
+    (open ? '<p class="muted">Tap up to three favourite drinks, in order. Just one or two is fine. You can’t vote for your own team.</p>' : '<div class="notice">' + (announced('drinks') || ended() ? 'Voting has closed.' : 'Drink voting isn’t open right now.') + '</div>') +
     rankerHTML('drink', items, open && me.team_id ? [me.team_id] : [], open) + '</section>';
   return out;
 }
@@ -1108,16 +1250,14 @@ function huntView(){
   var h = S.state.hunt, me = S.state.me, gm = guestsById(), open = cfg('hunt') === 'open' && !ended();
   var left = h.total - h.found, pips = '';
   for (var i = 0; i < h.total; i++) pips += '<i class="' + (i < h.found ? 'found' : '') + '"></i>';
-  var out = banner('hunt', '<div class="row">' + fitTitle('h2', ['Trick', 'or Treat']) + '<span class="chip' + (open ? ' gold' : '') + '">' + (open ? 'Hunt is on' : ended() ? 'Hunt over' : 'Not started') + '</span></div>') + '<section class="block">';
-  if (!open && !ended()) out += '<div class="notice">The hunt hasn’t started. Codes scanned before it opens won’t count, so keep your eyes open and your camera ready.</div>';
+  var out = banner('hunt', '<div class="row">' + fitTitle('h2', ['Trick', 'or Treat']) + '<span class="chip' + (open ? ' gold' : '') + '">' + (announced('hunt') ? '' : open ? 'Hunt is on' : ended() ? 'Hunt over' : 'Not started') + '</span></div>') + closedHTML('hunt') + '<section class="block">';
+  if (!open && !ended() && !announced('hunt')) out += '<div class="notice">The hunt hasn’t started. Codes scanned before it opens won’t count, so keep your eyes open and your camera ready.</div>';
   out += '<div class="hunt-count"><span class="big">' + left + '</span><span class="muted">of ' + h.total + ' codes still hidden</span><div class="pips" aria-hidden="true">' + pips + '</div></div>';
   if (h.grand_found_by) out += '<div class="notice gold"><b>The grand code has been claimed</b> by ' + esc(fullName(gm[h.grand_found_by])) + '.</div>';
   else if (h.grand_revealed) out += '<div class="card" style="border-color:var(--gold)"><span class="eyebrow">The grand code is awake</span><p style="font-size:20px">' + esc(h.grand_clue || '') + '</p><p class="muted small">First to scan it wins the big bonus.</p></div>';
   else out += '<p class="muted small">When every code has been found, a clue to the grand code appears here.</p>';
   out += '<div class="card"><div class="block-head"><h3>Your Haul</h3><span class="mono" style="font-size:22px;color:var(--gold)">' + myPoints() + ' pts</span></div>' +
-    (h.mine.length ? '<ul class="finds">' + h.mine.map(function(c){
-      return '<li><span class="pts ' + (c.points < 0 ? 'neg' : 'pos') + '">' + signed(c.points) + '</span><span>' + esc(c.message || (c.is_grand ? 'The grand code' : c.kind === 'trick' ? 'A trick' : 'A treat')) + '</span></li>';
-    }).join('') + '</ul>' : '<p class="muted small">Nothing yet. Find a code and scan it with your phone camera.</p>') + '</div>';
+    hauls(h) + '</div>';
   out += '<div class="card quiet"><h3>How It Works</h3><ul class="muted small" style="margin:0;padding-left:18px;display:grid;gap:4px">' +
     '<li>QR codes are hidden around the house. Scan one with your normal camera app.</li>' +
     '<li>Each code pays out only to the <b>first few people</b> who scan it (usually 3). After that it’s picked clean.</li>' +
@@ -1128,6 +1268,25 @@ function huntView(){
     return '<li class="' + (r.guest_id === me.id ? 'me' : '') + '"><span>' + esc(fullName(gm[r.guest_id])) + ' <span class="muted small">· ' + r.finds + ' found</span></span><span class="pts">' + r.points + '</span></li>';
   }).join('') + '</ol>' : '<p class="muted small">No one has scored yet.</p>') + '</section></section>';
   return out;
+}
+
+/* Your Haul: one tile per code. Codes you've found show their number; tap to flip and see the trick or treat. */
+function hauls(h){
+  var byNum = {}, grand = null;
+  h.mine.forEach(function(c){ if (c.is_grand) grand = c; else byNum[c.num] = c; });
+  var tiles = [];
+  Object.keys(byNum).map(Number).sort(function(a, b){ return a - b; }).forEach(function(n){ tiles.push({num: n, c: byNum[n]}); });
+  if (grand) tiles.push({num: 'grand', c: grand});
+  var html = '<div class="flips">' + tiles.map(function(t){
+    var c = t.c, label = t.num === 'grand' ? 'Grand' : '#' + t.num;
+    if (!c) return '<div class="flip locked" aria-label="' + label + ', not found yet"><span class="face front"><b>' + '?' + '</b><small>' + label + '</small></span></div>';
+    var open = S.flipped && S.flipped[t.num];
+    var kind = c.is_grand ? 'Grand!' : c.kind === 'trick' ? 'Trick!' : 'Treat!';
+    return '<button class="flip found ' + (c.kind === 'trick' ? 'trick' : 'treat') + (open ? ' open' : '') + '" data-act="flip" data-num="' + t.num + '" aria-pressed="' + !!open + '" aria-label="' + label + '">' +
+      '<span class="face front"><b>' + label + '</b><small>Tap to flip</small></span>' +
+      '<span class="face back"><b>' + kind + '</b><em>' + signed(c.points) + (Math.abs(c.points) === 1 ? ' pt' : ' pts') + '</em><small>' + esc(c.message || '') + '</small></span></button>';
+  }).join('') + '</div>';
+  return h.mine.length ? html : '<p class="muted small">Nothing yet. Find a code and scan it with your phone camera.</p>';
 }
 
 /* ----- photos ----- */
@@ -1208,7 +1367,7 @@ function sheetRows(){
     }
     return '<button class="srow ' + state + '" data-act="sheet-toggle" data-id="' + g.id + '"' + (state === 'taken' || S.busy.sheet ? ' disabled' : '') + ' aria-pressed="' + (state === 'in') + '">' +
       '<span class="nm">' + esc(fullName(g)) + (note ? '<span class="muted small">' + esc(note) + '</span>' : '') + '</span>' +
-      '<span class="tick">' + (state === 'in' ? '\u2713' : state === 'free' ? '+' : '') + '</span></button>';
+      '<span class="tick">' + (state === 'in' ? '<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>' : state === 'free' ? '+' : '') + '</span></button>';
   }).join('');
 }
 function sheetView(){
@@ -1301,7 +1460,8 @@ function hostView(){
 }
 function seg(key, opts){
   var val = S.host.config[key];
-  return '<span class="seg">' + opts.map(function(o){ return '<button data-act="cfg" data-key="' + key + '" data-val="' + esc(JSON.stringify(o[0])) + '" aria-pressed="' + (val === o[0]) + '">' + o[1] + '</button>'; }).join('') + '</span>';
+  return '<span class="seg">' + opts.map(function(o){ var on = typeof o[0] === 'boolean' ? !!val === o[0] : val === o[0];
+    return '<button data-act="cfg" data-key="' + key + '" data-val="' + esc(JSON.stringify(o[0])) + '" aria-pressed="' + on + '">' + o[1] + '</button>'; }).join('') + '</span>';
 }
 function hostControls(){
   var c = S.host.config, h = S.host.hunt, al = c.alert && c.alert.text ? c.alert : null;
@@ -1313,7 +1473,9 @@ function hostControls(){
     '<div class="ctl"><span><b>Costume voting</b><br><span class="muted small">' + plural(S.host.ballots.costume, 'ballot') + '</span></span>' + seg('costume_voting', [['open','Open'],['closed','Closed']]) + '</div>' +
     '<div class="ctl"><span><b>Drink voting</b><br><span class="muted small">' + plural(S.host.ballots.drink, 'ballot') + '</span></span>' + seg('drink_voting', [['open','Open'],['closed','Closed']]) + '</div>' +
     '<div class="ctl"><span><b>Trick-or-treat hunt</b><br><span class="muted small">' + h.found + ' of ' + h.total + ' codes found</span></span>' + seg('hunt', [['open','Open'],['closed','Closed']]) + '</div>' +
-    '<div class="ctl"><span><b>Show winners to guests</b><br><span class="muted small">Adds the winners to everyone’s home page</span></span>' + seg('results_visible', [[true,'Show'],[false,'Hide']]) + '</div>' +
+    '<div class="ctl"><span><b>Announce costume winner</b><br><span class="muted small">Closes voting and shows the winner</span></span>' + seg('announce_costume', [[true,'Announce'],[false,'Hide']]) + '</div>' +
+    '<div class="ctl"><span><b>Announce drink winner</b><br><span class="muted small">Closes voting and shows the winner</span></span>' + seg('announce_drink', [[true,'Announce'],[false,'Hide']]) + '</div>' +
+    '<div class="ctl"><span><b>Announce hunt winner</b><br><span class="muted small">Ends the hunt and shows the winner</span></span>' + seg('announce_hunt', [[true,'Announce'],[false,'Hide']]) + '</div>' +
     '<div class="ctl"><span><b>Reveal the grand clue now</b><br><span class="muted small">' + (h.grand_revealed && !c.force_grand ? 'Already revealed: every code was found' : 'Use this if a code gets lost') + '</span></span>' + seg('force_grand', [[true,'Reveal'],[false,'Auto']]) + '</div></div>' +
     '<div class="card"><h3>Passcodes</h3><p class="muted small">Leave a box blank to keep that passcode. After you change the guest passcode, everyone has to enter the new one, so tell your guests (and update the door sign). Guest passcodes need 4+ characters, host passcodes 6+.</p>' +
     '<form data-form="passcodes" style="display:grid;gap:10px" autocomplete="off"><label class="fld"><span>New guest passcode</span><input type="text" id="f-newguest" autocomplete="off" autocapitalize="none" spellcheck="false"></label>' +
@@ -1522,6 +1684,18 @@ function openPicker(which){
   picker.value = '';
   picker.click();
 }
+/* GIFs are uploaded as they are, so they keep moving. Everything else is shrunk to a JPEG. */
+var GIF_MAX = 1450000;
+function isGif(f){ return f && (f.type === 'image/gif' || /\.gif$/i.test(f.name || '')); }
+function readGif(f){
+  return new Promise(function(res, rej){
+    var r = new FileReader();
+    r.onload = function(){ var d = String(r.result).replace(/^data:[^;,]*/, 'data:image/gif'); if (d.length > GIF_MAX) rej(new AppError('gif_too_big')); else res(d); };
+    r.onerror = function(){ rej(new AppError('bad_image')); };
+    r.readAsDataURL(f);
+  });
+}
+function prep(file, maxDim, q, maxLen){ return isGif(file) ? readGif(file) : shrink(file, maxDim, q, maxLen); }
 picker.addEventListener('change', function(){
   var which = pickFor, t = picker;
   if (!which || !t.files || !t.files.length) return;
@@ -1529,7 +1703,7 @@ picker.addEventListener('change', function(){
   t.value = '';
   if (which === 'costume' || which === 'team') {
     toast('Uploading…');
-    shrink(files[0], 720, 0.8, 380000).then(function(d){
+    prep(files[0], 720, 0.8, 380000).then(function(d){
       return act('photo', rpc(which === 'costume' ? 'party_set_costume_photo' : 'party_set_team_photo', {p_pass: S.pass, p_token: S.token, p_photo: d}), 'Photo saved');
     }).catch(function(err){ toast(err.message || ERR.bad_image, true); });
   }
@@ -1539,7 +1713,7 @@ picker.addEventListener('change', function(){
     var next = function(i){
       if (i >= files.length) return Promise.resolve();
       S.uploadMsg = 'Uploading ' + (i + 1) + ' of ' + files.length + '…'; render(true);
-      return Promise.all([shrink(files[i], 1400, 0.8, 700000), shrink(files[i], 420, 0.72, 150000)]).then(function(r){
+      return (isGif(files[i]) ? readGif(files[i]).then(function(g){ return [g, g]; }) : Promise.all([shrink(files[i], 1400, 0.8, 700000), shrink(files[i], 420, 0.72, 150000)])).then(function(r){
         return rpc('party_add_photo', {p_pass: S.pass, p_token: S.token, p_caption: caption, p_thumb: r[1], p_full: r[0]}).then(function(id){
           imgCache.set(imgKey('photo', id, 'p', 'thumb'), r[1]); imgCache.set(imgKey('photo', id, 'p', 'full'), r[0]); done++;
         });
@@ -1559,6 +1733,7 @@ app.addEventListener('click', function(e){
   var a = b.getAttribute('data-act'), id = +b.getAttribute('data-id');
   switch (a) {
     case 'retry': S.fatal = null; init(); break;
+    case 'flip': { var fn = b.getAttribute('data-num'); S.flipped = S.flipped || {}; S.flipped[fn] = !S.flipped[fn]; b.classList.toggle('open', S.flipped[fn]); b.setAttribute('aria-pressed', S.flipped[fn]); break; }
     case 'board': S.overlay = 'board'; S.boardTab = 'all'; render(true); window.scrollTo(0, 0); break;
     case 'board-tab': S.boardTab = b.getAttribute('data-tab'); render(true); break;
     case 'del-msg': if (!armed('msg-' + id)) { arm('msg-' + id); break; } S.confirm = null; act('msg', rpc('party_delete_message', {p_pass: S.pass, p_token: S.token, p_id: id}), 'Message deleted'); break;
@@ -1602,7 +1777,7 @@ app.addEventListener('click', function(e){
       var ph = S.state.photos, i = ph.findIndex(function(x){ return x.id === S.viewer; }) + (a === 'next-photo' ? 1 : -1);
       if (ph[i]) { S.viewer = ph[i].id; render(true); } break;
     }
-    case 'download': getFull(id).then(function(s){ if (s) saveBlob(dataUrlToBlob(s), 'wake-all-night-' + id + '.jpg'); }).catch(function(err){ toast(err.message, true); }); break;
+    case 'download': getFull(id).then(function(s){ if (s) saveBlob(dataUrlToBlob(s), 'wake-all-night-' + id + (/^data:image\/gif/.test(s) ? '.gif' : '.jpg')); }).catch(function(err){ toast(err.message, true); }); break;
     case 'del-photo': if (!armed('del-' + id)) { arm('del-' + id); break; } S.confirm = null; S.viewer = null; act('photo', rpc('party_delete_photo', {p_pass: S.pass, p_token: S.token, p_id: id}), 'Photo removed'); break;
     case 'host-del-photo': if (!armed('hdel-' + id)) { arm('hdel-' + id); break; } S.confirm = null; S.viewer = null; act('photo', rpc('host_delete_photo', {p_pass: S.pass, p_id: id}), 'Photo removed'); break;
     case 'zip': downloadAll(); break;
@@ -1610,7 +1785,8 @@ app.addEventListener('click', function(e){
     case 'open-host': S.overlay = 'host'; render(true); window.scrollTo(0, 0); refreshHost(); break;
     case 'htab': S.hostTab = b.getAttribute('data-tab'); S.hostSchedule = null; render(true); break;
     case 'cfg': {
-      var patch = {}; patch[b.getAttribute('data-key')] = JSON.parse(b.getAttribute('data-val'));
+      var key = b.getAttribute('data-key'), v2 = JSON.parse(b.getAttribute('data-val')), patch = {}; patch[key] = v2;
+      if (v2 === true) { if (key === 'announce_costume') patch.costume_voting = 'closed'; if (key === 'announce_drink') patch.drink_voting = 'closed'; if (key === 'announce_hunt') patch.hunt = 'closed'; }
       act('host', rpc('host_update_config', {p_pass: S.pass, p_patch: patch}).then(refreshHost)); break;
     }
     case 'phase': {
@@ -1649,7 +1825,7 @@ function downloadAll(){
       chunk.forEach(function(p, j){
         var src = m[String(p.id)]; if (!src) return;
         var d = new Date(Date.parse(p.at)), who = shortName(gm[p.guest_id]).replace(/[^a-z0-9]+/gi, '-').toLowerCase();
-        zip.file(String(i - chunk.length + j + 1).padStart(3, '0') + '-' + pad(d.getHours()) + pad(d.getMinutes()) + '-' + who + '.jpg', src.split(',')[1], {base64: true});
+        zip.file(String(i - chunk.length + j + 1).padStart(3, '0') + '-' + pad(d.getHours()) + pad(d.getMinutes()) + '-' + who + (/^data:image\/gif/.test(src) ? '.gif' : '.jpg'), src.split(',')[1], {base64: true});
       });
       return step();
     });
