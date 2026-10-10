@@ -8,7 +8,7 @@
 <title>A Wake All Night</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Grenze+Gotisch:wght@400;500;600&family=Spectral:wght@400;500;600&family=Courier+Prime:wght@400;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Grenze+Gotisch:wght@400;500;600&family=Grenze:wght@500;600&family=Spectral:wght@400;500;600&family=Courier+Prime:wght@400;700&display=swap">
 <style>
 /* Candlelit mood board: one dark look by design (it's a party at night). Full-bleed photo banners, masonry pins, blackletter headings, book serif text. */
 :root{
@@ -22,8 +22,18 @@
 }
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
-body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.55 var(--body);min-height:100vh;
-  background-image:radial-gradient(ellipse 80% 40% at 50% -5%, rgba(227,181,95,.10), transparent 70%);background-repeat:no-repeat}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.55 var(--body);min-height:100vh}
+/* Backdrop: big, soft, out-of-focus purple and orange lights drifting slowly. */
+#bokeh{position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none;background:var(--bg)}
+#bokeh i{position:absolute;border-radius:50%;animation:drift 28s ease-in-out infinite alternate}
+#bokeh i:nth-child(1){width:95vmax;height:95vmax;left:-35vmax;top:-30vmax;background:radial-gradient(circle, rgba(138,62,196,.55) 0%, rgba(138,62,196,0) 62%)}
+#bokeh i:nth-child(2){width:80vmax;height:80vmax;right:-30vmax;top:-10vmax;background:radial-gradient(circle, rgba(232,122,44,.42) 0%, rgba(232,122,44,0) 62%);animation-duration:34s;animation-delay:-8s}
+#bokeh i:nth-child(3){width:70vmax;height:70vmax;left:-15vmax;top:45vh;background:radial-gradient(circle, rgba(214,104,58,.34) 0%, rgba(214,104,58,0) 62%);animation-duration:31s;animation-delay:-15s}
+#bokeh i:nth-child(4){width:85vmax;height:85vmax;right:-35vmax;top:60vh;background:radial-gradient(circle, rgba(118,52,178,.5) 0%, rgba(118,52,178,0) 62%);animation-duration:37s;animation-delay:-4s}
+#bokeh i:nth-child(5){width:40vmax;height:40vmax;left:30vw;top:28vh;background:radial-gradient(circle, rgba(246,160,80,.28) 0%, rgba(246,160,80,0) 62%);animation-duration:24s;animation-delay:-11s}
+#bokeh i:nth-child(6){width:45vmax;height:45vmax;left:-10vmax;top:85vh;background:radial-gradient(circle, rgba(170,80,190,.35) 0%, rgba(170,80,190,0) 62%);animation-duration:29s}
+@keyframes drift{0%{transform:translate(0,0) scale(1)}50%{transform:translate(4vmax,-3vmax) scale(1.08)}100%{transform:translate(-3vmax,4vmax) scale(.95)}}
+@media (prefers-reduced-motion:reduce){#bokeh i{animation:none}}
 h1,h2,h3{font-family:var(--display);font-weight:500;margin:0;text-wrap:balance;line-height:1.05;letter-spacing:.01em}
 p{margin:0}
 button,input,select,textarea{font:inherit;color:inherit}
@@ -163,10 +173,10 @@ nav.tabbar button[aria-current="page"]{color:var(--gold);border-top-color:var(--
 .overlay .page{padding-bottom:calc(40px + env(safe-area-inset-bottom,0px))}
 .overlay-top{display:flex;justify-content:space-between;align-items:center;gap:10px}
 
-.viewer{position:fixed;inset:0;z-index:50;background:rgba(8,5,10,.97);display:grid;grid-template-rows:auto minmax(0,1fr) auto;padding:calc(10px + env(safe-area-inset-top,0px)) 12px calc(12px + env(safe-area-inset-bottom,0px))}
-.viewer .stage{display:grid;place-items:center;min-height:0}
-.viewer .stage img{max-height:100%;max-width:100%;object-fit:contain;border-radius:4px}
-.viewer .meta{display:grid;gap:8px;padding-top:10px}
+.viewer{position:fixed;inset:0;height:100vh;height:100dvh;z-index:50;background:#08050a;display:grid;grid-template-rows:auto minmax(0,1fr) auto;padding:calc(10px + env(safe-area-inset-top,0px)) 12px calc(12px + env(safe-area-inset-bottom,0px))}
+.viewer .stage{position:relative;min-height:0;margin-top:10px}
+.viewer .stage img{position:absolute;inset:0;margin:auto;max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;border-radius:4px}
+.viewer .meta{display:grid;gap:8px;padding-top:12px;position:relative;z-index:1;background:rgba(8,5,10,.97)}
 
 .reveal{position:fixed;inset:0;z-index:60;background:rgba(8,5,10,.96);display:grid;place-items:center;padding:24px 16px}
 .reveal .box{max-width:420px;width:100%;text-align:center;display:grid;gap:14px;justify-items:center}
@@ -235,9 +245,9 @@ a.pin{text-decoration:none;color:var(--ink)}
 .pin .pimg.wide img{aspect-ratio:4/3;object-fit:cover}
 .pin .pimg.mood img{filter:saturate(.8) brightness(.8)}
 .pin .ov{position:absolute;left:0;right:0;bottom:0;padding:40px 12px 12px;background:linear-gradient(180deg, transparent, rgba(10,6,12,.85));display:grid;gap:2px}
-.pin .ov .k{font-size:14px;color:var(--gold)}
-.pin .ov .v{font-family:var(--display);font-size:24px;line-height:1.05;font-weight:500}
-.pin .ov .v.num{font-size:44px}
+.pin .ov .k{font-size:16px;color:var(--gold)}
+.pin .ov .v{font-family:var(--display);font-size:31px;line-height:1;font-weight:500}
+.pin .ov .v.num{font-size:56px}
 .pin .cap{display:block;margin-top:7px;font-size:15px;font-weight:600;line-height:1.3;overflow-wrap:anywhere}
 .pin .psub{display:block;font-size:14px;color:var(--muted);line-height:1.3;overflow-wrap:anywhere}
 button.pin:hover .pimg img{filter:brightness(1.08)}
@@ -246,7 +256,11 @@ button.pin.mood-act:hover .pimg img{filter:saturate(.8) brightness(.95)}
 .pin .rk.own{background:rgba(10,6,12,.8);color:var(--ink);font-weight:400}
 .pin.picked .pimg{outline:2px solid var(--gold);outline-offset:3px}
 .pin.picked .cap{color:var(--gold)}
-.pin.own{opacity:.4;cursor:not-allowed}
+.pin.own{cursor:not-allowed}
+.pin.own .pimg img{opacity:.3;filter:grayscale(.7)}
+.pin.own .empty-name{opacity:.35}
+.pin.own .cap,.pin.own .psub{color:var(--muted)}
+.pin .own-note{position:absolute;inset:0;z-index:3;display:grid;place-items:center;padding:14px;text-align:center;font-size:17px;font-weight:600;line-height:1.25;color:var(--ink);background:rgba(10,6,12,.35)}
 .pin .empty-name{position:absolute;inset:0;display:grid;place-items:center;padding:16px;text-align:center;font-family:var(--display);font-size:30px;line-height:1.05;z-index:1;text-shadow:0 2px 16px rgba(0,0,0,.6)}
 
 .dst .cdp{display:flex;justify-content:space-between;align-items:baseline;padding:4px 2% 6px}
@@ -261,12 +275,25 @@ button.pin.mood-act:hover .pimg img{filter:saturate(.8) brightness(.95)}
 .stagger .pin{margin:0}
 .stagger .pin .pimg img{aspect-ratio:3/4;height:auto;object-fit:cover}
 .stagger .pin .pimg img:not([src]){aspect-ratio:3/4}
-.stagger .pin .ov .v{font-size:22px}
-.stagger .pin .ov .v.num{font-size:40px}
+.stagger .pin .ov .v{font-size:31px}
+.stagger .pin .ov .v.num{font-size:56px}
 
 .stagger .pin.mood-only .pimg{position:relative}
-.stagger .pin.mood-only img.rot-in{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 1.2s ease}
-.stagger .pin.mood-only img.rot-in.on{opacity:1}
+.stagger .pin.mood-only .rot-in{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 1.2s ease}
+.stagger .pin.mood-only .rot-in.on{opacity:1}
+.noteface{display:grid;align-content:center;gap:10px;aspect-ratio:3/4;padding:16px 14px;text-align:center;
+  background:radial-gradient(120% 90% at 30% 15%, rgba(150,70,200,.55), transparent 60%), radial-gradient(110% 80% at 80% 100%, rgba(230,120,45,.45), transparent 60%), #1c1222}
+.noteface .nq{font-family:var(--body);font-weight:600;font-size:20px;line-height:1.2;color:var(--ink);overflow-wrap:anywhere}
+.noteface .nw{font-size:14px;color:var(--gold)}
+.alert{display:grid;gap:6px;padding:16px 18px;border:1px solid var(--gold);border-radius:6px;background:rgba(20,12,24,.72)}
+.alert-top{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.alert-top .x{min-height:auto;padding:0 4px;font-size:24px;line-height:1}
+.alert p{font-family:var(--body);font-weight:600;font-size:24px;line-height:1.2}
+.notes{list-style:none;margin:0;padding:0;display:grid}
+.notes li{display:grid;gap:4px;padding:14px 0;border-top:1px solid var(--line)}
+.notes .nb{font-family:var(--body);font-weight:600;font-size:20px;line-height:1.25;overflow-wrap:anywhere}
+.notes .nmeta{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+label.fld > span #msg-count{float:right;font-size:13px}
 
 .picker{position:fixed;left:0;top:0;width:1px;height:1px;opacity:0;pointer-events:none}
 .top-r{display:flex;align-items:center;gap:14px}
@@ -287,6 +314,9 @@ button.pin.mood-act:hover .pimg img{filter:saturate(.8) brightness(.95)}
 .pair-btns{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .pair-btns .btn{white-space:normal;line-height:1.25;text-align:center;min-height:52px}
 
+.banner.home{background:transparent}
+.banner.home::before,.banner.home::after{display:none}
+.cn{font-family:"Grenze", var(--display)}
 #print-sheet{display:none}
 @media print{
   body{background:#fff;color:#000}
@@ -311,6 +341,7 @@ button.pin.mood-act:hover .pimg img{filter:saturate(.8) brightness(.95)}
 </style>
 </head>
 <body>
+<div id="bokeh" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
 <div id="app"></div>
 <div id="print-sheet"></div>
 <input type="file" id="picker" accept="image/*" class="picker" aria-hidden="true" tabindex="-1">
@@ -411,6 +442,12 @@ var ERR = {
   bad_ballot: 'Pick one to three different entries.',
   already_paired: 'They’re already paired with someone else.',
   bad_partner: 'Pick someone from the list.',
+  need_message: 'Write a message first.',
+  guest_pass_short: 'The guest passcode needs at least 4 characters.',
+  host_pass_short: 'The host passcode needs at least 6 characters.',
+  pass_same: 'Use different passcodes for guests and for you.',
+  message_too_long: 'Keep it to 60 characters.',
+  message_limit: 'You\u2019ve posted the maximum of 40 messages.',
   already_grouped: 'They\u2019re already in another costume group.',
   other_team: 'They\u2019re already on another team.',
   bad_team: 'That team no longer exists.',
@@ -550,6 +587,7 @@ var MOOD = {
   pinCostume: '1638129640863-d1f283b8ffdb',
   pinDrink: '1723691802828-707ecdf3ee25',
   pinHunt: '1572860177022-8fda92a90c95',
+  pinBoard: '1619854815806-a118bc521451',
   pinInfo: '1530049080396-450947c04fcd',
   pinPlaylist: '1637870793159-53329ad6b958',
   board: ['1601922046210-41e129a3e64a', '1584204159455-11ad2b12ebf8', '1746913620906-ac39272aa9d1',
@@ -572,7 +610,7 @@ document.addEventListener('error', function(e){
 }, true);
 /* Header titles: each line is sized so the longest one spans the full width, then stretched taller. */
 function fitTitle(tag, lines){
-  return '<' + tag + ' class="fit" aria-label="' + esc(lines.join(' ')) + '">' + lines.map(function(l){ return '<span class="ln" aria-hidden="true">' + esc(l) + '</span>'; }).join('') + '</' + tag + '>';
+  return '<' + tag + ' class="fit" aria-label="' + esc(lines.join(' ')) + '">' + lines.map(function(l){ return '<span class="ln" aria-hidden="true">' + esc(l).replace(/\bNight\b/, '<span class="cn">N</span>ight') + '</span>'; }).join('') + '</' + tag + '>';
 }
 function fitTitles(){
   app.querySelectorAll('.fit').forEach(function(t){
@@ -589,7 +627,8 @@ window.addEventListener('resize', function(){ requestAnimationFrame(fitTitles); 
 if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitTitles);
 
 function banner(key, inner, cls){
-  return '<header class="banner' + (cls ? ' ' + cls : '') + '">' + moodImg(MOOD[key], 1200) + '<div class="over">' + inner + '</div></header>';
+  var plain = /\bhome\b/.test(cls || '');  /* the home header sits straight on the glowing backdrop */
+  return '<header class="banner' + (cls ? ' ' + cls : '') + '">' + (plain ? '' : moodImg(MOOD[key], 1200)) + '<div class="over">' + inner + '</div></header>';
 }
 
 /* ---------- derived data ---------- */
@@ -745,15 +784,16 @@ app.addEventListener('focusout', function(){ setTimeout(function(){ if (renderQu
 
 function view(){
   if (!configured()) return setupView();
-  if (S.fatal && !S.state) return '<main class="page bare"><div class="hero"><h1>A Wake All Night</h1></div><div class="notice gold">' + esc(S.fatal) + '</div><button class="btn primary" data-act="retry">Try again</button></main>';
+  if (S.fatal && !S.state) return '<main class="page bare"><div class="hero"><h1>A Wake All <span class="cn">N</span>ight</h1></div><div class="notice gold">' + esc(S.fatal) + '</div><button class="btn primary" data-act="retry">Try again</button></main>';
   if (!S.pass) return gateView();
-  if (!S.state) return '<main class="page bare"><div class="hero"><h1>A Wake All Night</h1><p class="sub">Lighting the candles…</p></div></main>';
+  if (!S.state) return '<main class="page bare"><div class="hero"><h1>A Wake All <span class="cn">N</span>ight</h1><p class="sub">Lighting the candles…</p></div></main>';
   if (S.overlay === 'about') return aboutView();
   if (!S.state.me) return joinView();
   var out = '';
   if (S.overlay === 'host') out = hostView();
   else if (S.overlay === 'info') out = infoView();
   else if (S.overlay === 'profile') out = profileView();
+  else if (S.overlay === 'board') out = messageBoardView();
   else if (S.overlay === 'print') out = printView();
   else out = '<main class="page">' + topbar() + tabView() + '</main>' + tabbar();
   if (S.sheet) out += sheetView();
@@ -763,13 +803,13 @@ function view(){
 }
 
 function setupView(){
-  return '<main class="page bare"><div class="hero"><span class="eyebrow">Almost ready</span><h1>A Wake All Night</h1></div>' +
+  return '<main class="page bare"><div class="hero"><span class="eyebrow">Almost ready</span><h1>A Wake All <span class="cn">N</span>ight</h1></div>' +
     '<div class="card"><h3>This Site Isn’t Connected Yet</h3><p class="muted">Open <span class="mono">index.html</span>, find <span class="mono">WAKE_CONFIG</span> near the bottom, and paste in your Supabase project URL and key. The setup guide walks you through it.</p></div></main>';
 }
 
 function gateView(){
   return '<main class="page bare">' +
-    '<div class="hero"><span class="eyebrow">Saturday, October 31</span><h1>A Wake All Night</h1><p class="sub">In Memory of Daylight Saving Time 2026</p></div>' +
+    '<div class="hero"><span class="eyebrow">Saturday, October 31</span><h1>A Wake All <span class="cn">N</span>ight</h1><p class="sub">In Memory of Daylight Saving Time 2026</p></div>' +
     '<form class="card" data-form="gate" autocomplete="off"><label class="fld"><span>Party passcode</span><input type="password" id="f-pass" autocomplete="current-password" required></label>' +
     '<button class="btn primary block" type="submit"' + (S.busy.gate ? ' disabled' : '') + '>' + (S.busy.gate ? 'Checking…' : 'Continue') + '</button>' +
     '<p class="muted small">Ask ' + esc(HOST) + ' for the passcode.</p></form>' +
@@ -779,7 +819,7 @@ function gateView(){
 function joinView(){
   var join = S.authMode === 'join';
   return '<main class="page bare">' +
-    '<div class="hero"><span class="eyebrow">' + (join ? 'Sign the condolence book' : 'Welcome back') + '</span><h1>A Wake All Night</h1></div>' +
+    '<div class="hero"><span class="eyebrow">' + (join ? 'Sign the condolence book' : 'Welcome back') + '</span><h1>A Wake All <span class="cn">N</span>ight</h1></div>' +
     '<form class="card" data-form="' + (join ? 'join' : 'signin') + '" autocomplete="off">' +
     '<label class="fld"><span>Your name</span><input type="text" id="f-name" maxlength="40" autocomplete="given-name" required></label>' +
     (join ? '<label class="fld"><span>Nickname (optional)</span><input type="text" id="f-nick" maxlength="40" placeholder="e.g. The Grieving Widow"></label>' : '') +
@@ -791,7 +831,7 @@ function joinView(){
 }
 
 function topbar(){
-  return '<div class="topbar"><span class="brand">A Wake All Night</span><span class="top-r">' +
+  return '<div class="topbar"><span class="brand">A Wake All <span class="cn">N</span>ight</span><span class="top-r">' +
     (S.isHost ? '<button class="host-link" data-act="open-host">Host</button>' : '') +
     '<button class="me-btn" data-act="profile" aria-label="Edit your info">' + esc(shortName(S.state.me)) +
     '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16z"/><path d="M14 6l4 4"/></svg></button></span></div>';
@@ -828,9 +868,10 @@ function homeView(){
   var h = S.state.hunt;
   var out = banner('hero', fitTitle('h1', ['A Wake', 'All Night']) + '<p class="sub">In Memory of Daylight Saving Time 2026</p>', 'home');
   if (cfg('results_visible')) out += '<section class="block"><h2>The Winners</h2>' + winnersHTML() + '</section>';
+  out += alertHTML();
   out += '<section class="block"><h2>Tonight</h2>' + boardHTML(me, team, h) + '</section>';
   out += dstHTML(dstLeft);
-  out += '<div class="pair-btns"><button class="btn ghost small" data-act="about">How your info is kept private</button><button class="btn ghost small" data-act="signout">' + (armed('signout') ? 'Tap again to sign out' : 'Not ' + esc(shortName(me)) + '? Sign out') + '</button></div>';
+  out += '<div class="pair-btns"><button class="btn ghost small" data-act="about">How your info is kept private</button><button class="btn ghost small" data-act="signout">' + (armed('signout') ? 'Tap again to confirm' : 'Not ' + esc(shortName(me)) + '? Sign out') + '</button></div>';
   return out;
 }
 
@@ -858,6 +899,15 @@ function endView(){
     '<section class="block"><h2>The Winners</h2>' + winnersHTML() + '</section>' +
     '<section class="card"><h3>The Photo Album</h3><p class="muted">' + S.state.photos.length + ' photos from the night. Add yours, or download them all.</p><button class="btn primary" data-act="tab" data-tab="photos">Open the album</button></section>' +
     '<button class="linkbtn" data-act="about">How your info is kept private</button>';
+}
+
+/* Host announcement, shown between the header and the tiles until the host clears it (or you dismiss it). */
+function alertHTML(){
+  var a = cfg('alert');
+  if (!a || !a.text) return '';
+  if (store.get('wake-alert-seen') === a.at) return '';
+  return '<section class="alert" role="status"><div class="alert-top"><span class="eyebrow">Announcement' + (a.at ? ' \u00b7 ' + fmtTime(Date.parse(a.at)) : '') + '</span>' +
+    '<button class="x" data-act="alert-dismiss" data-at="' + esc(a.at || '') + '" aria-label="Dismiss">\u00d7</button></div><p>' + esc(a.text) + '</p></section>';
 }
 
 /* Daylight Saving Time countdown: big, spread out, with D H M units. */
@@ -894,7 +944,13 @@ var rotation = {};
 function rotationPool(){
   var pool = MOOD.board.concat(MOOD.empty);
   imgCache.forEach(function(src, k){ if (k.indexOf('photo:') === 0 && /:thumb$/.test(k)) pool.push(src); });
+  ((S.state && S.state.messages) || []).slice(0, 30).forEach(function(m){ pool.push('msg:' + m.id); pool.push('msg:' + m.id); });
   return pool;
+}
+function noteFace(id, extra){
+  var m = ((S.state && S.state.messages) || []).find(function(x){ return 'msg:' + x.id === id; });
+  if (!m) return null;
+  return '<span class="noteface' + (extra ? ' ' + extra : '') + '" data-src="' + id + '"><span class="nq">\u201c' + esc(m.body) + '\u201d</span><span class="nw">' + esc(shortName(guestsById()[m.guest_id])) + '</span></span>';
 }
 function rotateTile(){
   if (document.visibilityState !== 'visible' || S.tab !== 'home' || S.overlay || S.viewer != null || S.reveal) return;
@@ -902,11 +958,20 @@ function rotateTile(){
   var visible = tiles.filter(function(t){ var r = t.getBoundingClientRect(); return r.bottom > 0 && r.top < window.innerHeight; });
   if (!visible.length) return;
   var tile = visible[Math.floor(Math.random() * visible.length)], slot = tile.getAttribute('data-slot');
-  var box = tile.querySelector('.pimg'), old = box.querySelector('img:last-of-type');
-  var showing = Array.prototype.map.call(app.querySelectorAll('.stagger .pin.mood-only img'), function(i){ return i.getAttribute('src'); });
-  var pool = rotationPool().filter(function(v){ return showing.indexOf(/^data:/.test(v) ? v : moodUrl(v, 700)) === -1; });
+  var box = tile.querySelector('.pimg'), old = box.lastElementChild;
+  var showing = Array.prototype.map.call(app.querySelectorAll('.stagger .pin.mood-only img, .stagger .pin.mood-only .noteface'), function(i){ return i.getAttribute('data-src') || i.getAttribute('src'); });
+  var pool = rotationPool().filter(function(v){ return showing.indexOf(/^(data:|msg:)/.test(v) ? v : moodUrl(v, 700)) === -1; });
   if (!pool.length) return;
   var pick = pool[Math.floor(Math.random() * pool.length)];
+  if (pick.indexOf('msg:') === 0) {
+    var html = noteFace(pick, 'rot-in'); if (!html) return;
+    box.insertAdjacentHTML('beforeend', html);
+    var face = box.lastElementChild;
+    requestAnimationFrame(function(){ requestAnimationFrame(function(){ face.classList.add('on'); }); });
+    setTimeout(function(){ if (old && old.parentNode && box.contains(face)) { old.remove(); face.classList.remove('rot-in', 'on'); } }, 1300);
+    rotation[slot] = pick;
+    return;
+  }
   var img = new Image();
   img.alt = ''; img.className = 'rot-in'; img.setAttribute('data-mood', '');
   img.onload = function(){
@@ -925,8 +990,10 @@ function boardHTML(me, team, h){
   function nextMood(cls){
     if (m >= mood.length) return '';
     var slot = m++, cur = rotation[slot] || mood[slot];
+    var face = /^msg:/.test(cur) ? noteFace(cur) : null;
+    if (/^msg:/.test(cur) && !face) cur = mood[slot];
     return '<div class="pin mood-only" aria-hidden="true" data-slot="' + slot + '"><span class="pimg mood ' + (cls || '') + '">' +
-      (/^data:/.test(cur) ? '<img data-mood src="' + cur + '" alt="">' : moodImg(cur, 700)) + '</span></div>';
+      (face || (/^data:/.test(cur) ? '<img data-mood src="' + cur + '" alt="">' : moodImg(cur, 700))) + '</span></div>';
   }
   var acts = [
     actionPin('costumes', me.photo_v ? imgHTML('costume', me.id, me.photo_v, 'thumb', 'Your costume', me.name) : moodImg(MOOD.pinCostume, 700),
@@ -948,7 +1015,8 @@ function boardHTML(me, team, h){
   var music = playlist && /^https?:\/\//.test(playlist)
     ? linkPin('href="' + esc(playlist) + '" target="_blank" rel="noopener"', moodImg(MOOD.pinPlaylist, 700), 'Tonight\u2019s music', 'Playlist', 'tall')
     : linkPin('data-act="no-playlist"', moodImg(MOOD.pinPlaylist, 700), 'Tonight\u2019s music', 'Playlist', 'tall');
-  var out = [acts[0], nextMood(), acts[1], info, nextMood(), acts[2], music, nextMood()];
+  var notes = linkPin('data-act="board"', moodImg(MOOD.pinBoard, 700), 'Leave a note', 'Message Board', 'tall');
+  var out = [acts[0], nextMood(), acts[1], info, nextMood(), notes, acts[2], nextMood(), music, nextMood()];
   var extra = people.concat(snaps);
   extra.forEach(function(x, i){ out.push(x); if (i % 3 === 2) out.push(nextMood()); });
   if (out.filter(Boolean).length % 2) out.push(nextMood());
@@ -965,7 +1033,7 @@ function rankerHTML(kind, items, ownIds, open){
     var own = ownIds.indexOf(it.id) > -1, pos = ballot.indexOf(it.id);
     var pic = it.img ? '<span class="pimg">' + it.img
       : '<span class="pimg mood tall">' + moodImg(MOOD.empty[i % MOOD.empty.length], 600) + '<span class="empty-name">' + esc(it.name) + '</span>';
-    var tag = own ? '<span class="rk own">' + (kind === 'costume' ? 'You' : 'Your team') + '</span>' : pos > -1 ? '<span class="rk">' + (pos + 1) + '</span>' : '';
+    var tag = own ? '<span class="own-note">' + (kind === 'costume' ? 'Can\u2019t vote for yourself' : 'Can\u2019t vote for your own team') + '</span>' : pos > -1 ? '<span class="rk">' + (pos + 1) + '</span>' : '';
     return '<button class="pin' + (own ? ' own' : '') + (pos > -1 ? ' picked' : '') + '" data-act="rank" data-kind="' + kind + '" data-id="' + it.id + '"' + (own || !open ? ' disabled' : '') + ' aria-pressed="' + (pos > -1) + '" aria-label="' + esc(it.name + (it.sub ? ', ' + it.sub : '')) + '">' +
       pic + tag + '</span><span class="cap">' + esc(it.name) + '</span>' + (it.sub ? '<span class="psub">' + esc(it.sub) + '</span>' : '') + '</button>';
   }).join('') + '</div>';
@@ -1018,7 +1086,7 @@ function drinksView(){
       '<label class="fld"><span>Drink name</span><input type="text" id="f-dname" maxlength="60" value="' + esc(team.drink_name || '') + '" placeholder="e.g. The Fall Back Fizz"></label>' +
       '<button class="btn primary" type="submit">Save</button></form>' +
       '<div class="btns"><button class="btn" data-act="sheet" data-kind="team">Add Teammates</button>' +
-      '<button class="btn small ghost" data-act="leave-team">' + (armed('leave') ? 'Tap again to leave' : 'Leave this team') + '</button></div></div>';
+      '<button class="btn small ghost" data-act="leave-team">' + (armed('leave') ? 'Tap again to confirm' : 'Leave this team') + '</button></div></div>';
   } else {
     out += '<div class="card"><span class="eyebrow">Join a team</span>' +
       (S.state.teams.length ? '<div>' + S.state.teams.map(function(t){
@@ -1089,8 +1157,8 @@ function viewerView(){
     '<div class="stage"><img data-full="' + p.id + '" alt="' + esc(p.caption || 'Party photo') + '"' + (src ? ' src="' + src + '"' : '') + '></div>' +
     '<div class="meta">' + (p.caption ? '<p>' + esc(p.caption) + '</p>' : '') + '<p class="muted small">Added by ' + esc(fullName(gm[p.guest_id])) + ' at ' + fmtTime(Date.parse(p.at)) + '</p>' +
     '<div class="btns"><button class="btn primary small" data-act="download" data-id="' + p.id + '">Download</button>' +
-    (mine ? '<button class="btn danger small" data-act="del-photo" data-id="' + p.id + '">' + (armed('del-' + p.id) ? 'Tap again to remove' : 'Remove my photo') + '</button>' : '') +
-    (S.isHost && !mine ? '<button class="btn danger small" data-act="host-del-photo" data-id="' + p.id + '">' + (armed('hdel-' + p.id) ? 'Tap again to remove' : 'Remove (host)') + '</button>' : '') + '</div></div></div>';
+    (mine ? '<button class="btn danger small" data-act="del-photo" data-id="' + p.id + '">' + (armed('del-' + p.id) ? 'Tap again to confirm' : 'Remove my photo') + '</button>' : '') +
+    (S.isHost && !mine ? '<button class="btn danger small" data-act="host-del-photo" data-id="' + p.id + '">' + (armed('hdel-' + p.id) ? 'Tap again to confirm' : 'Remove (host)') + '</button>' : '') + '</div></div></div>';
 }
 
 /* ----- scan reveal ----- */
@@ -1122,13 +1190,14 @@ function revealView(){
 function sheetRows(){
   var sh = S.sheet, me = S.state.me, gm = guestsById(), tm = teamsById(), mine = gm[me.id] || me;
   var q = (sh.q || '').trim().toLowerCase();
-  var list = S.state.guests.filter(function(g){ return g.id !== me.id; }).filter(function(g){
+  var list = S.state.guests.filter(function(g){
     return !q || (g.name + ' ' + (g.nickname || '')).toLowerCase().indexOf(q) > -1;
   }).sort(function(a, b){ return a.name.localeCompare(b.name); });
   if (!list.length) return '<p class="muted small" style="padding:14px 0">' + (q ? 'No one by that name yet.' : 'No one else has joined yet.') + '</p>';
   return list.map(function(g){
     var state, note = '';
-    if (sh.kind === 'group') {
+    if (g.id === me.id) { state = 'taken'; note = 'Can\u2019t add yourself'; }
+    else if (sh.kind === 'group') {
       if (mine.group_id && g.group_id === mine.group_id) state = 'in';
       else if (g.group_id) { state = 'taken'; note = 'In a group with ' + joinNames(groupOf(g).filter(function(x){ return x.id !== g.id; }).map(shortName)); }
       else state = 'free';
@@ -1151,6 +1220,28 @@ function sheetView(){
     '<div class="slist" id="sheet-list">' + sheetRows() + '</div></div></div>';
 }
 
+/* ----- message board ----- */
+function messageBoardView(){
+  var me = S.state.me, gm = guestsById(), mineOnly = S.boardTab === 'mine';
+  var list = (S.state.messages || []).filter(function(m){ return !mineOnly || m.guest_id === me.id; });
+  var mineCount = (S.state.messages || []).filter(function(m){ return m.guest_id === me.id; }).length;
+  return '<div class="overlay"><main class="page"><div class="overlay-top"><span class="eyebrow">Leave a note</span><button class="btn small ghost" data-act="close-overlay">Close</button></div>' +
+    '<h1 style="font-size:48px">Message Board</h1>' +
+    '<form class="card" data-form="message" autocomplete="off"><label class="fld"><span>Your message <span id="msg-count" class="mono">0/60</span></span>' +
+    '<input type="text" id="f-msg" maxlength="60" placeholder="Rest in peace, sweet summer evenings"></label>' +
+    '<button class="btn primary" type="submit" style="justify-self:start"' + (S.busy.msg ? ' disabled' : '') + '>Post</button>' +
+    '<p class="muted small">Notes may also pop up on the photo tiles on the home page.</p></form>' +
+    '<div class="htabs"><button data-act="board-tab" data-tab="all" aria-pressed="' + !mineOnly + '">All messages</button><button data-act="board-tab" data-tab="mine" aria-pressed="' + mineOnly + '">Mine (' + mineCount + ')</button></div>' +
+    (list.length ? '<ul class="notes">' + list.map(function(m){
+      var mine = m.guest_id === me.id;
+      return '<li><p class="nb">' + esc(m.body) + '</p><div class="nmeta"><span class="muted small">' + esc(fullName(gm[m.guest_id])) + ' \u00b7 ' + fmtTime(Date.parse(m.at)) + '</span>' +
+        (mine ? '<button class="linkbtn small" data-act="del-msg" data-id="' + m.id + '">' + (armed('msg-' + m.id) ? 'Tap again to confirm' : 'Delete') + '</button>'
+          : S.isHost ? '<button class="linkbtn small" data-act="host-del-msg" data-id="' + m.id + '">' + (armed('hmsg-' + m.id) ? 'Tap again to confirm' : 'Remove (host)') + '</button>' : '') +
+        '</div></li>';
+    }).join('') + '</ul>' : '<p class="muted">' + (mineOnly ? 'You haven\u2019t posted anything yet.' : 'No messages yet. Write the first one.') + '</p>') +
+    '</main></div>';
+}
+
 /* ----- edit my info ----- */
 function profileView(){
   var me = S.state.me;
@@ -1161,7 +1252,7 @@ function profileView(){
     '<label class="fld"><span>Nickname (optional)</span><input type="text" id="f-pnick" maxlength="40" value="' + esc(me.nickname || '') + '"></label>' +
     '<label class="fld"><span>New 4-digit PIN (leave blank to keep yours)</span><input type="password" id="f-ppin" inputmode="numeric" pattern="[0-9]{4}" maxlength="4"></label>' +
     '<button class="btn primary" type="submit" style="justify-self:start">Save</button></form>' +
-    '<div class="pair-btns"><button class="btn ghost small" data-act="about">How your info is kept private</button><button class="btn ghost small" data-act="signout">' + (armed('signout') ? 'Tap again to sign out' : 'Sign out') + '</button></div>' +
+    '<div class="pair-btns"><button class="btn ghost small" data-act="about">How your info is kept private</button><button class="btn ghost small" data-act="signout">' + (armed('signout') ? 'Tap again to confirm' : 'Sign out') + '</button></div>' +
     '</main></div>';
 }
 
@@ -1172,7 +1263,7 @@ function infoView(){
   var first = evs[0];
   var where = c.location ? esc(c.location) : 'Ask ' + esc(HOST) + ' for the address.';
   return '<div class="overlay"><main class="page"><div class="overlay-top"><span class="eyebrow">Info</span><button class="btn small ghost" data-act="close-overlay">Close</button></div>' +
-    '<h1 style="font-size:44px">A Wake All Night</h1>' +
+    '<h1 style="font-size:44px">A Wake All <span class="cn">N</span>ight</h1>' +
     '<div class="card"><h3>When</h3><p>Saturday, October 31' + (first ? ', from ' + fmtTime(first.at) : '') + ' until the clocks fall back at 2:00 a.m. (and through the extra hour).</p></div>' +
     '<div class="card"><h3>Where</h3><p>' + where + '</p></div>' +
     (c.info_notes ? '<div class="card"><h3>Good to Know</h3><p style="white-space:pre-line">' + esc(c.info_notes) + '</p></div>' : '') +
@@ -1213,19 +1304,27 @@ function seg(key, opts){
   return '<span class="seg">' + opts.map(function(o){ return '<button data-act="cfg" data-key="' + key + '" data-val="' + esc(JSON.stringify(o[0])) + '" aria-pressed="' + (val === o[0]) + '">' + o[1] + '</button>'; }).join('') + '</span>';
 }
 function hostControls(){
-  var c = S.host.config, h = S.host.hunt;
-  return '<div class="card">' +
+  var c = S.host.config, h = S.host.hunt, al = c.alert && c.alert.text ? c.alert : null;
+  return '<div class="card"><h3>Announcement</h3><p class="muted small">Shows on everyone\u2019s home page, right under the title, until you clear it.</p>' +
+    (al ? '<p class="muted small">Showing now (posted ' + fmtTime(Date.parse(al.at)) + '): <b style="color:var(--ink)">' + esc(al.text) + '</b></p>' : '') +
+    '<form data-form="alert" style="display:grid;gap:10px"><input type="text" id="f-alert" maxlength="140" placeholder="e.g. Pizza\u2019s here!" autocomplete="off">' +
+    '<div class="btns"><button class="btn primary" type="submit">Post announcement</button>' + (al ? '<button class="btn ghost" type="button" data-act="alert-clear">Clear it</button>' : '') + '</div></form></div>' +
+    '<div class="card">' +
     '<div class="ctl"><span><b>Costume voting</b><br><span class="muted small">' + plural(S.host.ballots.costume, 'ballot') + '</span></span>' + seg('costume_voting', [['open','Open'],['closed','Closed']]) + '</div>' +
     '<div class="ctl"><span><b>Drink voting</b><br><span class="muted small">' + plural(S.host.ballots.drink, 'ballot') + '</span></span>' + seg('drink_voting', [['open','Open'],['closed','Closed']]) + '</div>' +
     '<div class="ctl"><span><b>Trick-or-treat hunt</b><br><span class="muted small">' + h.found + ' of ' + h.total + ' codes found</span></span>' + seg('hunt', [['open','Open'],['closed','Closed']]) + '</div>' +
     '<div class="ctl"><span><b>Show winners to guests</b><br><span class="muted small">Adds the winners to everyone’s home page</span></span>' + seg('results_visible', [[true,'Show'],[false,'Hide']]) + '</div>' +
     '<div class="ctl"><span><b>Reveal the grand clue now</b><br><span class="muted small">' + (h.grand_revealed && !c.force_grand ? 'Already revealed: every code was found' : 'Use this if a code gets lost') + '</span></span>' + seg('force_grand', [[true,'Reveal'],[false,'Auto']]) + '</div></div>' +
+    '<div class="card"><h3>Passcodes</h3><p class="muted small">Leave a box blank to keep that passcode. After you change the guest passcode, everyone has to enter the new one, so tell your guests (and update the door sign). Guest passcodes need 4+ characters, host passcodes 6+.</p>' +
+    '<form data-form="passcodes" style="display:grid;gap:10px" autocomplete="off"><label class="fld"><span>New guest passcode</span><input type="text" id="f-newguest" autocomplete="off" autocapitalize="none" spellcheck="false"></label>' +
+    '<label class="fld"><span>New host passcode</span><input type="text" id="f-newhost" autocomplete="off" autocapitalize="none" spellcheck="false"></label>' +
+    '<button class="btn primary" type="submit" style="justify-self:start">' + (armed('passcodes') ? 'Tap again to confirm' : 'Change passcodes') + '</button></form></div>' +
     '<div class="card"><h3>End of the Night</h3><p class="muted small">Switches everyone’s home page to “Happy Halloween, thanks for coming” with the winners and the photo album. Voting and the hunt stop.</p>' +
-    (c.phase === 'ended' ? '<button class="btn" data-act="phase" data-val="party">Reopen the party</button>' : '<button class="btn primary" data-act="phase" data-val="ended">' + (armed('end') ? 'Tap again to end the night' : 'End the night') + '</button>') + '</div>' +
+    (c.phase === 'ended' ? '<button class="btn" data-act="phase" data-val="party">Reopen the party</button>' : '<button class="btn primary" data-act="phase" data-val="ended">' + (armed('end') ? 'Tap again to confirm' : 'End the night') + '</button>') + '</div>' +
     '<div class="card"><h3>Clean-up</h3><p class="muted small">Download the photo album first. These can’t be undone.</p><div class="btns">' +
-    '<button class="btn danger small" data-act="reset" data-what="hunt">' + (armed('reset-hunt') ? 'Tap again: clear all hunt scans' : 'Clear hunt scans') + '</button>' +
-    '<button class="btn danger small" data-act="reset" data-what="costume_votes">' + (armed('reset-costume_votes') ? 'Tap again: clear costume votes' : 'Clear costume votes') + '</button>' +
-    '<button class="btn danger small" data-act="reset" data-what="drink_votes">' + (armed('reset-drink_votes') ? 'Tap again: clear drink votes' : 'Clear drink votes') + '</button></div>' +
+    '<button class="btn danger small" data-act="reset" data-what="hunt">' + (armed('reset-hunt') ? 'Tap again to confirm' : 'Clear hunt scans') + '</button>' +
+    '<button class="btn danger small" data-act="reset" data-what="costume_votes">' + (armed('reset-costume_votes') ? 'Tap again to confirm' : 'Clear costume votes') + '</button>' +
+    '<button class="btn danger small" data-act="reset" data-what="drink_votes">' + (armed('reset-drink_votes') ? 'Tap again to confirm' : 'Clear drink votes') + '</button></div>' +
     '<form data-form="wipe" class="row2" style="align-items:end;border-top:1px solid var(--line);padding-top:12px"><label class="fld"><span>Delete every guest, photo, vote and scan. Type DELETE</span><input type="text" id="f-wipe" autocomplete="off"></label><button class="btn danger" type="submit">Delete everything</button></form></div>';
 }
 function hostCodes(){
@@ -1243,7 +1342,7 @@ function hostCodes(){
       '<label class="fld"><span>Points</span><input type="number" name="points" step="1" value="' + k.points + '"></label></div>' +
       '<label class="fld"><span>What they see</span><input type="text" name="message" maxlength="280" value="' + esc(k.message) + '"></label>' +
       '<div class="head"><label class="fld" style="grid-template-columns:auto 5rem;align-items:center;gap:8px"><span>Finders who score</span><input type="number" name="max_claims" min="1" step="1" value="' + k.max_claims + '"></label>' +
-      '<span class="btns"><button class="btn small primary" type="submit">Save</button>' + (k.is_grand ? '' : '<button class="btn small danger" type="button" data-act="del-code" data-id="' + k.id + '">' + (armed('code-' + k.id) ? 'Tap again' : 'Delete') + '</button>') + '</span></div></form>';
+      '<span class="btns"><button class="btn small primary" type="submit">Save</button>' + (k.is_grand ? '' : '<button class="btn small danger" type="button" data-act="del-code" data-id="' + k.id + '">' + (armed('code-' + k.id) ? 'Tap again to confirm' : 'Delete') + '</button>') + '</span></div></form>';
   }).join('');
   return out;
 }
@@ -1266,10 +1365,10 @@ function hostGuests(){
   var tm = teamsById();
   return '<div class="card"><h3>' + S.state.guests.length + ' Guests</h3><p class="muted small">Remove duplicates or reset a forgotten PIN.</p><div>' + S.state.guests.map(function(g){
     return '<div class="team-row"><span><span class="nm">' + esc(fullName(g)) + '</span><br><span class="muted small">' + esc(g.costume_title || 'No costume title') + (g.team_id && tm[g.team_id] ? ' · ' + esc(tm[g.team_id].name) : '') + ' · ' + (pts[g.id] || 0) + ' pts</span></span>' +
-      '<span class="btns"><button class="btn small ghost" data-act="reset-pin" data-id="' + g.id + '">New PIN</button><button class="btn small danger" data-act="del-guest" data-id="' + g.id + '">' + (armed('guest-' + g.id) ? 'Tap again' : 'Remove') + '</button></span></div>';
+      '<span class="btns"><button class="btn small ghost" data-act="reset-pin" data-id="' + g.id + '">New PIN</button><button class="btn small danger" data-act="del-guest" data-id="' + g.id + '">' + (armed('guest-' + g.id) ? 'Tap again to confirm' : 'Remove') + '</button></span></div>';
   }).join('') + '</div></div>' +
   (S.state.teams.length ? '<div class="card"><h3>Teams</h3>' + S.state.teams.map(function(t){
-    return '<div class="team-row"><span class="nm">' + esc(t.name) + '</span><button class="btn small danger" data-act="del-team" data-id="' + t.id + '">' + (armed('team-' + t.id) ? 'Tap again' : 'Remove') + '</button></div>';
+    return '<div class="team-row"><span class="nm">' + esc(t.name) + '</span><button class="btn small danger" data-act="del-team" data-id="' + t.id + '">' + (armed('team-' + t.id) ? 'Tap again to confirm' : 'Remove') + '</button></div>';
   }).join('') + '</div>' : '');
 }
 function hostResults(){
@@ -1360,6 +1459,26 @@ app.addEventListener('submit', function(e){
     var code = val('f-code').trim().toLowerCase().replace(/[^0-9a-z]/g, '');
     if (code) { var fc = document.getElementById('f-code'); fc.value = ''; fc.blur(); claimCode(code); }
   }
+  if (kind === 'alert') {
+    var at = val('f-alert').trim(); if (!at) { toast('Write the announcement first.', true); return; }
+    act('host', rpc('host_update_config', {p_pass: S.pass, p_patch: {alert: {text: at, at: new Date().toISOString()}}}).then(function(){ var f = document.getElementById('f-alert'); if (f) f.value = ''; return refreshHost(); }), 'Announcement posted');
+  }
+  if (kind === 'message') {
+    var body = val('f-msg').trim();
+    if (!body) { toast('Write a message first.', true); return; }
+    act('msg', rpc('party_post_message', {p_pass: S.pass, p_token: S.token, p_body: body}).then(function(){ var f = document.getElementById('f-msg'); if (f) f.value = ''; var c = document.getElementById('msg-count'); if (c) c.textContent = '0/60'; }), 'Posted');
+  }
+  if (kind === 'passcodes') {
+    var ng = val('f-newguest').trim(), nh = val('f-newhost').trim();
+    if (!ng && !nh) { toast('Type a new passcode first.', true); return; }
+    if (!armed('passcodes')) { arm('passcodes'); return; }
+    S.confirm = null;
+    act('host', rpc('host_change_passcodes', {p_pass: S.pass, p_new_guest: ng || null, p_new_host: nh || null}).then(function(){
+      if (nh) { S.pass = nh; store.set('wake-pass', nh); }
+      ['f-newguest', 'f-newhost'].forEach(function(i){ var f = document.getElementById(i); if (f) f.value = ''; });
+      return refreshHost();
+    }), 'Passcodes changed');
+  }
   if (kind === 'clue') act('host', rpc('host_update_config', {p_pass: S.pass, p_patch: {grand_clue: val('f-clue').trim()}}).then(refreshHost), 'Clue saved');
   if (kind === 'code') {
     var fd = new FormData(form);
@@ -1384,6 +1503,7 @@ app.addEventListener('submit', function(e){
 
 app.addEventListener('input', function(e){
   var t = e.target;
+  if (t.id === 'f-msg') { var mc = document.getElementById('msg-count'); if (mc) mc.textContent = t.value.length + '/60'; return; }
   if (t.id === 'f-sheetq' && S.sheet) { S.sheet.q = t.value; var l = document.getElementById('sheet-list'); if (l) l.innerHTML = sheetRows(); return; }
   if (t.hasAttribute('data-sch')) {
     var row = S.hostSchedule[+t.getAttribute('data-sch')], f = t.getAttribute('data-field');
@@ -1439,6 +1559,12 @@ app.addEventListener('click', function(e){
   var a = b.getAttribute('data-act'), id = +b.getAttribute('data-id');
   switch (a) {
     case 'retry': S.fatal = null; init(); break;
+    case 'board': S.overlay = 'board'; S.boardTab = 'all'; render(true); window.scrollTo(0, 0); break;
+    case 'board-tab': S.boardTab = b.getAttribute('data-tab'); render(true); break;
+    case 'del-msg': if (!armed('msg-' + id)) { arm('msg-' + id); break; } S.confirm = null; act('msg', rpc('party_delete_message', {p_pass: S.pass, p_token: S.token, p_id: id}), 'Message deleted'); break;
+    case 'host-del-msg': if (!armed('hmsg-' + id)) { arm('hmsg-' + id); break; } S.confirm = null; act('msg', rpc('host_delete_message', {p_pass: S.pass, p_id: id}), 'Message removed'); break;
+    case 'alert-dismiss': store.set('wake-alert-seen', b.getAttribute('data-at')); render(true); break;
+    case 'alert-clear': act('host', rpc('host_update_config', {p_pass: S.pass, p_patch: {alert: null}}).then(refreshHost), 'Announcement cleared'); break;
     case 'pick': openPicker(b.getAttribute('data-pick')); break;
     case 'about': S.overlay = 'about'; render(true); window.scrollTo(0, 0); break;
     case 'info': S.overlay = 'info'; render(true); window.scrollTo(0, 0); break;
