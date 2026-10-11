@@ -26,15 +26,16 @@
 }
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
-body{margin:0;background:var(--bg);color:var(--ink);font:19px/1.45 var(--body);letter-spacing:.015em;min-height:100vh}
+body{margin:0;background:var(--bg);color:var(--ink);font:21px/1.55 var(--body);letter-spacing:.015em;min-height:100vh}
 /* Backdrop: big, soft, out-of-focus purple and orange lights drifting slowly. */
 #bokeh{display:none;position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none;background:var(--bg)}
 #bokeh i{position:absolute;border-radius:50%;filter:blur(30px);animation:drift 60s ease-in-out infinite alternate}
 #bokeh i:nth-child(1){width:130vmax;height:130vmax;left:-55vmax;top:-45vmax;background:radial-gradient(circle, rgba(52,40,140,.55) 0%, rgba(52,40,140,0) 65%)}
 #bokeh i:nth-child(2){width:110vmax;height:110vmax;right:-55vmax;top:5vh;background:radial-gradient(circle, rgba(34,46,120,.5) 0%, rgba(34,46,120,0) 65%);animation-duration:75s;animation-delay:-20s}
 #bokeh i:nth-child(3){width:90vmax;height:90vmax;left:-40vmax;top:55vh;background:radial-gradient(circle, rgba(70,36,120,.45) 0%, rgba(70,36,120,0) 65%);animation-duration:68s;animation-delay:-35s}
-#bokeh i:nth-child(4){width:70vmax;height:70vmax;right:-30vmax;top:70vh;background:radial-gradient(circle, rgba(150,72,30,.22) 0%, rgba(150,72,30,0) 65%);animation-duration:82s;animation-delay:-10s}
-#bokeh i:nth-child(5),#bokeh i:nth-child(6){display:none}
+#bokeh i:nth-child(4){width:95vmax;height:95vmax;right:-40vmax;top:55vh;background:radial-gradient(circle, rgba(196,92,28,.42) 0%, rgba(196,92,28,0) 65%);animation-duration:82s;animation-delay:-10s}
+#bokeh i:nth-child(5){width:75vmax;height:75vmax;right:-35vmax;top:-20vmax;background:radial-gradient(circle, rgba(214,110,36,.32) 0%, rgba(214,110,36,0) 65%);animation-duration:70s;animation-delay:-25s}
+#bokeh i:nth-child(6){width:65vmax;height:65vmax;left:-25vmax;top:120vh;background:radial-gradient(circle, rgba(180,80,30,.3) 0%, rgba(180,80,30,0) 65%);animation-duration:66s;animation-delay:-40s}
 body.glow #bokeh{display:block}
 @keyframes drift{0%{transform:translate(0,0) scale(1)}50%{transform:translate(3vmax,-2vmax) scale(1.04)}100%{transform:translate(-2vmax,3vmax) scale(.98)}}
 @media (prefers-reduced-motion:reduce){#bokeh i{animation:none}}
@@ -45,11 +46,11 @@ img{max-width:100%;display:block}
 [hidden]{display:none!important}
 a{color:var(--gold)}
 
-.page{max-width:600px;margin:0 auto;padding-inline:20px;padding-block:calc(16px + env(safe-area-inset-top,0px)) calc(var(--nav-h) + 40px + env(safe-area-inset-bottom,0px));display:grid;gap:30px}
+.page{max-width:600px;margin:0 auto;padding-inline:20px;padding-block:calc(16px + env(safe-area-inset-top,0px)) calc(var(--nav-h) + 40px + env(safe-area-inset-bottom,0px));display:grid;gap:40px}
 .page.bare{padding-bottom:40px}
-.eyebrow{font-family:var(--body);font-size:15px;font-weight:500;color:var(--gold)}
+.eyebrow{font-family:var(--body);font-size:18px;font-weight:500;color:var(--gold)}
 .muted{color:var(--muted)}
-.small{font-size:16px}
+.small{font-size:18px;line-height:1.5}
 .topbar{display:flex;justify-content:space-between;align-items:center;gap:10px;position:relative;z-index:4;height:38px}
 .topbar .brand{font-family:var(--title);font-size:24px}
 .chip{font-family:var(--body);font-size:13px;font-weight:600;border:0;border-bottom:1px solid currentColor;border-radius:0;padding:0 0 1px;color:var(--muted);white-space:nowrap}
@@ -57,13 +58,13 @@ a{color:var(--gold)}
 .chip.trick{color:var(--trick)}
 .chip:empty{display:none}
 
-section.block{display:grid;gap:12px}
+section.block{display:grid;gap:20px}
 .block > h2{font-size:34px}
 .block-head{display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex-wrap:wrap}
 .block-head h2{font-size:34px}
-.card{background:none;border:0;border-top:1px solid var(--line);border-radius:0;padding:20px 0 0;display:grid;gap:14px;min-width:0}
+.card{background:none;border:0;border-top:1px solid var(--line);border-radius:0;padding:26px 0 0;display:grid;gap:20px;min-width:0}
 .card.quiet{background:transparent}
-.notice{border:0;padding:0;color:var(--muted);font-size:16px}
+.notice{border:0;padding:0;color:var(--muted);font-size:19px;line-height:1.55}
 .notice.gold{color:var(--gold)}
 
 .hero{display:grid;gap:8px;text-align:center;padding-block:10px 4px}
@@ -95,14 +96,14 @@ section.block{display:grid;gap:12px}
 .sched li.now .what::after{content:"now";margin-left:8px;font-size:13px;font-weight:600;border-bottom:1px solid var(--gold)}
 
 label.fld{display:grid;gap:5px;min-width:0}
-label.fld > span{font-size:14px;font-weight:500;color:var(--muted)}
-input[type=text],input[type=password],input[type=search],input[type=datetime-local],input[type=number],select,textarea{width:100%;background:var(--bg);border:1px solid var(--line);border-radius:2px;padding:11px 12px;font-size:16px;min-width:0}
+label.fld > span{font-size:17px;font-weight:500;color:var(--muted)}
+input[type=text],input[type=password],input[type=search],input[type=datetime-local],input[type=number],select,textarea{width:100%;background:var(--bg);border:1px solid var(--line);border-radius:2px;padding:12px 13px;font-size:19px;min-width:0}
 textarea{resize:vertical;min-height:70px}
 input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-visible,.btn:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
 .row2{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px}
 
 /* Buttons are printed memorial cards: square corners, a fine inner rule, no glow. */
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:1px solid var(--ink);background:transparent;border-radius:0;padding:10px 18px;font-family:var(--body);font-weight:600;font-size:15px;letter-spacing:.01em;cursor:pointer;text-decoration:none;color:var(--ink);min-height:44px;box-shadow:inset 0 0 0 3px var(--bg),inset 0 0 0 4px var(--line);transition:background-color .15s,color .15s}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:1px solid var(--ink);background:transparent;border-radius:0;padding:10px 18px;font-family:var(--body);font-weight:600;font-size:18px;letter-spacing:.01em;cursor:pointer;text-decoration:none;color:var(--ink);min-height:44px;box-shadow:inset 0 0 0 3px var(--bg),inset 0 0 0 4px var(--line);transition:background-color .15s,color .15s}
 .btn:hover{background:var(--raised)}
 .btn:active{transform:translateY(1px)}
 .btn.primary{background:var(--ink);border-color:var(--ink);color:var(--bg);box-shadow:inset 0 0 0 3px var(--ink),inset 0 0 0 4px var(--bg)}
@@ -110,7 +111,7 @@ input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-vis
 .btn.danger{border-color:var(--trick);color:var(--trick);box-shadow:none}
 .btn.ghost{border-color:var(--line);box-shadow:none}
 .btn.ghost:hover{border-color:var(--ink)}
-.btn.small{min-height:36px;padding:6px 12px;font-size:14px;box-shadow:none}
+.btn.small{min-height:40px;padding:7px 14px;font-size:16px;box-shadow:none}
 .btn.primary.small{box-shadow:inset 0 0 0 2px var(--ink),inset 0 0 0 3px var(--bg)}
 .btn.block{width:100%}
 .btn:disabled{opacity:.4;cursor:default;transform:none}
@@ -132,10 +133,10 @@ input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-vis
 .entry.picked .badge{background:var(--gold);color:var(--gold-ink);border-color:var(--gold);font-weight:700}
 .entry.own{opacity:.4;cursor:not-allowed}
 .ballot-bar{display:grid;gap:10px;position:sticky;bottom:calc(var(--nav-h) + env(safe-area-inset-bottom,0px));background:var(--bg);border-top:1px solid var(--gold);padding:12px 0 14px;z-index:3}
-.ballot-bar .picks{font-size:14px;color:var(--muted)}
+.ballot-bar .picks{font-size:17px;color:var(--muted)}
 .ballot-bar .picks b{color:var(--ink)}
 
-.team-row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;align-items:center;padding:10px 0;border-top:1px solid var(--line)}
+.team-row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;align-items:center;padding:14px 0;border-top:1px solid var(--line)}
 .team-row:first-child{border-top:0}
 .team-row .nm{font-weight:700}
 
@@ -206,7 +207,7 @@ nav.tabbar button[aria-current="page"]{color:var(--gold);border-top-color:var(--
 .seg button{border:0;border-left:1px solid var(--ink);background:transparent;border-radius:0;padding:8px 14px;font-size:14px;cursor:pointer;min-height:38px}
 .seg button:first-child{border-left:0}
 .seg button[aria-pressed="true"]{background:var(--ink);color:var(--bg);font-weight:600}
-.ctl{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;padding:10px 0;border-top:1px solid var(--line)}
+.ctl{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;padding:14px 0;border-top:1px solid var(--line)}
 .ctl:first-child{border-top:0}
 .code-row{display:grid;gap:8px;padding:16px 0 0;border:0;border-top:1px solid var(--line);border-radius:0;background:none}
 .code-row.grand{border-top-color:var(--gold)}
@@ -355,6 +356,8 @@ label.fld > span #msg-count{float:right;font-size:13px}
   background:radial-gradient(120% 90% at 30% 10%, rgba(52,40,140,.6), transparent 65%), radial-gradient(110% 80% at 80% 100%, rgba(150,72,30,.35), transparent 60%), #140f22}
 .pin.sign .sv{font-family:var(--display);font-size:38px;line-height:.95;color:var(--ink)}
 .pin.sign .sk{font-size:15px;line-height:1.3;color:var(--gold)}
+.pin.sign.news .signbox{align-content:start;padding-top:18px}
+.pin.sign.news .sv{line-height:1.05;overflow-wrap:anywhere}
 #print-sheet{display:none}
 @media print{
   body{background:#fff;color:#000}
@@ -724,6 +727,28 @@ function banner(key, inner, cls){
     : moodImg(src, 1200).replace('<img ', '<img data-bg="' + esc(src) + '" ');
   return '<header class="banner' + (cls ? ' ' + cls : '') + '">' + media + '<div class="over">' + inner + '</div></header>';
 }
+
+/* ---------- page text the host can edit (Host panel > Page Text) ---------- */
+var TEXTS = [
+  ['costume_group', 'Costumes: couples / group help', 'Dressed up as a couple or a group? Add the others and you\u2019ll appear as one entry. None of you can vote for it.'],
+  ['costume_vote', 'Costumes: how to vote', 'Tap up to three favourites, in order. Your 1 gets 3 points, 2 gets 2 and 3 gets 1. Voting for just one or two is fine. You can change your vote until voting closes.'],
+  ['costume_wait', 'Costumes: before voting opens', 'Voting isn\u2019t open right now. It opens during the costume procession.'],
+  ['drink_team', 'Drinks: before joining a team', 'Join a team below, or start your own and add your teammates.'],
+  ['drink_vote', 'Drinks: how to vote', 'Tap up to three favourite drinks, in order. Just one or two is fine. You can\u2019t vote for your own team.'],
+  ['drink_wait', 'Drinks: before voting opens', 'Drink voting isn\u2019t open right now.'],
+  ['hunt_wait', 'Hunt: before it starts', 'The hunt hasn\u2019t started. Codes scanned before it opens won\u2019t count, so keep your eyes open and your camera ready.'],
+  ['hunt_clue', 'Hunt: grand code hint', 'When every code has been found, a clue to the grand code appears here.'],
+  ['hunt_rules', 'Hunt: How It Works (one point per line)', 'QR codes are hidden around the house. Scan one with your normal camera app.\nEach code pays out only to the first few people who scan it (usually 3). After that it\u2019s picked clean.\nSome codes are treats, some are tricks. You won\u2019t know until you open the door.\nFind the last hidden code and the grand code\u2019s clue appears for everyone.'],
+  ['photos_note', 'Photos: under the upload button', 'Everyone at the party can see the album. You can remove any photo you added.'],
+  ['board_note', 'Message Board: under the Post button', 'Notes may also pop up on the photo tiles on the home page.']
+];
+function T(key){
+  var custom = S.state && S.state.config && S.state.config.texts && S.state.config.texts[key];
+  if (custom && String(custom).trim()) return String(custom);
+  var d = TEXTS.find(function(t){ return t[0] === key; });
+  return d ? d[2] : '';
+}
+function TH(key){ return esc(T(key)); }
 
 /* ---------- derived data ---------- */
 function guestsById(){ var m = {}; (S.state ? S.state.guests : []).forEach(function(g){ m[g.id] = g; }); return m; }
@@ -1152,13 +1177,17 @@ function boardHTML(me, team, h){
       '<span class="ov"><span class="k">' + esc(p.caption || 'Photo') + '</span><span class="v">' + esc(shortName(gm[p.guest_id])) + '</span></span></span></button>';
   });
   var playlist = cfg('playlist_url');
-  var info = linkPin('data-act="info"', moodImg(MOOD.pinInfo, 700), 'When, where & the schedule', 'Info', 'sq');
   var music = playlist && /^https?:\/\//.test(playlist)
     ? linkPin('href="' + esc(playlist) + '" target="_blank" rel="noopener"', moodImg(MOOD.pinPlaylist, 700), 'Tonight\u2019s music', 'Playlist', 'tall')
     : linkPin('data-act="no-playlist"', moodImg(MOOD.pinPlaylist, 700), 'Tonight\u2019s music', 'Playlist', 'tall');
   var notes = linkPin('data-act="board"', moodImg(MOOD.pinBoard, 700), 'Leave a note', 'Message Board', 'tall');
   var pingpong = '<div class="pin sign"><span class="signbox"><span class="sv">Ping Pong Upstairs!</span><span class="sk">Must wear shoes.<br>No smoking or flames.</span></span></div>';
-  var out = [acts[0], nextMood(), acts[1], info, nextMood(), notes, acts[2], pingpong, music, nextMood(), nextMood()];
+  var news = (cfg('alerts') || []).filter(function(x){ return x && x.text; }).map(function(x){
+    var len = x.text.length, size = len < 25 ? 34 : len < 50 ? 27 : len < 90 ? 22 : 18;
+    return '<div class="pin sign news"><span class="signbox"><span class="sk">Announcement<br><span style="white-space:nowrap">' + fmtTime(Date.parse(x.at)) + '</span></span>' +
+      '<span class="sv" style="font-size:' + size + 'px">' + esc(x.text) + '</span></span></div>';
+  });
+  var out = news.concat([acts[0], nextMood(), acts[1], nextMood(), notes, acts[2], pingpong, music, nextMood(), nextMood()]);
   var extra = people.concat(snaps);
   extra.forEach(function(x, i){ out.push(x); if (i % 3 === 2) out.push(nextMood()); });
   if (out.filter(Boolean).length % 2) out.push(nextMood());
@@ -1202,14 +1231,14 @@ function costumesView(){
     '</form>' +
     '<div style="display:grid;gap:8px;border-top:1px solid var(--line);padding-top:12px">' +
     (group.length ? '<p>You’re entered together with <b>' + esc(joinNames(group.map(fullName))) + '</b>.</p>'
-      : '<p class="muted small">Dressed up as a couple or a group? Add the others and you’ll appear as one entry. None of you can vote for it.</p>') +
+      : '<p class="muted small">' + TH('costume_group') + '</p>') +
     '<button class="btn" data-act="sheet" data-kind="group" style="justify-self:start">Couples / Group Costume</button></div></div></section>';
 
   var items = entries().map(function(e){
     return {id: e.id, name: e.names, sub: e.title || 'Untitled costume', img: e.photo ? imgHTML('costume', e.photo.id, e.photo.photo_v, 'thumb', e.names, e.names) : null};
   });
   out += '<section class="block"><div class="block-head"><h2>Vote</h2><span class="muted small">' + plural(S.state.ballots.costume, 'ballot') + ' cast</span></div>' +
-    (open ? '<p class="muted">Tap up to three favourites, in order. Your 1 gets 3 points, 2 gets 2 and 3 gets 1. Voting for just one or two is fine. You can change your vote until voting closes.</p>' : '<div class="notice">' + (announced('costume') || ended() ? 'Voting has closed.' : 'Voting isn’t open right now. ' + esc(HOST) + ' will open it during the costume procession.') + '</div>') +
+    (open ? '<p class="muted">' + TH('costume_vote') + '</p>' : '<div class="notice">' + (announced('costume') || ended() ? 'Voting has closed.' : TH('costume_wait')) + '</div>') +
     rankerHTML('costume', items, open ? myEntryIds() : [], open) + '</section>';
   return out;
 }
@@ -1230,7 +1259,7 @@ function drinksView(){
       '<div class="btns"><button class="btn" data-act="sheet" data-kind="team">Add Teammates</button>' +
       '<button class="btn small ghost" data-act="leave-team">' + (armed('leave') ? 'Tap again to confirm' : 'Leave this team') + '</button></div></div>';
   } else {
-    out += '<div class="card"><span class="eyebrow">Join a team</span>' +
+    out += '<div class="card"><span class="eyebrow">Join a team</span><p class="muted small">' + TH('drink_team') + '</p>' +
       (S.state.teams.length ? '<div>' + S.state.teams.map(function(t){
         var ms = members(t.id);
         return '<div class="team-row"><span><span class="nm">' + esc(t.name) + '</span><br><span class="muted small">' + (ms.length ? ms.map(function(g){ return esc(shortName(g)); }).join(', ') : 'No one yet') + '</span></span><button class="btn small" data-act="join-team" data-id="' + t.id + '">Join</button></div>';
@@ -1240,7 +1269,7 @@ function drinksView(){
   out += '</section>';
   var items = S.state.teams.map(function(t){ return {id: t.id, name: t.name, sub: t.drink_name || 'Drink not named yet', img: t.photo_v ? imgHTML('team', t.id, t.photo_v, 'thumb', t.name, t.name) : null}; });
   out += '<section class="block"><div class="block-head"><h2>Vote</h2><span class="muted small">' + plural(S.state.ballots.drink, 'ballot') + ' cast</span></div>' +
-    (open ? '<p class="muted">Tap up to three favourite drinks, in order. Just one or two is fine. You can’t vote for your own team.</p>' : '<div class="notice">' + (announced('drinks') || ended() ? 'Voting has closed.' : 'Drink voting isn’t open right now.') + '</div>') +
+    (open ? '<p class="muted">' + TH('drink_vote') + '</p>' : '<div class="notice">' + (announced('drinks') || ended() ? 'Voting has closed.' : TH('drink_wait')) + '</div>') +
     rankerHTML('drink', items, open && me.team_id ? [me.team_id] : [], open) + '</section>';
   return out;
 }
@@ -1251,18 +1280,15 @@ function huntView(){
   var left = h.total - h.found, pips = '';
   for (var i = 0; i < h.total; i++) pips += '<i class="' + (i < h.found ? 'found' : '') + '"></i>';
   var out = banner('hunt', '<div class="row">' + fitTitle('h2', ['Trick', 'or Treat']) + '<span class="chip' + (open ? ' gold' : '') + '">' + (announced('hunt') ? '' : open ? 'Hunt is on' : ended() ? 'Hunt over' : 'Not started') + '</span></div>') + closedHTML('hunt') + '<section class="block">';
-  if (!open && !ended() && !announced('hunt')) out += '<div class="notice">The hunt hasn’t started. Codes scanned before it opens won’t count, so keep your eyes open and your camera ready.</div>';
+  if (!open && !ended() && !announced('hunt')) out += '<div class="notice">' + TH('hunt_wait') + '</div>';
   out += '<div class="hunt-count"><span class="big">' + left + '</span><span class="muted">of ' + h.total + ' codes still hidden</span><div class="pips" aria-hidden="true">' + pips + '</div></div>';
   if (h.grand_found_by) out += '<div class="notice gold"><b>The grand code has been claimed</b> by ' + esc(fullName(gm[h.grand_found_by])) + '.</div>';
   else if (h.grand_revealed) out += '<div class="card" style="border-color:var(--gold)"><span class="eyebrow">The grand code is awake</span><p style="font-size:20px">' + esc(h.grand_clue || '') + '</p><p class="muted small">First to scan it wins the big bonus.</p></div>';
-  else out += '<p class="muted small">When every code has been found, a clue to the grand code appears here.</p>';
+  else out += '<p class="muted small">' + TH('hunt_clue') + '</p>';
   out += '<div class="card"><div class="block-head"><h3>Your Haul</h3><span class="mono" style="font-size:22px;color:var(--gold)">' + myPoints() + ' pts</span></div>' +
     hauls(h) + '</div>';
-  out += '<div class="card quiet"><h3>How It Works</h3><ul class="muted small" style="margin:0;padding-left:18px;display:grid;gap:4px">' +
-    '<li>QR codes are hidden around the house. Scan one with your normal camera app.</li>' +
-    '<li>Each code pays out only to the <b>first few people</b> who scan it (usually 3). After that it’s picked clean.</li>' +
-    '<li>Some codes are treats, some are tricks. You won’t know until you open the door.</li>' +
-    '<li>Find the last hidden code and the grand code’s clue appears for everyone.</li></ul>' +
+  out += '<div class="card quiet"><h3>How It Works</h3><ul class="muted small" style="margin:0;padding-left:20px;display:grid;gap:12px">' +
+    T('hunt_rules').split(/\n+/).map(function(l){ return l.trim(); }).filter(Boolean).map(function(l){ return '<li>' + esc(l) + '</li>'; }).join('') + '</ul>' +
     '<form data-form="manual" class="row2" style="align-items:end"><label class="fld"><span>Camera not working? Type the code under the QR</span><input type="text" id="f-code" maxlength="20" autocapitalize="none" autocomplete="off" spellcheck="false"></label><button class="btn" type="submit">Open</button></form></div>';
   out += '<section class="block"><h2>Leaderboard</h2>' + (h.leaderboard.length ? '<ol class="board">' + h.leaderboard.map(function(r){
     return '<li class="' + (r.guest_id === me.id ? 'me' : '') + '"><span>' + esc(fullName(gm[r.guest_id])) + ' <span class="muted small">· ' + r.finds + ' found</span></span><span class="pts">' + r.points + '</span></li>';
@@ -1296,7 +1322,7 @@ function photosView(){
     '<div class="card"><label class="fld"><span>Caption (optional)</span><input type="text" id="f-caption" maxlength="120" placeholder="Applies to the photos you add next"></label>' +
     '<div class="btns"><button class="btn primary" data-act="pick" data-pick="album"' + (S.busy.upload ? ' disabled' : '') + '>' + (S.busy.upload ? esc(S.uploadMsg) : 'Add photos') + '</button>' +
     (ph.length ? '<button class="btn ghost" data-act="zip"' + (S.busy.zip ? ' disabled' : '') + '>' + (S.busy.zip ? esc(S.zipMsg) : 'Download all') + '</button>' : '') + '</div>' +
-    '<p class="muted small">Everyone at the party can see the album. You can remove any photo you added.</p></div>';
+    '<p class="muted small">' + TH('photos_note') + '</p></div>';
   out += ph.length ? '<div class="masonry">' + ph.map(function(p){
     return '<button class="pin" data-act="view" data-id="' + p.id + '" aria-label="Photo by ' + esc(shortName(gm[p.guest_id])) + '"><span class="pimg">' + imgHTML('photo', p.id, 'p', 'thumb', p.caption || 'Party photo', '?') + '</span>' +
       (p.caption ? '<span class="cap">' + esc(p.caption) + '</span>' : '') + '<span class="psub">' + esc(shortName(gm[p.guest_id])) + '</span></button>';
@@ -1389,7 +1415,7 @@ function messageBoardView(){
     '<form class="card" data-form="message" autocomplete="off"><label class="fld"><span>Your message <span id="msg-count" class="mono">0/60</span></span>' +
     '<input type="text" id="f-msg" maxlength="60" placeholder="Rest in peace, sweet summer evenings"></label>' +
     '<button class="btn primary" type="submit" style="justify-self:start"' + (S.busy.msg ? ' disabled' : '') + '>Post</button>' +
-    '<p class="muted small">Notes may also pop up on the photo tiles on the home page.</p></form>' +
+    '<p class="muted small">' + TH('board_note') + '</p></form>' +
     '<div class="htabs"><button data-act="board-tab" data-tab="all" aria-pressed="' + !mineOnly + '">All messages</button><button data-act="board-tab" data-tab="mine" aria-pressed="' + mineOnly + '">Mine (' + mineCount + ')</button></div>' +
     (list.length ? '<ul class="notes">' + list.map(function(m){
       var mine = m.guest_id === me.id;
@@ -1451,11 +1477,11 @@ function aboutView(){
 
 /* ----- host panel ----- */
 function hostView(){
-  var tabs = [['controls','Controls'],['codes','Hunt codes'],['schedule','Info & Schedule'],['guests','Guests'],['results','Results']];
+  var tabs = [['controls','Controls'],['codes','Hunt codes'],['schedule','Playlist'],['texts','Page Text'],['guests','Guests'],['results','Results']];
   var out = '<div class="overlay"><main class="page"><div class="overlay-top"><span class="eyebrow">Host panel</span><button class="btn small ghost" data-act="close-overlay">Back to the party</button></div>' +
     '<div class="htabs">' + tabs.map(function(t){ return '<button data-act="htab" data-tab="' + t[0] + '" aria-pressed="' + (S.hostTab === t[0]) + '">' + t[1] + '</button>'; }).join('') + '</div>';
   if (!S.host) return out + '<p class="muted">Loading…</p></main></div>';
-  var f = {controls: hostControls, codes: hostCodes, schedule: hostSchedule, guests: hostGuests, results: hostResults}[S.hostTab];
+  var f = {controls: hostControls, codes: hostCodes, schedule: hostSchedule, texts: hostTexts, guests: hostGuests, results: hostResults}[S.hostTab];
   return out + f() + '</main></div>';
 }
 function seg(key, opts){
@@ -1465,10 +1491,18 @@ function seg(key, opts){
 }
 function hostControls(){
   var c = S.host.config, h = S.host.hunt, al = c.alert && c.alert.text ? c.alert : null;
-  return '<div class="card"><h3>Announcement</h3><p class="muted small">Shows on everyone\u2019s home page, right under the title, until you clear it.</p>' +
+  return '<div class="card"><h3>Announcement</h3><p class="muted small">Shows on everyone\u2019s home page, right under the title, until you clear it. It also becomes a tile on the home page with the time you posted it.</p>' +
     (al ? '<p class="muted small">Showing now (posted ' + fmtTime(Date.parse(al.at)) + '): <b style="color:var(--ink)">' + esc(al.text) + '</b></p>' : '') +
     '<form data-form="alert" style="display:grid;gap:10px"><input type="text" id="f-alert" maxlength="140" placeholder="e.g. Pizza\u2019s here!" autocomplete="off">' +
-    '<div class="btns"><button class="btn primary" type="submit">Post announcement</button>' + (al ? '<button class="btn ghost" type="button" data-act="alert-clear">Clear it</button>' : '') + '</div></form></div>' +
+    '<div class="btns"><button class="btn primary" type="submit">Post announcement</button>' + (al ? '<button class="btn ghost" type="button" data-act="alert-clear">Clear it</button>' : '') + '</div></form>' +
+    ((c.alerts || []).length ? '<p class="muted small" style="margin-top:6px">Every announcement also stays on the home page as a tile with its time. Remove any you don\u2019t want there:</p>' +
+      (c.alerts || []).map(function(x){
+        if (S.editAlert === x.at) return '<form class="team-row" data-form="alert-edit" data-at="' + esc(x.at) + '" style="grid-template-columns:1fr"><input type="text" id="f-alert-edit" maxlength="140" value="' + esc(x.text) + '">' +
+          '<div class="btns"><button class="btn primary small" type="submit">Save</button><button class="btn ghost small" type="button" data-act="alert-edit-cancel">Cancel</button></div></form>';
+        return '<div class="team-row"><span><span class="nm">' + esc(x.text) + '</span><br><span class="muted small">' + fmtTime(Date.parse(x.at)) + '</span></span>' +
+        '<span class="btns"><button class="btn small ghost" data-act="alert-edit" data-at="' + esc(x.at) + '">Edit</button>' +
+        '<button class="btn small danger" data-act="alert-del" data-at="' + esc(x.at) + '">' + (armed('al-' + x.at) ? 'Tap again to confirm' : 'Remove') + '</button></span></div>'; }).join('') : '') +
+    '</div>' +
     '<div class="card">' +
     '<div class="ctl"><span><b>Costume voting</b><br><span class="muted small">' + plural(S.host.ballots.costume, 'ballot') + '</span></span>' + seg('costume_voting', [['open','Open'],['closed','Closed']]) + '</div>' +
     '<div class="ctl"><span><b>Drink voting</b><br><span class="muted small">' + plural(S.host.ballots.drink, 'ballot') + '</span></span>' + seg('drink_voting', [['open','Open'],['closed','Closed']]) + '</div>' +
@@ -1509,18 +1543,17 @@ function hostCodes(){
   return out;
 }
 function hostSchedule(){
-  if (!S.hostSchedule) S.hostSchedule = (S.host.config.schedule || []).map(function(r){ return {at: r.at, title: r.title}; });
-  var rows = S.hostSchedule;
   var c = S.host.config;
-  return '<div class="card"><h3>Party Info</h3><p class="muted small">Shown on the Info tile. The playlist link opens from the Playlist tile.</p>' +
-    '<form data-form="info" style="display:grid;gap:10px"><label class="fld"><span>Address or location</span><input type="text" id="f-loc" maxlength="200" value="' + esc(c.location || '') + '"></label>' +
-    '<label class="fld"><span>Good to know (parking, what to bring, etc.)</span><textarea id="f-notes" maxlength="1000">' + esc(c.info_notes || '') + '</textarea></label>' +
-    '<label class="fld"><span>Playlist link (Spotify, Apple Music, YouTube)</span><input type="text" id="f-playlist" maxlength="400" value="' + esc(c.playlist_url || '') + '" placeholder="https://open.spotify.com/playlist/..."></label>' +
-    '<button class="btn primary" type="submit" style="justify-self:start">Save info</button></form></div>' +
-    '<div class="card"><h3>Schedule</h3><p class="muted small">Times are in your phone’s time zone. The countdowns follow this list.</p>' +
-    '<form data-form="schedule" style="display:grid;gap:10px">' + rows.map(function(r, i){
-      return '<div class="sch-row"><input type="datetime-local" data-sch="' + i + '" data-field="at" value="' + esc(toLocalInput(r.at)) + '" aria-label="Time"><input type="text" data-sch="' + i + '" data-field="title" value="' + esc(r.title) + '" maxlength="80" aria-label="What happens"><button class="x" type="button" data-act="sch-del" data-i="' + i + '" aria-label="Remove">×</button></div>';
-    }).join('') + '<div class="btns"><button class="btn" type="button" data-act="sch-add">Add an event</button><button class="btn primary" type="submit">Save schedule</button></div></form></div>';
+  return '<div class="card"><h3>Playlist</h3><p class="muted small">The Playlist tile on the home page opens this link. Until you add one, it says the playlist isn\u2019t up yet.</p>' +
+    '<form data-form="info" style="display:grid;gap:14px"><label class="fld"><span>Playlist link (Spotify, Apple Music, YouTube)</span><input type="text" id="f-playlist" maxlength="400" value="' + esc(c.playlist_url || '') + '" placeholder="https://open.spotify.com/playlist/..."></label>' +
+    '<button class="btn primary" type="submit" style="justify-self:start">Save</button></form></div>';
+}
+function hostTexts(){
+  var cur = (S.host.config.texts) || {};
+  return '<div class="card"><h3>Page Text</h3><p class="muted small">Change the instructions guests see on each page. Leave a box empty to use the original wording (shown faintly inside it).</p>' +
+    '<form data-form="texts" style="display:grid;gap:22px">' + TEXTS.map(function(t){
+      return '<label class="fld"><span>' + esc(t[1]) + '</span><textarea id="tx-' + t[0] + '" rows="' + (t[0] === 'hunt_rules' ? 6 : 3) + '" maxlength="600" placeholder="' + esc(t[2]) + '">' + esc(cur[t[0]] || '') + '</textarea></label>';
+    }).join('') + '<button class="btn primary" type="submit" style="justify-self:start">Save page text</button></form></div>';
 }
 function hostGuests(){
   var pts = {}; S.host.results.hunt.forEach(function(r){ pts[r.guest_id] = r.points; });
@@ -1621,9 +1654,25 @@ app.addEventListener('submit', function(e){
     var code = val('f-code').trim().toLowerCase().replace(/[^0-9a-z]/g, '');
     if (code) { var fc = document.getElementById('f-code'); fc.value = ''; fc.blur(); claimCode(code); }
   }
+  if (kind === 'texts') {
+    var tx = {};
+    TEXTS.forEach(function(t){ var v = val('tx-' + t[0]).trim(); if (v) tx[t[0]] = v; });
+    act('host', rpc('host_update_config', {p_pass: S.pass, p_patch: {texts: tx}}).then(refreshHost), 'Page text saved');
+    return;
+  }
+  if (kind === 'alert-edit') {
+    var et = val('f-alert-edit').trim(), eat = form.getAttribute('data-at');
+    if (!et) { toast('An announcement can\u2019t be empty. Use Remove instead.', true); return; }
+    var list = (S.host.config.alerts || []).map(function(x){ return x.at === eat ? {text: et, at: x.at} : x; }), pe = {alerts: list};
+    if (S.host.config.alert && S.host.config.alert.at === eat) pe.alert = {text: et, at: eat};
+    act('host', rpc('host_update_config', {p_pass: S.pass, p_patch: pe}).then(function(){ S.editAlert = null; return refreshHost(); }), 'Announcement updated');
+    return;
+  }
   if (kind === 'alert') {
     var at = val('f-alert').trim(); if (!at) { toast('Write the announcement first.', true); return; }
-    act('host', rpc('host_update_config', {p_pass: S.pass, p_patch: {alert: {text: at, at: new Date().toISOString()}}}).then(function(){ var f = document.getElementById('f-alert'); if (f) f.value = ''; return refreshHost(); }), 'Announcement posted');
+    var post = {text: at, at: new Date().toISOString()};
+    var hist = [post].concat((S.host.config.alerts || []).filter(function(x){ return x && x.text; })).slice(0, 12);
+    act('host', rpc('host_update_config', {p_pass: S.pass, p_patch: {alert: post, alerts: hist}}).then(function(){ var f = document.getElementById('f-alert'); if (f) f.value = ''; return refreshHost(); }), 'Announcement posted');
   }
   if (kind === 'message') {
     var body = val('f-msg').trim();
@@ -1655,7 +1704,7 @@ app.addEventListener('submit', function(e){
   if (kind === 'info') {
     var pl = val('f-playlist').trim();
     if (pl && !/^https?:\/\//.test(pl)) { toast('The playlist link should start with https://', true); return; }
-    act('host', rpc('host_update_config', {p_pass: S.pass, p_patch: {location: val('f-loc').trim(), info_notes: val('f-notes').trim(), playlist_url: pl}}).then(refreshHost), 'Info saved');
+    act('host', rpc('host_update_config', {p_pass: S.pass, p_patch: {playlist_url: pl}}).then(refreshHost), 'Playlist saved');
   }
   if (kind === 'wipe') {
     if (val('f-wipe').trim() !== 'DELETE') { toast('Type DELETE in capitals to confirm.', true); return; }
@@ -1739,6 +1788,15 @@ app.addEventListener('click', function(e){
     case 'del-msg': if (!armed('msg-' + id)) { arm('msg-' + id); break; } S.confirm = null; act('msg', rpc('party_delete_message', {p_pass: S.pass, p_token: S.token, p_id: id}), 'Message deleted'); break;
     case 'host-del-msg': if (!armed('hmsg-' + id)) { arm('hmsg-' + id); break; } S.confirm = null; act('msg', rpc('host_delete_message', {p_pass: S.pass, p_id: id}), 'Message removed'); break;
     case 'alert-dismiss': store.set('wake-alert-seen', b.getAttribute('data-at')); render(true); break;
+    case 'alert-edit': S.editAlert = b.getAttribute('data-at'); render(true); var fe = document.getElementById('f-alert-edit'); if (fe) fe.focus(); break;
+    case 'alert-edit-cancel': S.editAlert = null; render(true); break;
+    case 'alert-del': {
+      var at2 = b.getAttribute('data-at');
+      if (!armed('al-' + at2)) { arm('al-' + at2); break; } S.confirm = null;
+      var left = (S.host.config.alerts || []).filter(function(x){ return x.at !== at2; }), p2 = {alerts: left};
+      if (S.host.config.alert && S.host.config.alert.at === at2) p2.alert = null;
+      act('host', rpc('host_update_config', {p_pass: S.pass, p_patch: p2}).then(refreshHost), 'Announcement removed'); break;
+    }
     case 'alert-clear': act('host', rpc('host_update_config', {p_pass: S.pass, p_patch: {alert: null}}).then(refreshHost), 'Announcement cleared'); break;
     case 'pick': openPicker(b.getAttribute('data-pick')); break;
     case 'about': S.overlay = 'about'; render(true); window.scrollTo(0, 0); break;
