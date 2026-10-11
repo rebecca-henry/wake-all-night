@@ -1333,7 +1333,7 @@ function drinksView(){
         var ms = members(t.id);
         return '<div class="team-row"><span><span class="nm">' + esc(t.name) + '</span><br><span class="muted small">' + (ms.length ? ms.map(function(g){ return esc(shortName(g)); }).join(', ') : 'No one yet') + '</span></span><button class="btn small" data-act="join-team" data-id="' + t.id + '">Join</button></div>';
       }).join('') + '</div>' : '<p class="muted small">No teams yet. Start the first one.</p>') +
-      '<form data-form="newteam" class="row2" style="align-items:end;border-top:1px solid var(--line);padding-top:12px"><label class="fld"><span>Or start a new team</span><input type="text" id="f-newteam" maxlength="40" placeholder="Team name" required></label><button class="btn" type="submit">Start team</button></form></div>';
+      '<form data-form="newteam" class="row2" style="align-items:end;border-top:1px solid var(--line);padding-top:12px"><label class="fld"><input type="text" id="f-newteam" maxlength="40" placeholder="Team name" aria-label="New team name" required></label><button class="btn" type="submit">Start team</button></form></div>';
   }
   out += '</section>';
   var items = S.state.teams.map(function(t){ return {id: t.id, name: t.name, sub: t.drink_name || 'Drink not named yet', img: t.photo_v ? imgHTML('team', t.id, t.photo_v, 'thumb', t.name, t.name) : null}; });
