@@ -358,6 +358,9 @@ label.fld > span #msg-count{float:right;font-size:13px}
 .code-entry .ce-label{font-size:18px;line-height:1.45;color:var(--muted);padding-top:8px}
 .code-entry .ce-right{display:grid;gap:10px}
 .board li.none{color:var(--muted)}
+.fold{display:flex;justify-content:space-between;align-items:center;gap:12px;width:100%;background:none;border:0;padding:0;margin:0;color:inherit;font:inherit;letter-spacing:inherit;text-align:left;cursor:pointer}
+.fold .chev{color:var(--gold);font-family:var(--body);font-size:26px;line-height:1;transition:transform .2s}
+.fold[aria-expanded="true"] .chev{transform:rotate(180deg)}
 .scan-btns{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px}
 .scanner{position:fixed;inset:0;height:100vh;height:100dvh;z-index:65;background:#08050a;display:grid;grid-template-rows:auto minmax(0,1fr) auto;gap:12px;padding:calc(10px + env(safe-area-inset-top,0px)) 12px calc(16px + env(safe-area-inset-bottom,0px))}
 .scanner .stage{position:relative;min-height:0;overflow:hidden;border-radius:6px;background:#000}
@@ -459,6 +462,7 @@ var S = {
   ballots: {costume: null, drink: null},
   viewer: null,           /* photo id being viewed */
   reveal: null,           /* {phase:'knock'|'show', result} */
+  rulesOpen: store.get('wake-rules') !== '0',   /* Hunt page: is How It Works unfolded? */
   toast: null,
   confirm: null,
   busy: {},
@@ -1352,13 +1356,14 @@ function huntView(){
   if (over) out += '<div class="notice gold"><b>The hunt is over.</b>' + (h.over ? ' Every code has been found.' : '') + '</div>';
   out += '<div class="hunt-count"><span class="big">' + left + '</span><span class="muted">of ' + h.total + ' codes still hidden</span><div class="pips" aria-hidden="true">' + pips + '</div></div>';
   if (over) out += leaderboardHTML(h, me);
-  out += '<div class="card"><div class="block-head"><h3>Your Haul</h3><span class="mono" style="font-size:22px;color:var(--gold)">' + plural(myPoints(), 'treat') + '</span></div>' +
-    hauls(h, over) + '</div>';
-  if (!over) out += '<div class="card quiet"><h3>How It Works</h3><ul class="muted small" style="margin:0;padding-left:20px;display:grid;gap:12px">' +
-    T('hunt_rules').split(/\n+/).map(function(l){ return l.trim(); }).filter(Boolean).map(function(l){ return '<li>' + esc(l) + '</li>'; }).join('') + '</ul>' +
+  if (!over) out += '<div class="card quiet"><h3><button class="fold" data-act="toggle-rules" aria-expanded="' + !!S.rulesOpen + '"><span>How It Works</span><span class="chev" aria-hidden="true">\u25be</span></button></h3>' +
+    (S.rulesOpen ? '<ul class="muted small" style="margin:0;padding-left:20px;display:grid;gap:12px">' +
+      T('hunt_rules').split(/\n+/).map(function(l){ return l.trim(); }).filter(Boolean).map(function(l){ return '<li>' + esc(l) + '</li>'; }).join('') + '</ul>' : '') +
     '<div class="scan-btns"><button class="btn primary" data-act="scan">Scan a code</button><button class="btn" data-act="scan-photo">Use a photo</button></div>' +
     '<form data-form="manual" class="code-entry"><label for="f-code" class="ce-label">Camera not working? Type the name under the QR</label>' +
     '<div class="ce-right"><input type="text" id="f-code" maxlength="40" autocapitalize="none" autocomplete="off" spellcheck="false" placeholder="ex. purple-ponies" aria-label="Name under the QR"><button class="btn" type="submit">Open</button></div></form></div>';
+  out += '<div class="card"><div class="block-head"><h3>Your Haul</h3><span class="mono" style="font-size:22px;color:var(--gold)">' + plural(myPoints(), 'treat') + '</span></div>' +
+    hauls(h, over) + '</div>';
   return out + '</section>';
 }
 
@@ -1861,6 +1866,7 @@ app.addEventListener('click', function(e){
     }
     case 'alert-clear': act('host', rpc('host_update_config', {p_pass: S.pass, p_patch: {alert: null}}).then(refreshHost), 'Announcement cleared'); break;
     case 'pick': openPicker(b.getAttribute('data-pick')); break;
+    case 'toggle-rules': S.rulesOpen = !S.rulesOpen; store.set('wake-rules', S.rulesOpen ? '1' : '0'); render(true); break;
     case 'scan': openScanner(); break;
     case 'scan-photo': qrPicker.value = ''; qrPicker.click(); break;
     case 'about': S.overlay = 'about'; render(true); window.scrollTo(0, 0); break;
