@@ -326,8 +326,12 @@ label.fld > span #msg-count{float:right;font-size:13px}
 .pair-btns{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .pair-btns .btn{white-space:normal;line-height:1.25;text-align:center;min-height:52px}
 
-.banner.home{background:transparent}
-.banner.home::before,.banner.home::after{display:none}
+/* Home header: the title sits in the sky and the picture's figures walk along underneath it. */
+.banner.home{background:linear-gradient(180deg, rgba(51,24,24,0) 0, #331818 34%, #331818 calc(100% - 90px), rgba(51,24,24,0) 100%)}
+.banner.home::after{display:none}
+.banner.home > img{inset:auto 0 0 0;height:auto;object-fit:contain;filter:none;
+  -webkit-mask-image:linear-gradient(180deg, transparent 0, #000 24%, #000 86%, transparent 100%);mask-image:linear-gradient(180deg, transparent 0, #000 24%, #000 86%, transparent 100%)}
+.banner.home .over{padding-bottom:min(39vw,234px)}
 .cn{font-family:inherit}
 .card-head{display:flex;justify-content:space-between;align-items:center;gap:12px}
 .flips{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:4px}
@@ -623,7 +627,7 @@ function saveBlob(blob, name){
 
 /* ---------- mood photos (Unsplash, free to use) ---------- */
 var MOOD = {
-  hero: '1740825719364-6a2110b0be21',      /* bare autumn trees against the last sunset */
+  hero: 'mood/witches-at-dusk.webp',       /* witches walking home against the last sunset */
   costumes: 'gifs/fairy-skeleton.gif',
   drinks: 'gifs/pouring-skeleton.mp4',
   hunt: 'gifs/walking-skeleton.mp4',
@@ -719,9 +723,8 @@ if (document.fonts && document.fonts.load) {
 if (document.fonts && document.fonts.ready) document.fonts.ready.then(function(){ fitTitles(); fitTileText(); });
 
 function banner(key, inner, cls){
-  var plain = /\bhome\b/.test(cls || '');  /* the home header sits straight on the glowing backdrop */
   var src = MOOD[key], media = '';
-  if (!plain) media = /\.(mp4|webm)$/i.test(src || '')
+  media = /\.(mp4|webm)$/i.test(src || '')
     ? '<video data-bg="' + esc(src) + '" autoplay muted loop playsinline preload="auto" aria-hidden="true">' +
         '<source src="' + esc(moodUrl(src)) + '" type="video/mp4"><source src="' + esc(moodUrl(src).replace(/\.mp4$/i, '.webm')) + '" type="video/webm"></video>'
     : moodImg(src, 1200).replace('<img ', '<img data-bg="' + esc(src) + '" ');
@@ -1063,7 +1066,7 @@ function homeView(){
   var team = me.team_id ? teamsById()[me.team_id] : null;
   var h = S.state.hunt;
   var out = banner('hero', fitTitle('h1', ['A Wake', 'All Night']) + '<p class="sub">In Memory of Daylight Saving Time 2026</p>', 'home');
-  if (S.state.results) out += '<section class="block"><h2>The Winners</h2>' + winnersHTML() + '</section>';
+  if (S.state.results && (S.state.results.costume || S.state.results.drinks)) out += '<section class="block"><h2>The Winners</h2>' + winnersHTML() + '</section>';
   out += alertHTML();
   out += '<section class="block">' + boardHTML(me, team, h) + '</section>';
   out += dstHTML(dstLeft);
