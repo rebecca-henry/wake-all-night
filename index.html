@@ -327,11 +327,11 @@ label.fld > span #msg-count{float:right;font-size:13px}
 .pair-btns .btn{white-space:normal;line-height:1.25;text-align:center;min-height:52px}
 
 /* Home header: the title sits in the sky and the picture's figures walk along underneath it. */
-.banner.home{--ih:min(70.2vw,421px);background:linear-gradient(180deg, rgba(51,24,24,0) 0, #331818 34%, #331818 calc(100% - var(--ih) * .8), rgba(51,24,24,0) calc(100% - var(--ih) * .4))}
+.banner.home{--ih:min(70.2vw,421px);--tail:76px;background:linear-gradient(180deg, rgba(51,24,24,0) 0, #331818 34%, #331818 calc(100% - var(--tail) - var(--ih) * .8), #060304 calc(100% - var(--tail) - var(--ih) * .3), #060304 calc(100% - var(--tail)), rgba(6,3,4,0) 100%)}
 .banner.home::after{display:none}
-.banner.home > img{inset:auto 0 0 0;height:auto;object-fit:contain;filter:none;
-  -webkit-mask-image:linear-gradient(180deg, transparent 0, #000 14%, #000 62%, transparent 100%);mask-image:linear-gradient(180deg, transparent 0, #000 14%, #000 62%, transparent 100%)}
-.banner.home .over{padding-bottom:min(39vw,234px)}
+.banner.home > img{inset:auto 0 var(--tail) 0;height:auto;object-fit:contain;filter:none;
+  -webkit-mask-image:linear-gradient(180deg, transparent 0, #000 14%, #000 86%, transparent 100%);mask-image:linear-gradient(180deg, transparent 0, #000 14%, #000 86%, transparent 100%)}
+.banner.home .over{padding-bottom:calc(min(39vw,234px) + var(--tail))}
 /* The fine line under a header, for pages that don't open with a card (cards draw their own). */
 .rule{height:0;border-top:1px solid var(--line);margin-bottom:-14px}
 .cn{font-family:inherit}
