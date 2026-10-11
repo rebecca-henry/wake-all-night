@@ -1362,7 +1362,7 @@ function huntView(){
     '<div class="scan-btns"><button class="btn primary" data-act="scan">Scan a code</button><button class="btn" data-act="scan-photo">Use a photo</button></div>' +
     '<form data-form="manual" class="code-entry"><label for="f-code" class="ce-label">Camera not working? Type the name under the QR</label>' +
     '<div class="ce-right"><input type="text" id="f-code" maxlength="40" autocapitalize="none" autocomplete="off" spellcheck="false" placeholder="ex. purple-ponies" aria-label="Name under the QR"><button class="btn" type="submit">Open</button></div></form></div>';
-  out += '<div class="card"><div class="block-head"><h3>Your Haul</h3><span class="mono" style="font-size:22px;color:var(--gold)">' + plural(myPoints(), 'treat') + '</span></div>' +
+  out += '<div class="card"><div class="block-head"><h3>Your Haul</h3><span class="mono" style="font-size:22px;color:var(--gold)">' + plural(myPoints(), 'treat') + ' \u00b7 ' + plural(h.mine.filter(function(c){ return c.kind === 'trick'; }).length, 'trick') + '</span></div>' +
     hauls(h, over) + '</div>';
   return out + '</section>';
 }
