@@ -737,7 +737,7 @@ var TEXTS = [
   ['drink_vote', 'Drinks: how to vote', 'Tap up to three favourite drinks, in order. Just one or two is fine. You can\u2019t vote for your own team.'],
   ['drink_wait', 'Drinks: before voting opens', 'Drink voting isn\u2019t open right now.'],
   ['hunt_wait', 'Hunt: before it starts', 'The hunt hasn\u2019t started. Codes scanned before it opens won\u2019t count, so keep your eyes open and your camera ready.'],
-  ['hunt_rules', 'Hunt: How It Works (one point per line)', 'QR codes are hidden around the house. Scan one with your camera, or type the name printed under it.\nOnly the first person to scan a code gets what\u2019s behind it.\nSome codes are treats, some are tricks. You won\u2019t know until you open the door.\nEach treat is worth a point. The hunt ends when every code has been found, and the most treats wins.'],
+  ['hunt_rules', 'Hunt: How It Works (one point per line)', 'QR codes are hidden around the house. Scan one with your camera, or type the name printed under it.\nOnly the first person to scan a code gets what\u2019s behind it.\nSome codes are treats, some are tricks. You won\u2019t know until you open the door.\nEach treat is worth a point. The hunt ends when every code has been found.'],
   ['photos_note', 'Photos: under the upload button', 'Everyone at the party can see the album. You can remove any photo you added.'],
   ['board_note', 'Message Board: under the Post button', 'Notes may also pop up on the photo tiles on the home page.']
 ];
@@ -782,6 +782,8 @@ function myPoints(){
 }
 function cfg(k){ return S.state ? S.state.config[k] : null; }
 function ended(){ return cfg('phase') === 'ended'; }
+/* The hunt is over once every code is found, or when the host ends it or the night. */
+function huntOver(){ return !!(S.state && S.state.hunt.over) || cfg('hunt') === 'ended' || ended(); }
 
 /* ---------- toasts & confirm ---------- */
 var toastTimer = null;
@@ -1097,14 +1099,11 @@ function winnerOf(kind){
     return {names: joinNames(ts.map(function(t){ return t.name; })), sub: (drinks.length ? drinks.join(' / ') + ' \u00b7 ' : '') + plural(rows[0].points, 'point'),
             img: tp ? imgHTML('team', tp.id, tp.photo_v, 'thumb', 'Winning drink', '') : null};
   }
-  var gs = top.map(function(r){ return gm[r.guest_id]; }).filter(Boolean);
-  var gp = gs.filter(function(g){ return g.photo_v; })[0];
-  return {names: joinNames(gs.map(shortName)), sub: plural(rows[0].points, 'treat') + ' \u00b7 ' + plural(top[0].finds, 'code') + ' found',
-          img: gp ? imgHTML('costume', gp.id, gp.photo_v, 'thumb', 'Winner', '') : null};
+  return null;
 }
 function closedHTML(kind){
   var w = winnerOf(kind); if (!w) return '';
-  if (w.none) return '<section class="won"><span class="eyebrow">Contest closed</span><h2>No winner this time</h2><p class="muted">' + (kind === 'hunt' ? 'No one scored in the hunt.' : 'No votes were cast.') + '</p></section>';
+  if (w.none) return '<section class="won"><span class="eyebrow">Contest closed</span><h2>No winner this time</h2><p class="muted">' + 'No votes were cast.' + '</p></section>';
   return '<section class="won"><span class="eyebrow">Contest closed</span><h2>Congratulations ' + esc(w.names) + '!</h2>' +
     (w.img ? '<div class="won-img">' + w.img + '</div>' : '') + '<p class="muted">' + esc(w.sub) + '</p></section>';
 }
@@ -1113,11 +1112,9 @@ function winnersHTML(){
   var gm = guestsById(), tm = teamsById();
   var cost = (res.costume || []).map(function(r){ var e = entryByKey(r.entry); return e ? {who: esc(e.names) + (e.title ? ' as ' + esc(e.title) : ''), pts: r.points + ' pts'} : null; }).filter(Boolean);
   var dr = (res.drinks || []).map(function(r){ var t = tm[r.team]; return t ? {who: esc(t.name) + (t.drink_name ? ' · ' + esc(t.drink_name) : ''), pts: r.points + ' pts'} : null; }).filter(Boolean);
-  var hu = (res.hunt || []).map(function(r){ var g = gm[r.guest_id]; return g ? {who: esc(fullName(g)), pts: plural(r.points, 'treat')} : null; }).filter(Boolean);
   return '<div class="winners">' +
     (res.costume ? '<div class="card win"><h3>Best Costume</h3>' + podium(cost) + '</div>' : '') +
-    (res.drinks ? '<div class="card win"><h3>Best Drink</h3>' + podium(dr) + '</div>' : '') +
-    (res.hunt ? '<div class="card win"><h3>Trick-or-Treat Hunt</h3>' + podium(hu) + '</div>' : '') + '</div>';
+    (res.drinks ? '<div class="card win"><h3>Best Drink</h3>' + podium(dr) + '</div>' : '') + '</div>';
 }
 
 function endView(){
@@ -1221,7 +1218,7 @@ function boardHTML(me, team, h){
     return '<div class="pin mood-only" aria-hidden="true" data-slot="' + slot + '"><span class="pimg mood ' + (cls || '') + '">' +
       (face || (/^data:/.test(cur) ? '<img data-mood src="' + cur + '" alt="">' : moodImg(cur, 700))) + '</span></div>';
   }
-  var cw = winnerOf('costume'), dw = winnerOf('drinks'), hw = winnerOf('hunt');
+  var cw = winnerOf('costume'), dw = winnerOf('drinks');
   function winTile(tab, w, label, fallbackImg, cls){
     return actionPin(tab, w.img || moodImg(fallbackImg, 700), label, w.none ? 'No winner' : w.names, false, w.img ? '' : cls);
   }
@@ -1230,12 +1227,11 @@ function boardHTML(me, team, h){
               'Costume Contest', (me.costume_title || me.photo_v) ? (cfg('costume_voting') === 'open' ? 'Vote' : (me.costume_title || 'Your costume')) : 'Add your costume', false, me.photo_v ? '' : 'tall'),
     actionPin('drinks', team && team.photo_v ? imgHTML('team', team.id, team.photo_v, 'thumb', team.name, team.name) : moodImg(MOOD.pinDrink, 700),
               'Drink Making Contest', team ? (cfg('drink_voting') === 'open' ? 'Vote' : (team.drink_name || team.name)) : 'Join a team', false, team && team.photo_v ? '' : 'sq'),
-    h.over ? actionPin('hunt', moodImg(MOOD.pinHunt, 700), 'Scavenger Hunt', 'Hunt over', false, 'wide')
+    huntOver() ? actionPin('hunt', moodImg(MOOD.pinHunt, 700), 'Scavenger Hunt', 'Hunt over', false, 'wide')
            : actionPin('hunt', moodImg(MOOD.pinHunt, 700), 'Codes still hidden', String(h.total - h.found), true, 'wide')
   ];
   if (cw) acts[0] = winTile('costumes', cw, 'Costume Contest Winner', MOOD.pinCostume, 'tall');
   if (dw) acts[1] = winTile('drinks', dw, 'Drink Making Contest Winner', MOOD.pinDrink, 'sq');
-  if (hw) acts[2] = winTile('hunt', hw, 'Scavenger Hunt Winner', MOOD.pinHunt, 'wide');
   var people = entries().filter(function(e){ return e.photo; }).slice(-6).reverse().map(function(e){
     return '<button class="pin" data-act="tab" data-tab="costumes"><span class="pimg">' + imgHTML('costume', e.photo.id, e.photo.photo_v, 'thumb', e.names, e.names) +
       '<span class="ov"><span class="k">' + esc(e.title || 'Costume') + '</span><span class="v">' + esc(e.names) + '</span></span></span></button>';
@@ -1345,12 +1341,12 @@ function drinksView(){
 /* ----- hunt ----- */
 function huntView(){
   var h = S.state.hunt, me = S.state.me, open = cfg('hunt') === 'open' && !ended();
-  var over = h.over || ended() || announced('hunt');
+  var over = huntOver();
   var left = h.total - h.found, pips = '';
   for (var i = 0; i < h.total; i++) pips += '<i class="' + (i < h.found ? 'found' : '') + '"></i>';
-  var out = banner('hunt', '<div class="row">' + fitTitle('h2', ['Trick', 'or Treat']) + '<span class="chip' + (open && !over ? ' gold' : '') + '">' + (announced('hunt') ? '' : over ? 'Hunt over' : open ? 'Hunt is on' : 'Not started') + '</span></div>') + closedHTML('hunt') + '<section class="block">';
+  var out = banner('hunt', '<div class="row">' + fitTitle('h2', ['Trick', 'or Treat']) + '<span class="chip' + (open && !over ? ' gold' : '') + '">' + (over ? 'Hunt over' : open ? 'Hunt is on' : 'Not started') + '</span></div>') + '<section class="block">';
   if (!open && !over) out += '<div class="notice">' + TH('hunt_wait') + '</div>';
-  if (h.over && !announced('hunt')) out += '<div class="notice gold"><b>The hunt is over.</b> Every code has been found.</div>';
+  if (over) out += '<div class="notice gold"><b>The hunt is over.</b>' + (h.over ? ' Every code has been found.' : '') + '</div>';
   out += '<div class="hunt-count"><span class="big">' + left + '</span><span class="muted">of ' + h.total + ' codes still hidden</span><div class="pips" aria-hidden="true">' + pips + '</div></div>';
   if (over) out += leaderboardHTML(h, me);
   out += '<div class="card"><div class="block-head"><h3>Your Haul</h3><span class="mono" style="font-size:22px;color:var(--gold)">' + plural(myPoints(), 'treat') + '</span></div>' +
@@ -1432,7 +1428,7 @@ function revealView(){
   } else {
     var msgs = {
       taken: ['Too late!', 'This code has been scanned already. Keep looking.'],
-      closed: ['Not yet', 'The hunt hasn\u2019t started. Remember where this one is.'],
+      closed: huntOver() ? ['Hunt over', 'The hunt has ended, so this one stays unopened.'] : ['Not yet', 'The hunt hasn\u2019t started. Remember where this one is.'],
       unknown: ['Hmm', 'That code doesn\u2019t belong to this party.']
     }[x.status] || ['Hmm', 'Something odd happened. Try again.'];
     body = '<div class="word pop" style="font-size:52px">' + msgs[0] + '</div><p class="msg">' + msgs[1] + '</p>';
@@ -1575,10 +1571,9 @@ function hostControls(){
     '<div class="card">' +
     '<div class="ctl"><span><b>Costume voting</b><br><span class="muted small">' + plural(S.host.ballots.costume, 'ballot') + '</span></span>' + seg('costume_voting', [['open','Open'],['closed','Closed']]) + '</div>' +
     '<div class="ctl"><span><b>Drink voting</b><br><span class="muted small">' + plural(S.host.ballots.drink, 'ballot') + '</span></span>' + seg('drink_voting', [['open','Open'],['closed','Closed']]) + '</div>' +
-    '<div class="ctl"><span><b>Trick-or-treat hunt</b><br><span class="muted small">' + h.found + ' of ' + h.total + ' codes found</span></span>' + seg('hunt', [['open','Open'],['closed','Closed']]) + '</div>' +
+    '<div class="ctl"><span><b>Trick-or-treat hunt</b><br><span class="muted small">' + h.found + ' of ' + h.total + ' codes found. It ends by itself when all are found; tap Ended if a code gets lost</span></span>' + seg('hunt', [['closed','Closed'],['open','Open'],['ended','Ended']]) + '</div>' +
     '<div class="ctl"><span><b>Announce costume winner</b><br><span class="muted small">Closes voting and shows the winner</span></span>' + seg('announce_costume', [[true,'Announce'],[false,'Hide']]) + '</div>' +
     '<div class="ctl"><span><b>Announce drink winner</b><br><span class="muted small">Closes voting and shows the winner</span></span>' + seg('announce_drink', [[true,'Announce'],[false,'Hide']]) + '</div>' +
-    '<div class="ctl"><span><b>Announce hunt winner</b><br><span class="muted small">Ends the hunt and shows the winner. Use it early if a code gets lost</span></span>' + seg('announce_hunt', [[true,'Announce'],[false,'Hide']]) + '</div>' +
     '</div>' +
     '<div class="card"><h3>Passcodes</h3><p class="muted small">Leave a box blank to keep that passcode. After you change the guest passcode, everyone has to enter the new one, so tell your guests (and update the door sign). Guest passcodes need 4+ characters, host passcodes 6+.</p>' +
     '<form data-form="passcodes" style="display:grid;gap:10px" autocomplete="off"><label class="fld"><span>New guest passcode</span><input type="text" id="f-newguest" autocomplete="off" autocapitalize="none" spellcheck="false"></label>' +
@@ -1910,7 +1905,7 @@ app.addEventListener('click', function(e){
     case 'htab': S.hostTab = b.getAttribute('data-tab'); S.hostSchedule = null; render(true); break;
     case 'cfg': {
       var key = b.getAttribute('data-key'), v2 = JSON.parse(b.getAttribute('data-val')), patch = {}; patch[key] = v2;
-      if (v2 === true) { if (key === 'announce_costume') patch.costume_voting = 'closed'; if (key === 'announce_drink') patch.drink_voting = 'closed'; if (key === 'announce_hunt') patch.hunt = 'closed'; }
+      if (v2 === true) { if (key === 'announce_costume') patch.costume_voting = 'closed'; if (key === 'announce_drink') patch.drink_voting = 'closed'; }
       act('host', rpc('host_update_config', {p_pass: S.pass, p_patch: patch}).then(refreshHost)); break;
     }
     case 'phase': {
