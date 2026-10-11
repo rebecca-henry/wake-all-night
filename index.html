@@ -1355,7 +1355,7 @@ function huntView(){
     T('hunt_rules').split(/\n+/).map(function(l){ return l.trim(); }).filter(Boolean).map(function(l){ return '<li>' + esc(l) + '</li>'; }).join('') + '</ul>' +
     '<div class="scan-btns"><button class="btn primary" data-act="scan">Scan a code</button><button class="btn" data-act="scan-photo">Use a photo</button></div>' +
     '<form data-form="manual" class="code-entry"><label for="f-code" class="ce-label">Camera not working? Type the name under the QR</label>' +
-    '<div class="ce-right"><input type="text" id="f-code" maxlength="40" autocapitalize="none" autocomplete="off" spellcheck="false" placeholder="purple-ponies" aria-label="Name under the QR"><button class="btn" type="submit">Open</button></div></form></div>';
+    '<div class="ce-right"><input type="text" id="f-code" maxlength="40" autocapitalize="none" autocomplete="off" spellcheck="false" placeholder="ex. purple-ponies" aria-label="Name under the QR"><button class="btn" type="submit">Open</button></div></form></div>';
   return out + '</section>';
 }
 
