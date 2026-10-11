@@ -210,9 +210,8 @@ nav.tabbar button[aria-current="page"]{color:var(--gold);border-top-color:var(--
 .ctl{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;padding:14px 0;border-top:1px solid var(--line)}
 .ctl:first-child{border-top:0}
 .code-row{display:grid;gap:8px;padding:16px 0 0;border:0;border-top:1px solid var(--line);border-radius:0;background:none}
-.code-row.grand{border-top-color:var(--gold)}
 .code-row .head{display:flex;justify-content:space-between;gap:8px;align-items:center;flex-wrap:wrap}
-.code-row .grid4{display:grid;grid-template-columns:minmax(0,1fr) 6rem 5rem;gap:8px}
+.code-row .grid4{display:grid;grid-template-columns:minmax(0,1fr) 6rem;gap:8px}
 .sch-row{display:grid;grid-template-columns:minmax(0,13rem) minmax(0,1fr) auto;gap:8px;align-items:center}
 .x{border:0;background:none;color:var(--muted);font-size:22px;cursor:pointer;padding:4px 8px;min-height:40px}
 .mono{font-family:var(--mono)}
@@ -331,16 +330,15 @@ label.fld > span #msg-count{float:right;font-size:13px}
 .banner.home::before,.banner.home::after{display:none}
 .cn{font-family:inherit}
 .card-head{display:flex;justify-content:space-between;align-items:center;gap:12px}
-.flips{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-top:4px}
+.flips{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:4px}
 .flip{position:relative;aspect-ratio:3/4;perspective:700px;background:none;border:0;padding:0;color:var(--ink);font:inherit}
 .flip .face{position:absolute;inset:0;display:grid;align-content:center;justify-items:center;gap:4px;padding:6px;border-radius:6px;text-align:center;
   backface-visibility:hidden;-webkit-backface-visibility:hidden;transition:transform .6s cubic-bezier(.3,.7,.3,1)}
 .flip .face b{font-family:var(--display);font-weight:400;font-size:26px;line-height:1}
+.flip .front b{font-size:20px;line-height:1.1;overflow-wrap:anywhere}
 .flip .back b{font-size:21px}
 .flip .face em{font-style:normal;font-family:var(--display);font-size:16px;color:var(--ink)}
 .flip .face small{font-size:12px;line-height:1.2;color:var(--muted);overflow:hidden;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical}
-.flip.locked .face{border:1px dashed var(--line);color:var(--muted)}
-.flip.locked .face b{color:var(--line)}
 .flip.found{cursor:pointer}
 .flip.found .front{background:#1d1430;border:1px solid var(--gold)}
 .flip.found .front b{color:var(--gold)}
@@ -361,6 +359,13 @@ label.fld > span #msg-count{float:right;font-size:13px}
 .code-entry{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px;align-items:start}
 .code-entry .ce-label{font-size:18px;line-height:1.45;color:var(--muted);padding-top:8px}
 .code-entry .ce-right{display:grid;gap:10px}
+.board li.none{color:var(--muted)}
+.scan-btns{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px}
+.scanner{position:fixed;inset:0;height:100vh;height:100dvh;z-index:65;background:#08050a;display:grid;grid-template-rows:auto minmax(0,1fr) auto;gap:12px;padding:calc(10px + env(safe-area-inset-top,0px)) 12px calc(16px + env(safe-area-inset-bottom,0px))}
+.scanner .stage{position:relative;min-height:0;overflow:hidden;border-radius:6px;background:#000}
+.scanner video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.scanner .frame{position:absolute;left:50%;top:50%;width:min(64vw,64vh,300px);aspect-ratio:1;transform:translate(-50%,-50%);border:2px solid var(--gold);border-radius:10px;box-shadow:0 0 0 100vmax rgba(8,5,10,.45)}
+.scanner p{text-align:center;margin:0}
 #print-sheet{display:none}
 @media print{
   body{background:#fff;color:#000}
@@ -369,8 +374,9 @@ label.fld > span #msg-count{float:right;font-size:13px}
   .qr-card{border:1px dashed #999;border-radius:4mm;padding:4mm;text-align:center;break-inside:avoid;font-family:Georgia,serif;color:#000}
   .qr-card svg{width:100%;height:auto}
   .qr-card .q1{font-size:14pt}
-  .qr-card .q2{font-family:monospace;font-size:8pt;color:#555}
-  .qr-card.grand{border:2px solid #000}
+  .qr-card .q2{font-size:8pt;color:#555}
+  .qr-card .q3{font-family:monospace;font-weight:700;font-size:13pt}
+  .qr-card.join{border:2px solid #000}
 }
 @media (max-width:420px){
   .stat{grid-template-columns:6.5rem minmax(0,1fr) auto}
@@ -389,6 +395,7 @@ label.fld > span #msg-count{float:right;font-size:13px}
 <div id="app"></div>
 <div id="print-sheet"></div>
 <input type="file" id="picker" accept="image/*" class="picker" aria-hidden="true" tabindex="-1">
+<input type="file" id="qr-picker" accept="image/*" class="picker" aria-hidden="true" tabindex="-1">
 
 
 <script>
@@ -407,6 +414,7 @@ window.WAKE_CONFIG = {
 </script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.116.0/dist/umd/supabase.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
 <script>
 (function(){
@@ -729,8 +737,7 @@ var TEXTS = [
   ['drink_vote', 'Drinks: how to vote', 'Tap up to three favourite drinks, in order. Just one or two is fine. You can\u2019t vote for your own team.'],
   ['drink_wait', 'Drinks: before voting opens', 'Drink voting isn\u2019t open right now.'],
   ['hunt_wait', 'Hunt: before it starts', 'The hunt hasn\u2019t started. Codes scanned before it opens won\u2019t count, so keep your eyes open and your camera ready.'],
-  ['hunt_clue', 'Hunt: grand code hint', 'When every code has been found, a clue to the grand code appears here.'],
-  ['hunt_rules', 'Hunt: How It Works (one point per line)', 'QR codes are hidden around the house. Scan one with your normal camera app.\nEach code pays out only to the first few people who scan it (usually 3). After that it\u2019s picked clean.\nSome codes are treats, some are tricks. You won\u2019t know until you open the door.\nFind the last hidden code and the grand code\u2019s clue appears for everyone.'],
+  ['hunt_rules', 'Hunt: How It Works (one point per line)', 'QR codes are hidden around the house. Scan one with your camera, or type the name printed under it.\nOnly the first person to scan a code gets what\u2019s behind it.\nSome codes are treats, some are tricks. You won\u2019t know until you open the door.\nEach treat is worth a point. The hunt ends when every code has been found, and the most treats wins.'],
   ['photos_note', 'Photos: under the upload button', 'Everyone at the party can see the album. You can remove any photo you added.'],
   ['board_note', 'Message Board: under the Post button', 'Notes may also pop up on the photo tiles on the home page.']
 ];
@@ -796,7 +803,7 @@ function arm(key){ S.confirm = key; clearTimeout(confirmTimer); confirmTimer = s
 
 /* ---------- pending QR code from the URL ---------- */
 (function readHash(){
-  var m = location.hash.match(/^#c=([0-9a-zA-Z]+)$/);
+  var m = location.hash.match(/^#c=([0-9a-zA-Z-]+)$/);
   if (m) {
     try { sessionStorage.setItem('wake-pending', m[1].toLowerCase()); } catch(e){ window.__pending = m[1].toLowerCase(); }
     try { history.replaceState(null, '', location.pathname + location.search); } catch(e){}
@@ -813,6 +820,7 @@ function processPending(){
 }
 function claimCode(code){
   claiming = true;
+  S.tab = 'hunt'; S.overlay = null; S.viewer = null; S.sheet = null;
   S.reveal = {phase: 'knock'}; render(true);
   var started = Date.now();
   rpc('party_claim', {p_pass: S.pass, p_token: S.token, p_secret: code}).then(function(r){
@@ -821,6 +829,74 @@ function claimCode(code){
     S.reveal = null; toast(e.message, true); render(true);
   }).then(function(){ claiming = false; });
 }
+
+/* ---------- scanning a code inside the site ---------- */
+/* A QR holds the site link ending in #c=purple-ponies. Returns the name, or null if it isn't one of ours. */
+function codeFromText(t){
+  var m = String(t || '').match(/#c=([0-9a-zA-Z-]+)/);
+  return m ? m[1].toLowerCase() : null;
+}
+var scanCanvas = document.createElement('canvas');
+function readQR(src, w, h, maxSide, both){
+  if (!window.jsQR || !w || !h) return null;
+  var k = Math.min(1, maxSide / Math.max(w, h));
+  scanCanvas.width = Math.round(w * k); scanCanvas.height = Math.round(h * k);
+  var ctx = scanCanvas.getContext('2d', {willReadFrequently: true});
+  ctx.drawImage(src, 0, 0, scanCanvas.width, scanCanvas.height);
+  var r = jsQR(ctx.getImageData(0, 0, scanCanvas.width, scanCanvas.height).data, scanCanvas.width, scanCanvas.height, {inversionAttempts: both ? 'attemptBoth' : 'dontInvert'});
+  return r && r.data ? r.data : null;
+}
+var scanner = null;
+function closeScanner(){
+  if (!scanner) return;
+  clearInterval(scanner.timer);
+  if (scanner.stream) scanner.stream.getTracks().forEach(function(t){ t.stop(); });
+  scanner.el.remove(); scanner = null;
+}
+function openScanner(){
+  if (scanner) return;
+  if (!window.jsQR || !navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) { toast('The scanner can\u2019t open here. Use your phone\u2019s camera app, or type the name under the QR.', true, 5000); return; }
+  var el = document.createElement('div');
+  el.className = 'scanner'; el.setAttribute('role', 'dialog'); el.setAttribute('aria-label', 'Scan a code');
+  el.innerHTML = '<div class="overlay-top"><span class="eyebrow">Scan a code</span><button class="btn small ghost" type="button">Close</button></div>' +
+    '<div class="stage"><video playsinline muted></video><span class="frame"></span></div><p class="muted small" aria-live="polite">Point your camera at a hidden QR code.</p>';
+  document.body.appendChild(el);
+  var mine = scanner = {el: el, stream: null, timer: null};
+  var video = el.querySelector('video'), hint = el.querySelector('p');
+  el.querySelector('button').addEventListener('click', closeScanner);
+  navigator.mediaDevices.getUserMedia({video: {facingMode: {ideal: 'environment'}}, audio: false}).then(function(stream){
+    if (scanner !== mine) { stream.getTracks().forEach(function(t){ t.stop(); }); return; }
+    mine.stream = stream; video.srcObject = stream;
+    var pr = video.play(); if (pr && pr.catch) pr.catch(function(){});
+    mine.timer = setInterval(function(){
+      if (video.readyState < 2) return;
+      var text = readQR(video, video.videoWidth, video.videoHeight, 800, false);
+      if (!text) return;
+      var code = codeFromText(text);
+      if (code) { closeScanner(); claimCode(code); }
+      else hint.textContent = 'That QR isn\u2019t one of the party\u2019s codes. Keep looking.';
+    }, 180);
+  }).catch(function(){
+    if (scanner === mine) closeScanner();
+    toast('The camera didn\u2019t open. Allow camera access, or tap \u201cUse a photo\u201d instead.', true, 5000);
+  });
+}
+document.addEventListener('visibilitychange', function(){ if (document.visibilityState !== 'visible') closeScanner(); });
+/* "Use a photo": take or pick a picture of the QR and read the code out of it. */
+var qrPicker = document.getElementById('qr-picker');
+qrPicker.addEventListener('change', function(){
+  var file = qrPicker.files && qrPicker.files[0]; if (!file) return;
+  var url = URL.createObjectURL(file), img = new Image();
+  img.onload = function(){
+    var text = readQR(img, img.naturalWidth, img.naturalHeight, 1600, true) || readQR(img, img.naturalWidth, img.naturalHeight, 800, true);
+    URL.revokeObjectURL(url);
+    var code = codeFromText(text);
+    if (code) claimCode(code);
+    else toast(text ? 'That QR isn\u2019t one of the party\u2019s codes.' : 'No QR code found in that picture. Try a closer, sharper photo, or type the name under it.', true, 5000);
+  };
+  img.onerror = function(){ URL.revokeObjectURL(url); toast('That picture couldn\u2019t be opened. Try another one.', true); };
+  img.src = url;
+});
 
 /* ---------- rendering ---------- */
 var renderQueued = false;
@@ -1023,7 +1099,7 @@ function winnerOf(kind){
   }
   var gs = top.map(function(r){ return gm[r.guest_id]; }).filter(Boolean);
   var gp = gs.filter(function(g){ return g.photo_v; })[0];
-  return {names: joinNames(gs.map(shortName)), sub: plural(rows[0].points, 'point') + ' \u00b7 ' + plural(top[0].finds, 'code') + ' found',
+  return {names: joinNames(gs.map(shortName)), sub: plural(rows[0].points, 'treat') + ' \u00b7 ' + plural(top[0].finds, 'code') + ' found',
           img: gp ? imgHTML('costume', gp.id, gp.photo_v, 'thumb', 'Winner', '') : null};
 }
 function closedHTML(kind){
@@ -1037,12 +1113,11 @@ function winnersHTML(){
   var gm = guestsById(), tm = teamsById();
   var cost = (res.costume || []).map(function(r){ var e = entryByKey(r.entry); return e ? {who: esc(e.names) + (e.title ? ' as ' + esc(e.title) : ''), pts: r.points + ' pts'} : null; }).filter(Boolean);
   var dr = (res.drinks || []).map(function(r){ var t = tm[r.team]; return t ? {who: esc(t.name) + (t.drink_name ? ' · ' + esc(t.drink_name) : ''), pts: r.points + ' pts'} : null; }).filter(Boolean);
-  var hu = (res.hunt || []).map(function(r){ var g = gm[r.guest_id]; return g ? {who: esc(fullName(g)), pts: r.points + ' pts'} : null; }).filter(Boolean);
-  var gf = S.state.hunt.grand_found_by ? gm[S.state.hunt.grand_found_by] : null;
+  var hu = (res.hunt || []).map(function(r){ var g = gm[r.guest_id]; return g ? {who: esc(fullName(g)), pts: plural(r.points, 'treat')} : null; }).filter(Boolean);
   return '<div class="winners">' +
     (res.costume ? '<div class="card win"><h3>Best Costume</h3>' + podium(cost) + '</div>' : '') +
     (res.drinks ? '<div class="card win"><h3>Best Drink</h3>' + podium(dr) + '</div>' : '') +
-    (res.hunt ? '<div class="card win"><h3>Trick-or-Treat Hunt</h3>' + podium(hu) + (gf ? '<p class="small">Grand code found by ' + esc(fullName(gf)) + '</p>' : '') + '</div>' : '') + '</div>';
+    (res.hunt ? '<div class="card win"><h3>Trick-or-Treat Hunt</h3>' + podium(hu) + '</div>' : '') + '</div>';
 }
 
 function endView(){
@@ -1155,7 +1230,8 @@ function boardHTML(me, team, h){
               'Costume Contest', (me.costume_title || me.photo_v) ? (cfg('costume_voting') === 'open' ? 'Vote' : (me.costume_title || 'Your costume')) : 'Add your costume', false, me.photo_v ? '' : 'tall'),
     actionPin('drinks', team && team.photo_v ? imgHTML('team', team.id, team.photo_v, 'thumb', team.name, team.name) : moodImg(MOOD.pinDrink, 700),
               'Drink Making Contest', team ? (cfg('drink_voting') === 'open' ? 'Vote' : (team.drink_name || team.name)) : 'Join a team', false, team && team.photo_v ? '' : 'sq'),
-    actionPin('hunt', moodImg(MOOD.pinHunt, 700), 'Codes still hidden', String(h.total - h.found), true, 'wide')
+    h.over ? actionPin('hunt', moodImg(MOOD.pinHunt, 700), 'Scavenger Hunt', 'Hunt over', false, 'wide')
+           : actionPin('hunt', moodImg(MOOD.pinHunt, 700), 'Codes still hidden', String(h.total - h.found), true, 'wide')
   ];
   if (cw) acts[0] = winTile('costumes', cw, 'Costume Contest Winner', MOOD.pinCostume, 'tall');
   if (dw) acts[1] = winTile('drinks', dw, 'Drink Making Contest Winner', MOOD.pinDrink, 'sq');
@@ -1268,44 +1344,46 @@ function drinksView(){
 
 /* ----- hunt ----- */
 function huntView(){
-  var h = S.state.hunt, me = S.state.me, gm = guestsById(), open = cfg('hunt') === 'open' && !ended();
+  var h = S.state.hunt, me = S.state.me, open = cfg('hunt') === 'open' && !ended();
+  var over = h.over || ended() || announced('hunt');
   var left = h.total - h.found, pips = '';
   for (var i = 0; i < h.total; i++) pips += '<i class="' + (i < h.found ? 'found' : '') + '"></i>';
-  var out = banner('hunt', '<div class="row">' + fitTitle('h2', ['Trick', 'or Treat']) + '<span class="chip' + (open ? ' gold' : '') + '">' + (announced('hunt') ? '' : open ? 'Hunt is on' : ended() ? 'Hunt over' : 'Not started') + '</span></div>') + closedHTML('hunt') + '<section class="block">';
-  if (!open && !ended() && !announced('hunt')) out += '<div class="notice">' + TH('hunt_wait') + '</div>';
+  var out = banner('hunt', '<div class="row">' + fitTitle('h2', ['Trick', 'or Treat']) + '<span class="chip' + (open && !over ? ' gold' : '') + '">' + (announced('hunt') ? '' : over ? 'Hunt over' : open ? 'Hunt is on' : 'Not started') + '</span></div>') + closedHTML('hunt') + '<section class="block">';
+  if (!open && !over) out += '<div class="notice">' + TH('hunt_wait') + '</div>';
+  if (h.over && !announced('hunt')) out += '<div class="notice gold"><b>The hunt is over.</b> Every code has been found.</div>';
   out += '<div class="hunt-count"><span class="big">' + left + '</span><span class="muted">of ' + h.total + ' codes still hidden</span><div class="pips" aria-hidden="true">' + pips + '</div></div>';
-  if (h.grand_found_by) out += '<div class="notice gold"><b>The grand code has been claimed</b> by ' + esc(fullName(gm[h.grand_found_by])) + '.</div>';
-  else if (h.grand_revealed) out += '<div class="card" style="border-color:var(--gold)"><span class="eyebrow">The grand code is awake</span><p style="font-size:20px">' + esc(h.grand_clue || '') + '</p><p class="muted small">First to scan it wins the big bonus.</p></div>';
-  else out += '<p class="muted small">' + TH('hunt_clue') + '</p>';
-  out += '<div class="card"><div class="block-head"><h3>Your Haul</h3><span class="mono" style="font-size:22px;color:var(--gold)">' + myPoints() + ' pts</span></div>' +
-    hauls(h) + '</div>';
-  out += '<div class="card quiet"><h3>How It Works</h3><ul class="muted small" style="margin:0;padding-left:20px;display:grid;gap:12px">' +
+  if (over) out += leaderboardHTML(h, me);
+  out += '<div class="card"><div class="block-head"><h3>Your Haul</h3><span class="mono" style="font-size:22px;color:var(--gold)">' + plural(myPoints(), 'treat') + '</span></div>' +
+    hauls(h, over) + '</div>';
+  if (!over) out += '<div class="card quiet"><h3>How It Works</h3><ul class="muted small" style="margin:0;padding-left:20px;display:grid;gap:12px">' +
     T('hunt_rules').split(/\n+/).map(function(l){ return l.trim(); }).filter(Boolean).map(function(l){ return '<li>' + esc(l) + '</li>'; }).join('') + '</ul>' +
-    '<form data-form="manual" class="code-entry"><label for="f-code" class="ce-label">Camera not working? Type the code under the QR</label>' +
-    '<div class="ce-right"><input type="text" id="f-code" maxlength="20" autocapitalize="none" autocomplete="off" spellcheck="false" aria-label="Code under the QR"><button class="btn" type="submit">Open</button></div></form></div>';
-  out += '<section class="block"><h2>Leaderboard</h2>' + (h.leaderboard.length ? '<ol class="board">' + h.leaderboard.map(function(r){
-    return '<li class="' + (r.guest_id === me.id ? 'me' : '') + '"><span>' + esc(fullName(gm[r.guest_id])) + ' <span class="muted small">· ' + r.finds + ' found</span></span><span class="pts">' + r.points + '</span></li>';
-  }).join('') + '</ol>' : '<p class="muted small">No one has scored yet.</p>') + '</section></section>';
-  return out;
+    '<div class="scan-btns"><button class="btn primary" data-act="scan">Scan a code</button><button class="btn" data-act="scan-photo">Use a photo</button></div>' +
+    '<form data-form="manual" class="code-entry"><label for="f-code" class="ce-label">Camera not working? Type the name under the QR</label>' +
+    '<div class="ce-right"><input type="text" id="f-code" maxlength="40" autocapitalize="none" autocomplete="off" spellcheck="false" placeholder="purple-ponies" aria-label="Name under the QR"><button class="btn" type="submit">Open</button></div></form></div>';
+  return out + '</section>';
 }
 
-/* Your Haul: one tile per code. Codes you've found show their number; tap to flip and see the trick or treat. */
-function hauls(h){
-  var byNum = {}, grand = null;
-  h.mine.forEach(function(c){ if (c.is_grand) grand = c; else byNum[c.num] = c; });
-  var tiles = [];
-  Object.keys(byNum).map(Number).sort(function(a, b){ return a - b; }).forEach(function(n){ tiles.push({num: n, c: byNum[n]}); });
-  if (grand) tiles.push({num: 'grand', c: grand});
-  var html = '<div class="flips">' + tiles.map(function(t){
-    var c = t.c, label = t.num === 'grand' ? 'Grand' : '#' + t.num;
-    if (!c) return '<div class="flip locked" aria-label="' + label + ', not found yet"><span class="face front"><b>' + '?' + '</b><small>' + label + '</small></span></div>';
-    var open = S.flipped && S.flipped[t.num];
-    var kind = c.is_grand ? 'Grand!' : c.kind === 'trick' ? 'Trick!' : 'Treat!';
-    return '<button class="flip found ' + (c.kind === 'trick' ? 'trick' : 'treat') + (open ? ' open' : '') + '" data-act="flip" data-num="' + t.num + '" aria-pressed="' + !!open + '" aria-label="' + label + '">' +
-      '<span class="face front"><b>' + label + '</b><small>Tap to flip</small></span>' +
-      '<span class="face back"><b>' + kind + '</b><em>' + signed(c.points) + (Math.abs(c.points) === 1 ? ' pt' : ' pts') + '</em><small>' + esc(c.message || '') + '</small></span></button>';
+/* Final standings: most treats first. Guests who never scanned a code get a dash. */
+function leaderboardHTML(h, me){
+  var gm = guestsById(), seen = {};
+  var rows = h.leaderboard.filter(function(r){ return gm[r.guest_id]; }).map(function(r){ seen[r.guest_id] = true; return {g: gm[r.guest_id], pts: r.points, finds: r.finds}; });
+  var rest = S.state.guests.filter(function(g){ return !seen[g.id]; }).sort(function(a, b){ return a.name.localeCompare(b.name); });
+  return '<section class="block"><h2>Leaderboard</h2><ol class="board">' + rows.map(function(r){
+    return '<li class="' + (r.g.id === me.id ? 'me' : '') + '"><span>' + esc(fullName(r.g)) + ' <span class="muted small">\u00b7 ' + plural(r.finds, 'code') + ' found</span></span><span class="pts">' + plural(r.pts, 'treat') + '</span></li>';
+  }).join('') + rest.map(function(g){
+    return '<li class="none' + (g.id === me.id ? ' me' : '') + '"><span>' + esc(fullName(g)) + '</span><span class="pts">-</span></li>';
+  }).join('') + '</ol></section>';
+}
+
+/* Your Haul: one tile per code you found. The front shows the code's name; tap to flip and see the trick or treat. */
+function hauls(h, over){
+  if (!h.mine.length) return '<p class="muted small">' + (over ? 'You didn\u2019t find any codes this time.' : 'Nothing yet. Find a code and scan it.') + '</p>';
+  return '<div class="flips">' + h.mine.map(function(c){
+    var open = S.flipped && S.flipped[c.code_id], trick = c.kind === 'trick';
+    return '<button class="flip found ' + (trick ? 'trick' : 'treat') + (open ? ' open' : '') + '" data-act="flip" data-num="' + c.code_id + '" aria-pressed="' + !!open + '" aria-label="' + esc(c.name) + '">' +
+      '<span class="face front"><b>' + esc(c.name).replace(/-/g, '<br>') + '</b><small>Tap to flip</small></span>' +
+      '<span class="face back"><b>' + (trick ? 'Trick!' : 'Treat!') + '</b><small>' + esc(c.message || '') + '</small></span></button>';
   }).join('') + '</div>';
-  return h.mine.length ? html : '<p class="muted small">Nothing yet. Find a code and scan it with your phone camera.</p>';
 }
 
 /* ----- photos ----- */
@@ -1345,23 +1423,21 @@ function revealView(){
   if (r.phase === 'knock') return '<div class="reveal" role="dialog" aria-live="polite"><div class="box"><div class="door"></div><p class="msg">Knock, knock…</p></div></div>';
   var x = r.result, body = '';
   if (x.status === 'ok' || x.status === 'already') {
-    var word = x.is_grand ? 'Grand!' : x.kind === 'trick' ? 'Trick!' : 'Treat!';
-    var cls = x.kind === 'trick' ? 'trick' : 'treat';
+    var trick = x.kind === 'trick';
     body = (x.status === 'already' ? '<span class="eyebrow">You already opened this one</span>' : '') +
-      '<div class="word ' + cls + ' pop">' + word + '</div><div class="pts ' + (x.points < 0 ? 'neg' : 'pos') + '">' + signed(x.points) + (Math.abs(x.points) === 1 ? ' point' : ' points') + '</div>' +
+      '<div class="word ' + (trick ? 'trick' : 'treat') + ' pop">' + (trick ? 'Trick!' : 'Treat!') + '</div>' +
       (x.message ? '<p class="msg">' + esc(x.message) + '</p>' : '') +
-      (x.status === 'ok' && !x.is_grand ? '<p class="muted small">You were finder ' + x.finder + ' of ' + x.max_claims + '. ' + x.codes_left + ' codes still hidden.</p>' : '') +
-      (x.unlocked_grand ? '<div class="notice gold">You found the last hidden code. The grand code’s clue is now on the Hunt page for everyone.</div>' : '');
+      (x.status === 'ok' ? '<p class="muted small">' + (trick ? 'No points for a trick.' : 'That\u2019s 1 point.') + ' ' +
+        (x.hunt_over ? 'That was the last code. The hunt is over!' : plural(x.codes_left, 'code') + ' still hidden.') + '</p>' : '');
   } else {
     var msgs = {
-      empty: ['Picked clean', x.is_grand ? 'Someone already claimed the grand code.' : 'Three mourners got here first. Keep looking.'],
-      closed: ['Not yet', 'The hunt hasn’t started. Remember where this one is.'],
-      grand_locked: ['Still sleeping', 'The grand code wakes once every other code has been found.'],
-      unknown: ['Hmm', 'That code doesn’t belong to this party.']
+      taken: ['Too late!', 'This code has been scanned already. Keep looking.'],
+      closed: ['Not yet', 'The hunt hasn\u2019t started. Remember where this one is.'],
+      unknown: ['Hmm', 'That code doesn\u2019t belong to this party.']
     }[x.status] || ['Hmm', 'Something odd happened. Try again.'];
     body = '<div class="word pop" style="font-size:52px">' + msgs[0] + '</div><p class="msg">' + msgs[1] + '</p>';
   }
-  return '<div class="reveal" role="dialog" aria-live="polite"><div class="box">' + body + '<div class="btns" style="justify-content:center"><button class="btn primary" data-act="close-reveal">Back to the party</button><button class="btn ghost" data-act="close-reveal" data-tab="hunt">See the hunt</button></div></div></div>';
+  return '<div class="reveal" role="dialog" aria-live="polite"><div class="box">' + body + '<div class="btns" style="justify-content:center"><button class="btn primary" data-act="close-reveal">Back to the hunt</button></div></div></div>';
 }
 
 /* ----- pop-up guest list (costume groups and drink teams) ----- */
@@ -1502,8 +1578,8 @@ function hostControls(){
     '<div class="ctl"><span><b>Trick-or-treat hunt</b><br><span class="muted small">' + h.found + ' of ' + h.total + ' codes found</span></span>' + seg('hunt', [['open','Open'],['closed','Closed']]) + '</div>' +
     '<div class="ctl"><span><b>Announce costume winner</b><br><span class="muted small">Closes voting and shows the winner</span></span>' + seg('announce_costume', [[true,'Announce'],[false,'Hide']]) + '</div>' +
     '<div class="ctl"><span><b>Announce drink winner</b><br><span class="muted small">Closes voting and shows the winner</span></span>' + seg('announce_drink', [[true,'Announce'],[false,'Hide']]) + '</div>' +
-    '<div class="ctl"><span><b>Announce hunt winner</b><br><span class="muted small">Ends the hunt and shows the winner</span></span>' + seg('announce_hunt', [[true,'Announce'],[false,'Hide']]) + '</div>' +
-    '<div class="ctl"><span><b>Reveal the grand clue now</b><br><span class="muted small">' + (h.grand_revealed && !c.force_grand ? 'Already revealed: every code was found' : 'Use this if a code gets lost') + '</span></span>' + seg('force_grand', [[true,'Reveal'],[false,'Auto']]) + '</div></div>' +
+    '<div class="ctl"><span><b>Announce hunt winner</b><br><span class="muted small">Ends the hunt and shows the winner. Use it early if a code gets lost</span></span>' + seg('announce_hunt', [[true,'Announce'],[false,'Hide']]) + '</div>' +
+    '</div>' +
     '<div class="card"><h3>Passcodes</h3><p class="muted small">Leave a box blank to keep that passcode. After you change the guest passcode, everyone has to enter the new one, so tell your guests (and update the door sign). Guest passcodes need 4+ characters, host passcodes 6+.</p>' +
     '<form data-form="passcodes" style="display:grid;gap:10px" autocomplete="off"><label class="fld"><span>New guest passcode</span><input type="text" id="f-newguest" autocomplete="off" autocapitalize="none" spellcheck="false"></label>' +
     '<label class="fld"><span>New host passcode</span><input type="text" id="f-newhost" autocomplete="off" autocapitalize="none" spellcheck="false"></label>' +
@@ -1517,21 +1593,18 @@ function hostControls(){
     '<form data-form="wipe" class="row2" style="align-items:end;border-top:1px solid var(--line);padding-top:12px"><label class="fld"><span>Delete every guest, photo, vote and scan. Type DELETE</span><input type="text" id="f-wipe" autocomplete="off"></label><button class="btn danger" type="submit">Delete everything</button></form></div>';
 }
 function hostCodes(){
-  var codes = S.host.codes, grand = codes.find(function(k){ return k.is_grand; });
-  var out = '<div class="card"><h3>The Grand Code’s Clue</h3><p class="muted small">Guests see this once every regular code has been found at least once.</p>' +
-    '<form data-form="clue" style="display:grid;gap:8px"><textarea id="f-clue" maxlength="400">' + esc(S.host.config.grand_clue || '') + '</textarea><button class="btn primary" type="submit" style="justify-self:start">Save clue</button></form></div>' +
-    '<div class="btns"><button class="btn primary" data-act="print">Print the QR codes</button><button class="btn" data-act="add-code">Add a code</button></div>' +
-    '<p class="muted small">Write each trick or treat below. Points can be negative for tricks. “Where hidden” is just for you; guests never see it.</p>';
-  out += codes.map(function(k, i){
-    var n = k.is_grand ? 'Grand code' : '#' + (codes.filter(function(x){ return !x.is_grand; }).indexOf(k) + 1);
-    return '<form class="code-row' + (k.is_grand ? ' grand' : '') + '" data-form="code" data-id="' + k.id + '">' +
-      '<div class="head"><b>' + n + '</b><span class="muted small mono">' + esc(k.secret) + ' · ' + k.claims + '/' + k.max_claims + ' found</span></div>' +
+  var codes = S.host.codes, gm = guestsById();
+  var tricks = codes.filter(function(k){ return k.kind === 'trick'; }).length;
+  var out = '<div class="btns"><button class="btn primary" data-act="print">Print the QR codes</button><button class="btn" data-act="add-code">Add a code</button></div>' +
+    '<p class="muted small"><b style="color:var(--ink)">' + plural(codes.length, 'code') + ': ' + plural(tricks, 'trick') + ', ' + plural(codes.length - tricks, 'treat') + '.</b> ' +
+    'Each code goes to the first person who scans it. A treat is worth 1 point and a trick 0. \u201cWhere hidden\u201d is just for you; guests never see it.</p>';
+  out += codes.map(function(k){
+    return '<form class="code-row" data-form="code" data-id="' + k.id + '">' +
+      '<div class="head"><b class="mono">' + esc(k.secret) + '</b><span class="muted small">' + (k.found_by ? 'Found by ' + esc(shortName(gm[k.found_by])) : 'Not found yet') + '</span></div>' +
       '<div class="grid4"><label class="fld"><span>Where hidden</span><input type="text" name="label" maxlength="60" value="' + esc(k.label) + '"></label>' +
-      '<label class="fld"><span>Type</span><select name="kind"><option value="treat"' + (k.kind === 'treat' ? ' selected' : '') + '>Treat</option><option value="trick"' + (k.kind === 'trick' ? ' selected' : '') + '>Trick</option></select></label>' +
-      '<label class="fld"><span>Points</span><input type="number" name="points" step="1" value="' + k.points + '"></label></div>' +
+      '<label class="fld"><span>Type</span><select name="kind"><option value="treat"' + (k.kind === 'treat' ? ' selected' : '') + '>Treat</option><option value="trick"' + (k.kind === 'trick' ? ' selected' : '') + '>Trick</option></select></label></div>' +
       '<label class="fld"><span>What they see</span><input type="text" name="message" maxlength="280" value="' + esc(k.message) + '"></label>' +
-      '<div class="head"><label class="fld" style="grid-template-columns:auto 5rem;align-items:center;gap:8px"><span>Finders who score</span><input type="number" name="max_claims" min="1" step="1" value="' + k.max_claims + '"></label>' +
-      '<span class="btns"><button class="btn small primary" type="submit">Save</button>' + (k.is_grand ? '' : '<button class="btn small danger" type="button" data-act="del-code" data-id="' + k.id + '">' + (armed('code-' + k.id) ? 'Tap again to confirm' : 'Delete') + '</button>') + '</span></div></form>';
+      '<div class="btns"><button class="btn small primary" type="submit">Save</button><button class="btn small danger" type="button" data-act="del-code" data-id="' + k.id + '">' + (armed('code-' + k.id) ? 'Tap again to confirm' : 'Delete') + '</button></div></form>';
   }).join('');
   return out;
 }
@@ -1571,22 +1644,21 @@ function hostResults(){
 function printView(){
   var codes = S.host ? S.host.codes : [];
   var base = location.origin + location.pathname;
-  var regular = codes.filter(function(k){ return !k.is_grand; });
   var sheet = codes.map(function(k){
-    var n = k.is_grand ? 'Grand' : '#' + (regular.indexOf(k) + 1), svg = '';
-    try { var q = qrcode(0, 'M'); q.addData(base + '#c=' + k.secret); q.make(); svg = q.createSvgTag({cellSize: 4, margin: 2, scalable: true}); } catch(e){ svg = '<p>QR library didn’t load</p>'; }
-    return '<div class="qr-card' + (k.is_grand ? ' grand' : '') + '">' + svg + '<div class="q1">' + (k.is_grand ? 'The Grand Code' : 'Trick or treat?') + '</div><div class="q2">' + n + ' · ' + esc(k.secret) + '</div></div>';
+    var svg = '';
+    try { var q = qrcode(0, 'M'); q.addData(base + '#c=' + k.secret); q.make(); svg = q.createSvgTag({cellSize: 4, margin: 2, scalable: true}); } catch(e){ svg = '<p>QR library didn\u2019t load</p>'; }
+    return '<div class="qr-card">' + svg + '<div class="q1">Trick or treat?</div><div class="q2">Can\u2019t scan? Type this on the Hunt page:</div><div class="q3">' + esc(k.secret) + '</div></div>';
   }).join('');
   var joinSvg = '';
   try { var jq = qrcode(0, 'M'); jq.addData(base); jq.make(); joinSvg = jq.createSvgTag({cellSize: 4, margin: 2, scalable: true}); } catch(e){}
-  sheet = '<div class="qr-card grand">' + joinSvg + '<div class="q1">Scan to join the wake</div><div class="q2">Passcode: ____________</div></div>' + sheet;
+  sheet = '<div class="qr-card join">' + joinSvg + '<div class="q1">Scan to join the wake</div><div class="q2">Passcode: ____________</div></div>' + sheet;
   document.getElementById('print-sheet').innerHTML = sheet;
   return '<div class="overlay"><main class="page"><div class="overlay-top"><span class="eyebrow">QR sheet</span><button class="btn small ghost" data-act="open-host">Back</button></div>' +
-    '<h2>' + codes.length + ' codes ready to print</h2><p class="muted">The first card on the printed sheet is a “Scan to join” sign for the door; write the passcode on it by hand. Each hunt card links to this site, and the small code under it is what guests can type if their camera won’t scan. Hide the grand code last.</p>' +
+    '<h2>' + codes.length + ' codes ready to print</h2><p class="muted">The first card on the printed sheet is a “Scan to join” sign for the door; write the passcode on it by hand. Each hunt card links to this site, and the name under it is what guests can type if their camera won’t scan.</p>' +
     '<p class="muted small">Links point to <span class="mono">' + esc(base) + '</span>. Print from the live site so this address is right.</p>' +
     '<button class="btn primary" data-act="do-print">Print</button>' +
     '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px">' + codes.map(function(k){
-      return '<div class="card" style="padding:10px;text-align:center;background:#fff;color:#000">' + (function(){ try { var q = qrcode(0, 'M'); q.addData(base + '#c=' + k.secret); q.make(); return q.createSvgTag({cellSize: 3, margin: 1, scalable: true}); } catch(e){ return ''; } })() + '<span class="mono" style="font-size:11px">' + (k.is_grand ? 'Grand' : '#' + (regular.indexOf(k) + 1)) + (k.label ? ' · ' + esc(k.label) : '') + '</span></div>';
+      return '<div class="card" style="padding:10px;text-align:center;background:#fff;color:#000">' + (function(){ try { var q = qrcode(0, 'M'); q.addData(base + '#c=' + k.secret); q.make(); return q.createSvgTag({cellSize: 3, margin: 1, scalable: true}); } catch(e){ return ''; } })() + '<span class="mono" style="font-size:11px">' + esc(k.secret) + (k.label ? ' · ' + esc(k.label) : '') + '</span></div>';
     }).join('') + '</div></main></div>';
 }
 
@@ -1644,7 +1716,7 @@ app.addEventListener('submit', function(e){
   if (kind === 'team') act('team', rpc('party_update_team', {p_pass: S.pass, p_token: S.token, p_name: val('f-tname').trim(), p_drink_name: val('f-dname').trim() || null}), 'Team saved');
   if (kind === 'newteam') { var tn = val('f-newteam').trim(); if (tn) act('team', rpc('party_create_team', {p_pass: S.pass, p_token: S.token, p_name: tn}), 'Team started'); }
   if (kind === 'manual') {
-    var code = val('f-code').trim().toLowerCase().replace(/[^0-9a-z]/g, '');
+    var code = val('f-code').toLowerCase().replace(/[^0-9a-z]/g, '');
     if (code) { var fc = document.getElementById('f-code'); fc.value = ''; fc.blur(); claimCode(code); }
   }
   if (kind === 'texts') {
@@ -1683,11 +1755,10 @@ app.addEventListener('submit', function(e){
       return refreshHost();
     }), 'Passcodes changed');
   }
-  if (kind === 'clue') act('host', rpc('host_update_config', {p_pass: S.pass, p_patch: {grand_clue: val('f-clue').trim()}}).then(refreshHost), 'Clue saved');
   if (kind === 'code') {
     var fd = new FormData(form);
     act('host', rpc('host_save_code', {p_pass: S.pass, p_id: +form.getAttribute('data-id'), p_label: fd.get('label'), p_kind: fd.get('kind'),
-      p_points: parseInt(fd.get('points'), 10) || 0, p_message: fd.get('message'), p_max_claims: Math.max(1, parseInt(fd.get('max_claims'), 10) || 1)}).then(refreshHost), 'Code saved');
+      p_message: fd.get('message')}).then(refreshHost), 'Code saved');
   }
   if (kind === 'schedule') {
     var rows = S.hostSchedule.map(function(r){ return {at: r.at, title: r.title}; }).filter(function(r){ return r.title && !isNaN(Date.parse(r.at)); });
@@ -1792,6 +1863,8 @@ app.addEventListener('click', function(e){
     }
     case 'alert-clear': act('host', rpc('host_update_config', {p_pass: S.pass, p_patch: {alert: null}}).then(refreshHost), 'Announcement cleared'); break;
     case 'pick': openPicker(b.getAttribute('data-pick')); break;
+    case 'scan': openScanner(); break;
+    case 'scan-photo': qrPicker.value = ''; qrPicker.click(); break;
     case 'about': S.overlay = 'about'; render(true); window.scrollTo(0, 0); break;
     case 'info': S.overlay = 'info'; render(true); window.scrollTo(0, 0); break;
     case 'no-playlist': toast('The playlist isn\u2019t up yet. Check back soon.'); break;
@@ -1904,7 +1977,7 @@ setInterval(function(){
 }, 8000);
 document.addEventListener('visibilitychange', function(){ if (document.visibilityState === 'visible' && S.pass && S.state) refresh(); });
 window.addEventListener('hashchange', function(){
-  var m = location.hash.match(/^#c=([0-9a-zA-Z]+)$/);
+  var m = location.hash.match(/^#c=([0-9a-zA-Z-]+)$/);
   if (m) { try { history.replaceState(null, '', location.pathname); } catch(e){} if (S.state && S.state.me) claimCode(m[1].toLowerCase()); else { try { sessionStorage.setItem('wake-pending', m[1].toLowerCase()); } catch(e){} } }
 });
 init();
