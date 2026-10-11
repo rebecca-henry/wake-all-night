@@ -327,11 +327,13 @@ label.fld > span #msg-count{float:right;font-size:13px}
 .pair-btns .btn{white-space:normal;line-height:1.25;text-align:center;min-height:52px}
 
 /* Home header: the title sits in the sky and the picture's figures walk along underneath it. */
-.banner.home{background:linear-gradient(180deg, rgba(51,24,24,0) 0, #331818 34%, #331818 calc(100% - 90px), rgba(51,24,24,0) 100%)}
+.banner.home{--ih:min(70.2vw,421px);background:linear-gradient(180deg, rgba(51,24,24,0) 0, #331818 34%, #331818 calc(100% - var(--ih) * .8), rgba(51,24,24,0) calc(100% - var(--ih) * .4))}
 .banner.home::after{display:none}
 .banner.home > img{inset:auto 0 0 0;height:auto;object-fit:contain;filter:none;
-  -webkit-mask-image:linear-gradient(180deg, transparent 0, #000 14%, #000 86%, transparent 100%);mask-image:linear-gradient(180deg, transparent 0, #000 14%, #000 86%, transparent 100%)}
+  -webkit-mask-image:linear-gradient(180deg, transparent 0, #000 14%, #000 62%, transparent 100%);mask-image:linear-gradient(180deg, transparent 0, #000 14%, #000 62%, transparent 100%)}
 .banner.home .over{padding-bottom:min(39vw,234px)}
+/* The fine line under a header, for pages that don't open with a card (cards draw their own). */
+.rule{height:0;border-top:1px solid var(--line);margin-bottom:-14px}
 .cn{font-family:inherit}
 .card-head{display:flex;justify-content:space-between;align-items:center;gap:12px}
 .flips{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:4px}
@@ -1065,7 +1067,7 @@ function homeView(){
   var dstLeft = DST_END - t;
   var team = me.team_id ? teamsById()[me.team_id] : null;
   var h = S.state.hunt;
-  var out = banner('hero', fitTitle('h1', ['A Wake', 'All Night']) + '<p class="sub">In Memory of Daylight Saving Time 2026</p>', 'home');
+  var out = banner('hero', fitTitle('h1', ['A Wake', 'All Night']) + '<p class="sub">In Memory of Daylight Saving Time 2026</p>', 'home') + '<div class="rule"></div>';
   if (S.state.results && (S.state.results.costume || S.state.results.drinks)) out += '<section class="block"><h2>The Winners</h2>' + winnersHTML() + '</section>';
   out += alertHTML();
   out += '<section class="block">' + boardHTML(me, team, h) + '</section>';
@@ -1121,7 +1123,7 @@ function winnersHTML(){
 }
 
 function endView(){
-  return banner('hero', fitTitle('h1', ['Happy', 'Halloween']) + '<span class="eyebrow">Daylight Saving Time 2026 · Rest in peace</span><p class="sub">Thank you for coming, ' + esc(shortName(S.state.me)) + '. The sun will be back tomorrow, a little earlier.</p>', 'home') +
+  return banner('hero', fitTitle('h1', ['Happy', 'Halloween']) + '<span class="eyebrow">Daylight Saving Time 2026 · Rest in peace</span><p class="sub">Thank you for coming, ' + esc(shortName(S.state.me)) + '. The sun will be back tomorrow, a little earlier.</p>', 'home') + '<div class="rule"></div>' +
     '<section class="block"><h2>The Winners</h2>' + winnersHTML() + '</section>' +
     '<section class="card"><h3>The Photo Album</h3><p class="muted">' + S.state.photos.length + ' photos from the night. Add yours, or download them all.</p><button class="btn primary" data-act="tab" data-tab="photos">Open the album</button></section>' +
     '<button class="linkbtn" data-act="about">How your info is kept private</button>';
@@ -1347,7 +1349,7 @@ function huntView(){
   var over = huntOver();
   var left = h.total - h.found, pips = '';
   for (var i = 0; i < h.total; i++) pips += '<i class="' + (i < h.found ? 'found' : '') + '"></i>';
-  var out = banner('hunt', '<div class="row">' + fitTitle('h2', ['Trick', 'or Treat']) + '<span class="chip' + (open && !over ? ' gold' : '') + '">' + (over ? 'Hunt over' : open ? 'Hunt is on' : 'Not started') + '</span></div>') + '<section class="block">';
+  var out = banner('hunt', '<div class="row">' + fitTitle('h2', ['Trick', 'or Treat']) + '<span class="chip' + (open && !over ? ' gold' : '') + '">' + (over ? 'Hunt over' : open ? 'Hunt is on' : 'Not started') + '</span></div>') + '<div class="rule"></div><section class="block">';
   if (!open && !over) out += '<div class="notice">' + TH('hunt_wait') + '</div>';
   if (over) out += '<div class="notice gold"><b>The hunt is over.</b>' + (h.over ? ' Every code has been found.' : '') + '</div>';
   out += '<div class="hunt-count"><span class="big">' + left + '</span><span class="muted">of ' + h.total + ' codes still hidden</span><div class="pips" aria-hidden="true">' + pips + '</div></div>';
